@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Box, Toolbar, Typography } from '@mui/material';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Box, Toolbar, Typography, Button } from '@mui/material';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
@@ -13,7 +13,6 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { AuthContext } from '../Auth/AuthContext'; // Import your AuthContext
 
-
 const drawerWidth = 240;
 
 function AdminDashboard() {
@@ -22,11 +21,13 @@ function AdminDashboard() {
   const { logout } = useContext(AuthContext); // Access logout function from AuthContext
 
   const [currentTab, setCurrentTab] = useState('');
+  const [showSampleButton, setShowSampleButton] = useState(false);
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/admindashboard' },
     { text: 'User Management', icon: <PeopleIcon />, path: '/admindashboard/user-management' },
     { text: 'Jewellery Management', icon: <AssignmentIcon />, path: '/admindashboard/jewellery-management' },
+    { text: 'Gem Management', icon: <AssignmentIcon />, path: '/admindashboard/gem-management' }, // Added Gem Management
     { text: 'Inventory Management', icon: <InventoryIcon />, path: '/admindashboard/inventory-management' },
     { text: 'Employee Management', icon: <PeopleIcon />, path: '/admindashboard/employee-management' },
     { text: 'Supplier Management', icon: <BusinessIcon />, path: '/admindashboard/supplier-management' },
@@ -41,6 +42,7 @@ function AdminDashboard() {
     const currentItem = menuItems.find(item => item.path === currentPath);
     if (currentItem) {
       setCurrentTab(currentItem.text);
+      setShowSampleButton(currentItem.text === 'Jewellery Management'); // Show button only for Jewellery Management
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
@@ -77,26 +79,31 @@ function AdminDashboard() {
               <ListItemText primary={item.text} />
             </ListItem>
           ))}
-          {/* Logout Button */}
-          <ListItem button onClick={handleLogout}>
-            <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItem>
         </List>
       </Drawer>
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: 0, // Remove padding
           backgroundColor: '#f4f6f8',
           minHeight: '100vh',
         }}
       >
         <Toolbar />
-        <Typography variant="h5" sx={{ marginBottom: 2 }}>
-          {currentTab}
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1976d2', padding: '10px 20px', color: 'white', height: '60px' }}>
+          <Typography variant="h5">{currentTab}</Typography>
+          <div>
+            {showSampleButton && (
+              <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }}>
+                Sample Button
+              </Button>
+            )}
+            <Button variant="outlined" onClick={handleLogout} sx={{ marginLeft: 2, color: 'white', borderColor: 'white' }}>
+              Logout
+            </Button>
+          </div>
+        </Box>
         <Outlet /> {/* Render nested routes */}
       </Box>
     </Box>

@@ -1,17 +1,17 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Container, Typography, Button, Grid, Card, CardMedia, CardContent, Box, Snackbar, Alert, IconButton } from '@mui/material';
+import { Container, Typography, Button, Grid, Card, CardMedia, CardContent, Box, Snackbar, Alert } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import AddFeedback from '../Admin/Feedback/AddFeedback2'; // Ensure you have this component
 import { AuthContext } from '../Auth/AuthContext'; // Import AuthContext
-import CloseIcon from '@mui/icons-material/Close'; // Import Close icon
 
-const JewelleryProfile = () => {
-  const [jewellery, setJewellery] = useState(null);
+const GemProfile = () => {
+  const [gem, setGem] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
-  const { id: jewelleryId } = useParams();
+  const { id: gemId } = useParams();
   const [noResults, setNoResults] = useState(false);
   const [showAddFeedbackForm, setShowAddFeedbackForm] = useState(false);
   const [images, setImages] = useState([]);
@@ -21,22 +21,22 @@ const JewelleryProfile = () => {
   const { authState } = useContext(AuthContext); // Access authentication state
   const navigate = useNavigate(); // Use navigate for redirection
 
-  // Fetch jewellery details
+  // Fetch gem details
   useEffect(() => {
-    axios.get(`http://localhost:4000/jewellery/${jewelleryId}`)
+    axios.get(`http://localhost:4000/gems/${gemId}`)
       .then(response => {
-        setJewellery(response.data);
+        setGem(response.data);
         setImages(response.data.images || []); // Assuming images is an array of URLs
       })
-      .catch(error => console.error('Error fetching jewellery:', error));
-  }, [jewelleryId]);
+      .catch(error => console.error('Error fetching gem:', error));
+  }, [gemId]);
 
   // Fetch feedbacks
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
         const response = await axios.get(URL);
-        const filteredFeedbacks = response.data.filter(feedback => feedback.jewelleryId === jewellery.JID);
+        const filteredFeedbacks = response.data.filter(feedback => feedback.gemId === gem.JID);
         setFeedbacks(filteredFeedbacks);
         setNoResults(filteredFeedbacks.length === 0);
       } catch (error) {
@@ -44,10 +44,10 @@ const JewelleryProfile = () => {
       }
     };
 
-    if (jewellery) {
+    if (gem) {
       fetchFeedbacks();
     }
-  }, [jewellery]);
+  }, [gem]);
 
   const handleAddToBag = () => {
     if (!authState.user) {
@@ -68,7 +68,7 @@ const JewelleryProfile = () => {
     setSnackbarOpen(false); // Close the Snackbar after redirecting
   };
 
-  if (!jewellery) return <div>Loading...</div>;
+  if (!gem) return <div>Loading...</div>;
 
   return (
     <div>
@@ -80,13 +80,12 @@ const JewelleryProfile = () => {
             <Card>
               <CardMedia
                 component="img"
-                alt={jewellery.name}
+                alt={gem.name}
                 height="500"
-                image={jewellery.image || 'http://localhost:5173/src/Components/Images/3.png'}
-                title={jewellery.name}
+                image={gem.image || 'http://localhost:5173/src/Components/Images/placeholder.png'}
+                title={gem.name}
               />
               <CardContent>
-                {/* Display images as a list if carousel is not available */}
                 <Box sx={{ display: 'flex', overflowX: 'auto' }}>
                   {images.map((img, index) => (
                     <img
@@ -101,10 +100,10 @@ const JewelleryProfile = () => {
             </Card>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Typography variant="h3">{jewellery.name}</Typography>
-            <Typography variant="body1">{jewellery.description}</Typography>
-            <Typography variant="h4">Rs {jewellery.price}</Typography>
-            <br /><br /><br /><br />
+            <Typography variant="h3">{gem.name}</Typography>
+            <Typography variant="body1">{gem.description}</Typography>
+            <Typography variant="h4">Rs {gem.price}</Typography>
+            <br /><br />
             <Button variant="contained" color="secondary" onClick={handleAddToBag}>Add to Bag</Button>
             <br /><br />
             <Button variant="outlined">Contact Customer Care</Button>
@@ -120,7 +119,7 @@ const JewelleryProfile = () => {
         <Box>
           {showAddFeedbackForm ? (
             <AddFeedback
-              jewelleryId={jewellery.JID}
+              gemId={gem.JID}
               onBack={() => setShowAddFeedbackForm(false)}
             />
           ) : (
@@ -161,4 +160,4 @@ const JewelleryProfile = () => {
   );
 }
 
-export default JewelleryProfile;
+export default GemProfile;

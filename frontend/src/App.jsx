@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -18,7 +19,13 @@ import UpdateUser from './Components/Admin/Users/UpdateUser';
 import JewelleryDetails from './Components/Admin/Jewellery/JewelleryDetails';
 import AddJewellery from './Components/Admin/Jewellery/AddJewellery';
 import UpdateJewellery from './Components/Admin/Jewellery/UpdateJewellery';
-import JewelleryProfile from './Components/Home/JewelleryProfile';
+import JewelleryProfile from './Components/pages/JewelleryProfile';
+
+import GemDetails from './Components/Admin/Gem/GemDetails';  
+import AddGem from './Components/Admin/Gem/AddGem';        
+import UpdateGem from './Components/Admin/Gem/UpdateGem'; 
+import GemProfile from './Components/pages/GemProfile';
+import Gem from './Components/Admin/Gem/Gem';
 
 import InventoryDetails from './Components/Admin/Inventory/InventoryDetails';
 import AddInventory from './Components/Admin/Inventory/AddInventory';
@@ -83,6 +90,12 @@ function App() {
             <Route path="jewellery/:JID" element={<Jewellery />} />
             <Route path="add-jewellery" element={<AddJewellery />} />
             <Route path="update-jewellery/:JID" element={<UpdateJewellery />} />
+
+            <Route path="gem-management" element={<GemDetails />} />  
+            <Route path="add-gem" element={<AddGem />} />            
+            <Route path="update-gem/:GID" element={<UpdateGem />} /> 
+            <Route path="gem/:GID" element={<Gem />} />
+            <Route path="gem-profile/:GID" element={<GemProfile />} />
 
             <Route path="inventory-management" element={<InventoryDetails />} />
             <Route path="inventory/:id" element={<Inventory />} />
