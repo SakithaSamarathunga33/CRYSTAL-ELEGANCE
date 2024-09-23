@@ -22,6 +22,7 @@ function AdminDashboard() {
 
   const [currentTab, setCurrentTab] = useState('');
   const [showSampleButton, setShowSampleButton] = useState(false);
+  const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State to control Employee Management button
 
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/admindashboard' },
@@ -43,6 +44,7 @@ function AdminDashboard() {
     if (currentItem) {
       setCurrentTab(currentItem.text);
       setShowSampleButton(currentItem.text === 'Jewellery Management'); // Show button only for Jewellery Management
+      setShowEmployeeButton(currentItem.text === 'Employee Management'); // Show button only for Employee Management
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
@@ -91,12 +93,27 @@ function AdminDashboard() {
         }}
       >
         <Toolbar />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1976d2', padding: '10px 20px', color: 'white', height: '60px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: '#1976d2',
+            padding: '10px 20px',
+            color: 'white',
+            height: '60px',
+          }}
+        >
           <Typography variant="h5">{currentTab}</Typography>
           <div>
             {showSampleButton && (
               <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }}>
                 Sample Button
+              </Button>
+            )}
+            {showEmployeeButton && ( // Render button only for Employee Management
+              <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }}>
+                View  employees
               </Button>
             )}
             <Button variant="outlined" onClick={handleLogout} sx={{ marginLeft: 2, color: 'white', borderColor: 'white' }}>
