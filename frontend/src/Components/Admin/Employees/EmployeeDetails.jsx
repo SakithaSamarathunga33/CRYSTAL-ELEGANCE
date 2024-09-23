@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper, IconButton} from '@mui/material';
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper, IconButton } from '@mui/material';
 import { Edit, Delete, Print, Add } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -54,8 +54,8 @@ function EmployeeDetails() {
     doc.text("Employee Details Report", 10, 10);
 
     doc.autoTable({
-      head: [['ID', 'Name', 'Email', 'Position', 'Phone', 'Address']],
-      body: employees.map(employee => [employee.EMPID, employee.name, employee.email, employee.position, employee.phone, employee.address]),
+      head: [['ID', 'Name', 'Email', 'Position', 'Phone', 'Address', 'Salary']],
+      body: employees.map(employee => [employee.EMPID, employee.name, employee.email, employee.position, employee.phone, employee.address, employee.salary]),
       startY: 20,
       margin: { top: 20 },
       styles: {
@@ -161,13 +161,14 @@ function EmployeeDetails() {
                     <TableCell>Position</TableCell>
                     <TableCell>Phone</TableCell>
                     <TableCell>Address</TableCell>
+                    <TableCell>Salary</TableCell> {/* Added Salary Column */}
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {noResults ? (
                     <TableRow>
-                      <TableCell colSpan={7} align="center">No employee found.</TableCell>
+                      <TableCell colSpan={8} align="center">No employee found.</TableCell>
                     </TableRow>
                   ) : (
                     employees.map((employee) => (
@@ -178,6 +179,7 @@ function EmployeeDetails() {
                         <TableCell>{employee.position}</TableCell>
                         <TableCell>{employee.phone}</TableCell>
                         <TableCell>{employee.address}</TableCell>
+                        <TableCell>{employee.salary}</TableCell> {/* Display Salary */}
                         <TableCell>
                           <IconButton onClick={() => handleEdit(employee._id)} sx={{ color: 'primary.main' }}>
                             <Edit />
@@ -185,6 +187,14 @@ function EmployeeDetails() {
                           <IconButton onClick={() => deleteEmployee(employee._id)} sx={{ color: 'error.main' }}>
                             <Delete />
                           </IconButton>
+                          <Button 
+                            variant="contained" 
+                            color="info" 
+                            onClick={() => navigate(`/admindashboard/add-salary/${employee._id}`)} // Redirect to add salary page
+                            sx={{ marginLeft: 1 }}
+                          >
+                            Add Salary
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))

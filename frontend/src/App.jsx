@@ -36,6 +36,7 @@ import EmployeeDetails from './Components/Admin/Employees/EmployeeDetails';
 import AddEmployee from './Components/Admin/Employees/AddEmployee';
 import UpdateEmployee from './Components/Admin/Employees/UpdateEmployee';
 import Employee from './Components/Admin/Employees/Employee';
+import AddSalary from './Components/Admin/Employees/AddSalary';
 
 import SupplierDetails from './Components/Admin/Suppliers/SupplierDetails';
 import AddSupplier from './Components/Admin/Suppliers/AddSupplier';
@@ -106,6 +107,7 @@ function App() {
             <Route path="employee/:id" element={<Employee />} />
             <Route path="add-employee" element={<AddEmployee />} />
             <Route path="update-employee/:id" element={<UpdateEmployee />} />
+            <Route path="add-salary/:id" element={<AddSalary />} />
 
 
             <Route path="inventory-management" element={<InventoryDetails />} />
