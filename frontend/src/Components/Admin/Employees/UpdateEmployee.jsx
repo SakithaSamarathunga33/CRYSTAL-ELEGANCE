@@ -97,6 +97,15 @@ function UpdateEmployee() {
         fullWidth
         margin="normal"
       />
+      <TextField
+        label="Salary"
+        name="salary"
+        type="number" // Ensure it's a number
+        value={employee.salary}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
       <Button
         variant="contained"
         color="primary"
