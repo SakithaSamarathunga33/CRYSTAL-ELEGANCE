@@ -25,6 +25,8 @@ function AddJewellery({ onBack }) {
   const [status, setStatus] = useState('available'); // Default to 'available'
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
+  const [weight, setWeight] = useState(''); // New field for weight
+  const [goldStandard, setGoldStandard] = useState(''); // New field for gold standard
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
@@ -41,7 +43,9 @@ function AddJewellery({ onBack }) {
         quantity, 
         status, 
         category, 
-        subcategory 
+        subcategory, 
+        weight, // Include weight
+        goldStandard // Include gold standard
       });
       if (response.status === 201) {
         alert('Jewellery added successfully');
@@ -89,6 +93,23 @@ function AddJewellery({ onBack }) {
           type="number"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Weight (in grams)"
+          variant="outlined"
+          type="number"
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Gold Standard (e.g. 24K)"
+          variant="outlined"
+          value={goldStandard}
+          onChange={(e) => setGoldStandard(e.target.value)}
           fullWidth
           margin="normal"
         />

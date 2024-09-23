@@ -9,7 +9,9 @@ const JewellerySchema = new mongoose.Schema({
   status: { type: String, required: true },
   image: { type: String }, // Image URL or path
   description: { type: String },
-  category: { type: String, required: true } // Category field
+  category: { type: String, required: true }, // Category field
+  weight: { type: Number, required: true }, // Weight in grams or another unit
+  goldStandard: { type: String, required: true } // e.g., 24K, 18K
 });
 
 // Export the model with the correct collection name

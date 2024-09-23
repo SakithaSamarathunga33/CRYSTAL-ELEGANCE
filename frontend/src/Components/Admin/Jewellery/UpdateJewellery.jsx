@@ -25,7 +25,9 @@ function UpdateJewellery() {
     quantity: '',
     status: 'available',
     category: '',
-    subcategory: ''
+    subcategory: '',
+    weight: '', // New field for weight
+    goldStandard: '' // New field for gold standard
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -101,6 +103,23 @@ function UpdateJewellery() {
         name="quantity"
         type="number"
         value={jewellery.quantity}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Weight (in grams)" // New field for weight
+        name="weight"
+        type="number"
+        value={jewellery.weight}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Gold Standard (e.g. 24K)" // New field for gold standard
+        name="goldStandard"
+        value={jewellery.goldStandard}
         onChange={handleChange}
         fullWidth
         margin="normal"
