@@ -14,7 +14,11 @@ function AdminDashboard() {
 
   const [currentTab, setCurrentTab] = useState('');
   const [showSampleButton, setShowSampleButton] = useState(false);
+
+  const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State to control Employee Management button
+=======
   const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State for Employee Management button
+
 
   const menuItems = [
     { text: 'Dashboard', icon: <FontAwesomeIcon icon={faTachometerAlt} />, path: '/admindashboard' },
@@ -92,7 +96,17 @@ function AdminDashboard() {
         }}
       >
         <Toolbar />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1976d2', padding: '10px 20px', color: 'white', height: '60px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: '#1976d2',
+            padding: '10px 20px',
+            color: 'white',
+            height: '60px',
+          }}
+        >
           <Typography variant="h5">{currentTab}</Typography>
           <div>
             {showSampleButton && (
@@ -103,6 +117,11 @@ function AdminDashboard() {
             {showEmployeeButton && ( // New button for Employee Management
               <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }} onClick={handleEmployeeButtonClick}>
                 View Employee Details
+              </Button>
+            )}
+            {showEmployeeButton && ( // Render button only for Employee Management
+              <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }}>
+                View  employees
               </Button>
             )}
             <Button variant="outlined" onClick={handleLogout} sx={{ marginLeft: 2, color: 'white', borderColor: 'white' }}>
