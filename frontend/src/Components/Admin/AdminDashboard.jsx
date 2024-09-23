@@ -38,6 +38,7 @@ function AdminDashboard() {
       setShowSampleButton(currentItem.text === 'Jewellery Management'); // Show button only for Jewellery Management
       setShowEmployeeButton(currentItem.text === 'Employee Management'); // Show button only for Employee Management
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   const handleMenuClick = (path) => {
