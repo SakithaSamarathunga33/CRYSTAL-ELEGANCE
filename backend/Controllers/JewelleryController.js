@@ -11,9 +11,9 @@ const generateJewelleryId = async () => {
 // Create a new jewellery item
 exports.createJewellery = async (req, res) => {
     try {
-        const {image, name, price, quantity, status, description } = req.body;
+        const { image, name, price, quantity, status, description, category } = req.body; // Include category
         const JID = await generateJewelleryId(); // Generate new jewellery ID
-        const newJewellery = new Jewellery({ JID, name, price, quantity, status, image, description });
+        const newJewellery = new Jewellery({ JID, name, price, quantity, status, image, description, category }); // Include category
         await newJewellery.save();
 
         res.status(201).json({ message: 'Jewellery created successfully', jewellery: newJewellery });
@@ -50,12 +50,12 @@ exports.getJewelleryById = async (req, res) => {
 // Update a jewellery item by ID
 exports.updateJewellery = async (req, res) => {
     const id = req.params.id;
-    const { image ,name, price, quantity, status, description } = req.body;
+    const { image, name, price, quantity, status, description, category } = req.body; // Include category
 
     try {
         const updatedJewellery = await Jewellery.findByIdAndUpdate(
             id,
-            { name, price, quantity, status, image, description },
+            { name, price, quantity, status, image, description, category }, // Include category
             { new: true } // Return the updated jewellery
         );
 

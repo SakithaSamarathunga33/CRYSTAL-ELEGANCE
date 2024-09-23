@@ -1,10 +1,20 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/jewellery";
+
+// Sample categories and subcategories
+const categories = [
+  { name: 'Rings', subcategories: ['Engagement Rings', 'Wedding Bands', 'Fashion Rings'] },
+  { name: 'Necklaces', subcategories: ['Pendants', 'Chains', 'Chokers'] },
+  { name: 'Bracelets', subcategories: ['Bangles', 'Cuff Bracelets', 'Charm Bracelets'] },
+  { name: 'Earrings', subcategories: ['Studs', 'Hoops', 'Dangles'] },
+  { name: 'Watches', subcategories: [] },
+  { name: 'Anklets', subcategories: [] }
+];
 
 // eslint-disable-next-line react/prop-types
 function AddJewellery({ onBack }) {
@@ -13,6 +23,8 @@ function AddJewellery({ onBack }) {
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
   const [status, setStatus] = useState('available'); // Default to 'available'
+  const [category, setCategory] = useState('');
+  const [subcategory, setSubcategory] = useState('');
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
@@ -22,10 +34,18 @@ function AddJewellery({ onBack }) {
     setError(null); // Reset error state
 
     try {
-      const response = await axios.post(URL, { image, name, price, quantity, status });
+      const response = await axios.post(URL, { 
+        image, 
+        name, 
+        price, 
+        quantity, 
+        status, 
+        category, 
+        subcategory 
+      });
       if (response.status === 201) {
         alert('Jewellery added successfully');
-        navigate('/admindashboard/jewellery-management');
+        navigate('/admindashboard/jewellery-details');
       }
     } catch (error) {
       setError(error.response ? error.response.data.message : 'An error occurred');
@@ -85,6 +105,41 @@ function AddJewellery({ onBack }) {
           <option value="available">Available</option>
           <option value="out of stock">Out of Stock</option>
         </TextField>
+        <TextField
+          select
+          label="Category"
+          variant="outlined"
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value);
+            setSubcategory(''); // Reset subcategory when category changes
+          }}
+          fullWidth
+          margin="normal"
+        >
+          {categories.map((cat) => (
+            <MenuItem key={cat.name} value={cat.name}>
+              {cat.name}
+            </MenuItem>
+          ))}
+        </TextField>
+        {category && (
+          <TextField
+            select
+            label="Subcategory"
+            variant="outlined"
+            value={subcategory}
+            onChange={(e) => setSubcategory(e.target.value)}
+            fullWidth
+            margin="normal"
+          >
+            {categories.find(cat => cat.name === category)?.subcategories.map((subcat) => (
+              <MenuItem key={subcat} value={subcat}>
+                {subcat}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
         <Button
           type="submit"
           variant="contained"
