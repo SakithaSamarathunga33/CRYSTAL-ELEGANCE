@@ -1,41 +1,37 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Box, Toolbar, Typography, Button } from '@mui/material';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import BusinessIcon from '@mui/icons-material/Business';
-import EventIcon from '@mui/icons-material/Event';
-import FeedbackIcon from '@mui/icons-material/Feedback';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import { AuthContext } from '../Auth/AuthContext'; // Import your AuthContext
+import { AuthContext } from '../Auth/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTachometerAlt, faUsers, faGem, faBoxOpen, faClipboardList, faComments, faShoppingCart, faSignOutAlt, faHeadset, faRing, faTruck } from '@fortawesome/free-solid-svg-icons';
 
 const drawerWidth = 240;
 
 function AdminDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useContext(AuthContext); // Access logout function from AuthContext
+  const { logout } = useContext(AuthContext);
 
   const [currentTab, setCurrentTab] = useState('');
   const [showSampleButton, setShowSampleButton] = useState(false);
+
   const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State to control Employee Management button
+=======
+  const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State for Employee Management button
+
 
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/admindashboard' },
-    { text: 'User Management', icon: <PeopleIcon />, path: '/admindashboard/user-management' },
-    { text: 'Jewellery Management', icon: <AssignmentIcon />, path: '/admindashboard/jewellery-management' },
-    { text: 'Gem Management', icon: <AssignmentIcon />, path: '/admindashboard/gem-management' }, // Added Gem Management
-    { text: 'Inventory Management', icon: <InventoryIcon />, path: '/admindashboard/inventory-management' },
-    { text: 'Employee Management', icon: <PeopleIcon />, path: '/admindashboard/employee-management' },
-    { text: 'Supplier Management', icon: <BusinessIcon />, path: '/admindashboard/supplier-management' },
-    { text: 'Appointment Management', icon: <EventIcon />, path: '/admindashboard/appointment-management' },
-    { text: 'Order Management', icon: <ShoppingCartIcon />, path: '/admindashboard/order-management' },
-    { text: 'Feedback Management', icon: <FeedbackIcon />, path: '/admindashboard/feedback-management' },
-    { text: 'Support Management', icon: <SupportAgentIcon />, path: '/admindashboard/support-management' },
+    { text: 'Dashboard', icon: <FontAwesomeIcon icon={faTachometerAlt} />, path: '/admindashboard' },
+    { text: 'User Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/user-management' },
+    { text: 'Jewellery Management', icon: <FontAwesomeIcon icon={faRing} />, path: '/admindashboard/jewellery-management' },
+    { text: 'Gem Management', icon: <FontAwesomeIcon icon={faGem} />, path: '/admindashboard/gem-management' },
+    { text: 'Inventory Management', icon: <FontAwesomeIcon icon={faBoxOpen} />, path: '/admindashboard/inventory-management' },
+    { text: 'Employee Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/employee-management' },
+    { text: 'Supplier Management', icon: <FontAwesomeIcon icon={faTruck} />, path: '/admindashboard/supplier-management' },
+    { text: 'Appointment Management', icon: <FontAwesomeIcon icon={faClipboardList} />, path: '/admindashboard/appointment-management' },
+    { text: 'Order Management', icon: <FontAwesomeIcon icon={faShoppingCart} />, path: '/admindashboard/order-management' },
+    { text: 'Feedback Management', icon: <FontAwesomeIcon icon={faComments} />, path: '/admindashboard/feedback-management' },
+    { text: 'Support Management', icon: <FontAwesomeIcon icon={faHeadset} />, path: '/admindashboard/support-management' },
   ];
 
   useEffect(() => {
@@ -46,7 +42,6 @@ function AdminDashboard() {
       setShowSampleButton(currentItem.text === 'Jewellery Management'); // Show button only for Jewellery Management
       setShowEmployeeButton(currentItem.text === 'Employee Management'); // Show button only for Employee Management
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   const handleMenuClick = (path) => {
@@ -54,8 +49,16 @@ function AdminDashboard() {
   };
 
   const handleLogout = () => {
-    logout(); // Call logout function from AuthContext
-    navigate('/login'); // Redirect to login page or home page
+    logout();
+    navigate('/login');
+  };
+
+  const handleSampleButtonClick = () => {
+    navigate('/admindashboard/jewellery-details'); // Navigate to the Jewellery Details page
+  };
+
+  const handleEmployeeButtonClick = () => {
+    navigate('/admindashboard/employee-details'); // Navigate to the Employee Details page
   };
 
   return (
@@ -107,8 +110,13 @@ function AdminDashboard() {
           <Typography variant="h5">{currentTab}</Typography>
           <div>
             {showSampleButton && (
-              <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }}>
-                Sample Button
+              <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }} onClick={handleSampleButtonClick}>
+                View Jewellery Details
+              </Button>
+            )}
+            {showEmployeeButton && ( // New button for Employee Management
+              <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }} onClick={handleEmployeeButtonClick}>
+                View Employee Details
               </Button>
             )}
             {showEmployeeButton && ( // Render button only for Employee Management
@@ -117,7 +125,7 @@ function AdminDashboard() {
               </Button>
             )}
             <Button variant="outlined" onClick={handleLogout} sx={{ marginLeft: 2, color: 'white', borderColor: 'white' }}>
-              Logout
+              <FontAwesomeIcon icon={faSignOutAlt} /> Logout
             </Button>
           </div>
         </Box>
