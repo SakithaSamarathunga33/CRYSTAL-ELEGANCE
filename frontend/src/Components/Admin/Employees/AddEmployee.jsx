@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/employees";
+const URL = "http://localhost:4000/employees/create";
 
 function AddEmployee({ onBack }) {
   const [employee, setEmployee] = useState({
@@ -82,6 +82,17 @@ function AddEmployee({ onBack }) {
           onChange={handleChange}
           fullWidth
           margin="normal"
+        />
+        <TextField
+          label="Salary"
+          name="salary"
+          type="number" // Ensure it's a number
+          value={employee.salary}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          sx={{ borderRadius: 1 }}
         />
         <Button
           type="submit"
