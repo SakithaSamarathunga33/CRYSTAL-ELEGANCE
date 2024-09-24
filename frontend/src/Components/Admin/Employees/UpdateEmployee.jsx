@@ -44,7 +44,7 @@ function UpdateEmployee() {
     try {
       await axios.put(`${URL}/${id}`, employee);
       alert('Employee updated successfully');
-      navigate('/admindashboard/employee-management');
+      navigate('/admindashboard/employee-details');
     } catch (error) {
       setError(error.response ? error.response.data.message : 'An error occurred');
     }

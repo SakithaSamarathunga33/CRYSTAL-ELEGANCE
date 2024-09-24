@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/employees/create";
@@ -14,7 +14,8 @@ function AddEmployee({ onBack }) {
     email: '',
     position: '',
     phone: '',
-    address: ''
+    address: '',
+    salary: '' // Ensure you have this field in the state
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function AddEmployee({ onBack }) {
     try {
       await axios.post(URL, employee);
       alert('Employee added successfully');
-      navigate('/admindashboard/employee-management');
+      navigate('/admindashboard/employee-details');
     } catch (error) {
       setError(error.response ? error.response.data.message : 'An error occurred');
     }
@@ -59,14 +60,30 @@ function AddEmployee({ onBack }) {
           fullWidth
           margin="normal"
         />
-        <TextField
-          label="Position"
-          name="position"
-          value={employee.position}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
+        
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="position-label">Position</InputLabel>
+          <Select
+            labelId="position-label"
+            name="position"
+            value={employee.position}
+            onChange={handleChange}
+            fullWidth
+            variant="outlined"
+          >
+            <MenuItem value="Senior Manager">Senior Manager</MenuItem>
+            <MenuItem value="Junior Manager">Junior Manager</MenuItem>
+            <MenuItem value="Trainee">Trainee</MenuItem>
+            <MenuItem value="Software Engineer">Software Engineer</MenuItem>
+            <MenuItem value="Business Analyst">Business Analyst</MenuItem>
+            <MenuItem value="Human Resources Specialist">Human Resources Specialist</MenuItem>
+            <MenuItem value="Project Coordinator">Project Coordinator</MenuItem>
+            <MenuItem value="Marketing Executive">Marketing Executive</MenuItem>
+            <MenuItem value="Sales Representative">Sales Representative</MenuItem>
+            <MenuItem value="Administrative Assistant">Administrative Assistant</MenuItem>
+          </Select>
+        </FormControl>
+
         <TextField
           label="Phone"
           name="phone"

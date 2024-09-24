@@ -20,6 +20,7 @@ import JewelleryDetails from './Components/Admin/Jewellery/JewelleryDetails';
 import AddJewellery from './Components/Admin/Jewellery/AddJewellery';
 import UpdateJewellery from './Components/Admin/Jewellery/UpdateJewellery';
 import JewelleryProfile from './Components/pages/JewelleryProfile';
+import JewelleryManagement from './Components/Admin/Jewellery/JewelleryDashboard';
 
 import GemDetails from './Components/Admin/Gem/GemDetails';  
 import AddGem from './Components/Admin/Gem/AddGem';        
@@ -37,6 +38,7 @@ import AddEmployee from './Components/Admin/Employees/AddEmployee';
 import UpdateEmployee from './Components/Admin/Employees/UpdateEmployee';
 import Employee from './Components/Admin/Employees/Employee';
 import AddSalary from './Components/Admin/Employees/AddSalary';
+import EmployeeDashboard from './Components/Admin/Employees/EmployeeDashboard';
 
 import SupplierDetails from './Components/Admin/Suppliers/SupplierDetails';
 import AddSupplier from './Components/Admin/Suppliers/AddSupplier';
@@ -87,10 +89,11 @@ function App() {
             <Route path="adduser" element={<AddUser />} />
             <Route path="update-user/:id" element={<UpdateUser />} />
 
-            <Route path="jewellery-management" element={<JewelleryDetails />} />
+            <Route path="jewellery-management" element={<JewelleryManagement />} />
             <Route path="jewellery/:JID" element={<Jewellery />} />
             <Route path="add-jewellery" element={<AddJewellery />} />
             <Route path="update-jewellery/:JID" element={<UpdateJewellery />} />
+            <Route path="jewellery-details" element={<JewelleryDetails />} />
 
             <Route path="gem-management" element={<GemDetails />} />  
             <Route path="add-gem" element={<AddGem />} />            
@@ -103,11 +106,12 @@ function App() {
             <Route path="add-inventory" element={<AddInventory />} />
             <Route path="update-inventory/:id" element={<UpdateInventory />} />
 
-            <Route path="employee-management" element={<EmployeeDetails />} />
+            <Route path="employee-management" element={<EmployeeDashboard />} />
             <Route path="employee/:id" element={<Employee />} />
             <Route path="add-employee" element={<AddEmployee />} />
             <Route path="update-employee/:id" element={<UpdateEmployee />} />
             <Route path="add-salary/:id" element={<AddSalary />} />
+            <Route path="employee-details" element={<EmployeeDetails />} />
 
 
             <Route path="inventory-management" element={<InventoryDetails />} />
