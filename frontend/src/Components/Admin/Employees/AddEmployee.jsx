@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, TextField, Button, Typography, CircularProgress, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/employees/create";
@@ -15,9 +15,10 @@ function AddEmployee({ onBack }) {
     position: '',
     phone: '',
     address: '',
-    salary: '' // Ensure you have this field in the state
+    salary: 0 // Initialize salary properly
   });
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -28,6 +29,7 @@ function AddEmployee({ onBack }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null); // Reset error state
+    setLoading(true); // Set loading state
 
     try {
       await axios.post(URL, employee);
@@ -35,15 +37,28 @@ function AddEmployee({ onBack }) {
       navigate('/admindashboard/employee-details');
     } catch (error) {
       setError(error.response ? error.response.data.message : 'An error occurred');
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1 }}>
+    <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1, boxShadow: 2 }}>
       <Typography variant="h5" gutterBottom>
         Add New Employee
       </Typography>
       <form onSubmit={handleSubmit}>
+        <TextField
+          label="Employee ID"
+          name="EMPID"
+          value={employee.EMPID}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          required // Make it required
+          sx={{ borderRadius: 1 }}
+        />
         <TextField
           label="Name"
           name="name"
@@ -51,6 +66,9 @@ function AddEmployee({ onBack }) {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          variant="outlined"
+          required // Make it required
+          sx={{ borderRadius: 1 }}
         />
         <TextField
           label="Email"
@@ -59,6 +77,9 @@ function AddEmployee({ onBack }) {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          variant="outlined"
+          required // Make it required
+          sx={{ borderRadius: 1 }}
         />
         
         <FormControl fullWidth margin="normal">
@@ -70,6 +91,7 @@ function AddEmployee({ onBack }) {
             onChange={handleChange}
             fullWidth
             variant="outlined"
+            required // Ensure it's required
           >
             <MenuItem value="Senior Manager">Senior Manager</MenuItem>
             <MenuItem value="Junior Manager">Junior Manager</MenuItem>
@@ -91,6 +113,9 @@ function AddEmployee({ onBack }) {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          variant="outlined"
+          required // Make it required
+          sx={{ borderRadius: 1 }}
         />
         <TextField
           label="Address"
@@ -99,6 +124,9 @@ function AddEmployee({ onBack }) {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          variant="outlined"
+          required // Make it required
+          sx={{ borderRadius: 1 }}
         />
         <TextField
           label="Salary"
@@ -109,15 +137,18 @@ function AddEmployee({ onBack }) {
           fullWidth
           margin="normal"
           variant="outlined"
+          required // Ensure it's required
           sx={{ borderRadius: 1 }}
         />
+
         <Button
           type="submit"
           variant="contained"
           color="primary"
           sx={{ marginTop: 2 }}
+          disabled={loading}
         >
-          Add Employee
+          {loading ? <CircularProgress size={24} /> : 'Add Employee'}
         </Button>
         <Button
           variant="outlined"

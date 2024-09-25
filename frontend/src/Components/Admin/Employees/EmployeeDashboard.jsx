@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { useNavigate } from 'react-router-dom';
 
 // Import the images
 import employeeImage from '../../images/employee.png';
@@ -16,8 +16,8 @@ function withNavigation(Component) {
 
 class EmployeeDashboard extends Component {
   static propTypes = {
-    prop: PropTypes
-  }
+    navigate: PropTypes.func.isRequired,
+  };
 
   handleViewEmployeeDetails = () => {
     // Navigate to the correct route: /admindashboard/employee-details
@@ -26,44 +26,48 @@ class EmployeeDashboard extends Component {
 
   render() {
     return (
-      <div style={{
-        textAlign: 'center',
-        padding: '20px',
-        position: 'relative',
-        height: '100vh',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between'
-      }}>
+      <div
+        style={{
+          textAlign: 'center',
+          padding: '20px',
+          position: 'relative',
+          height: '100vh',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
         <h1 style={{ marginBottom: '2px' }}>Employee Dashboard</h1> {/* Reduced margin further */}
 
         {/* Flexbox container to align images side by side without space */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexGrow: 1,
-          marginTop: '0px', // No margin above images
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexGrow: 1,
+            marginTop: '0px', // No margin above images
+          }}
+        >
           {/* First image on the left */}
-          <img 
-            src={employeeImage} 
-            alt="Employee 1" 
-            style={{ width: '50%', height: 'auto', marginRight: '-5px' }} 
+          <img
+            src={employeeImage}
+            alt="Employee 1"
+            style={{ width: '50%', height: 'auto', marginRight: '-5px' }}
           />
-          
+
           {/* Second image on the right */}
-          <img 
-            src={employeeImage1} 
-            alt="Employee 2" 
-            style={{ width: '50%', height: 'auto', marginLeft: '-5px' }} 
+          <img
+            src={employeeImage1}
+            alt="Employee 2"
+            style={{ width: '50%', height: 'auto', marginLeft: '-5px' }}
           />
         </div>
 
         {/* Button placed higher from the bottom center */}
         <div style={{ marginBottom: '140px' }}>
-          <button 
+          <button
             style={{
               padding: '12px 22px',
               backgroundColor: '#1976d2',
@@ -71,7 +75,7 @@ class EmployeeDashboard extends Component {
               border: 'none',
               borderRadius: '5px',
               cursor: 'pointer',
-              fontSize: '17px'
+              fontSize: '17px',
             }}
             onClick={this.handleViewEmployeeDetails}
           >
