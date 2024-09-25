@@ -43,7 +43,7 @@ const AddSalary = () => {
         salary: totalSalary,
       };
       await axios.put(`http://localhost:4000/employees/${id}`, updatedEmployee);
-      navigate('/admindashboard/employee-management');
+      navigate('/admindashboard/employee-details');
     } catch (error) {
       console.error("Error updating salary:", error);
     }

@@ -107,7 +107,7 @@ function EmployeeDetails() {
         </Box>
       ) : (
         <>
-          <Box sx={{ display: 'flex', gap: 2, marginBottom: 2, alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', gap: 2, marginBottom: 2, alignItems: 'center', marginTop: 4 }}>
             <TextField
               label="Search"
               variant="outlined"
@@ -115,7 +115,7 @@ function EmployeeDetails() {
               onChange={(e) => setSearchQuery(e.target.value)}
               sx={{
                 flexShrink: 1,
-                width: '200px',
+                width: '300px', // Increased width for the search bar
                 backgroundColor: 'white',
                 borderRadius: 1,
                 '& .MuiOutlinedInput-root': {
@@ -161,7 +161,7 @@ function EmployeeDetails() {
                     <TableCell>Position</TableCell>
                     <TableCell>Phone</TableCell>
                     <TableCell>Address</TableCell>
-                    <TableCell>Salary</TableCell> {/* Added Salary Column */}
+                    <TableCell>Salary</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -179,7 +179,7 @@ function EmployeeDetails() {
                         <TableCell>{employee.position}</TableCell>
                         <TableCell>{employee.phone}</TableCell>
                         <TableCell>{employee.address}</TableCell>
-                        <TableCell>{employee.salary}</TableCell> {/* Display Salary */}
+                        <TableCell>{employee.salary}</TableCell>
                         <TableCell>
                           <IconButton onClick={() => handleEdit(employee._id)} sx={{ color: 'primary.main' }}>
                             <Edit />
@@ -190,8 +190,8 @@ function EmployeeDetails() {
                           <Button 
                             variant="contained" 
                             color="info" 
-                            onClick={() => navigate(`/admindashboard/add-salary/${employee._id}`)} // Redirect to add salary page
-                            sx={{ marginLeft: 1 }}
+                            onClick={() => navigate(`/admindashboard/add-salary/${employee._id}`)} 
+                            sx={{ marginLeft: 10 }}
                           >
                             Add Salary
                           </Button>
@@ -207,7 +207,7 @@ function EmployeeDetails() {
               variant="contained"
               color="primary"
               onClick={handlePDF}
-              sx={{ marginTop: 2, borderRadius: 2 }}
+              sx={{ marginTop: 5, borderRadius: 2 }}
             >
               <Print /> Download
             </Button>

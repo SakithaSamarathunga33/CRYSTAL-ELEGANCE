@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, TextField, Button, Typography, CircularProgress, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Box, TextField, Button, Typography, CircularProgress, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/jewellery"; // Update to the correct URL for adding jewellery
@@ -28,6 +28,7 @@ function AddJewellery({ onBack }) {
     category: '',
     subcategory: ''
   });
+  
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [subcategories, setSubcategories] = useState([]);

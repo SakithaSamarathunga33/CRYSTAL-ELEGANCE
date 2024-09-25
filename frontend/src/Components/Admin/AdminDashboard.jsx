@@ -15,7 +15,11 @@ function AdminDashboard() {
 
   const [currentTab, setCurrentTab] = useState('');
   const [showSampleButton, setShowSampleButton] = useState(false);
+
+  const [showEmployeeButton, setShowEmployeeButton] = useState(false);
+
   const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State for Employee Management button
+
 
   const menuItems = [
     { text: 'Dashboard', icon: <FontAwesomeIcon icon={faTachometerAlt} />, path: '/admindashboard' },
@@ -39,8 +43,12 @@ function AdminDashboard() {
       setShowSampleButton(currentItem.text === 'Jewellery Management'); // Show button only for Jewellery Management
       setShowEmployeeButton(currentItem.text === 'Employee Management'); // Show button only for Employee Management
     }
+
+  }, [location.pathname, menuItems]);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
+
 
   const handleMenuClick = (path) => {
     navigate(path);
@@ -102,7 +110,7 @@ function AdminDashboard() {
                 View Jewellery Details
               </Button>
             )}
-            {showEmployeeButton && ( // New button for Employee Management
+            {showEmployeeButton && (
               <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }} onClick={handleEmployeeButtonClick}>
                 View Employee Details
               </Button>
