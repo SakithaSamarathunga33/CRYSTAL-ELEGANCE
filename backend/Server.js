@@ -17,7 +17,7 @@ const supplierRoutes = require('./Routes/SupplierRoutes');
 const inventoryRoutes = require('./Routes/InventoryRoutes');
 const authRoutes = require('./Routes/AuthRoutes');
 const gemRoutes = require('./Routes/GemRoutes');
-
+const supplierlistRoutes = require('./Routes/SupplierListRoutes');
 
 // Middleware
 app.use(express.json());
@@ -34,6 +34,7 @@ app.use('/suppliers', supplierRoutes);
 app.use('/inventory', inventoryRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', gemRoutes);
+app.use('/api/suppliers', supplierlistRoutes);
 
 
 // Serve static files (uploaded images)

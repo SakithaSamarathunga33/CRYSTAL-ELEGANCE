@@ -44,10 +44,8 @@ function SupplierDetails() {
           <Typography variant="h6">Type: {supplier.type}</Typography>
           <Typography variant="h6">Quantity: {supplier.quantity}</Typography>
           <Typography variant="h6">InvID: {supplier.InvID}</Typography>
-          <Typography variant="h6">JID: {supplier.JID}</Typography>
           <Typography variant="h6">SupID: {supplier.SupID}</Typography>
           <Typography variant="h6">Status: {supplier.status}</Typography>
-          <Typography variant="h6">Date: {supplier.date.toISOString()}</Typography>
           <Typography variant="h6">Description: {supplier.description}</Typography>
         </Paper>
       ))}

@@ -71,17 +71,14 @@ function SupplierDetails() {
     doc.text("Supplier Details Report", 10, 10);
 
     doc.autoTable({
-      head: [['ID', 'Order ID', 'Type', 'Quantity', 'Inventory ID', 'Jewellery ID', 'Supplier ID', 'Status', 'Date', 'Description']],
+      head: [['Order ID', 'Type', 'Quantity', 'Inventory ID', 'Supplier ID', 'Status', 'Description']],
       body: suppliers.map(item => [
-        abbreviateId(item._id),
         abbreviateId(item.SupOrderID),
         item.type,
         item.quantity,
         abbreviateId(item.InvID),
-        abbreviateId(item.JID),
         abbreviateId(item.SupID),
         item.status,
-        new Date(item.date).toLocaleDateString(),
         item.description || 'No Description'
       ]),
       startY: 20,
@@ -174,7 +171,7 @@ function SupplierDetails() {
               sx={{ borderRadius: 2, marginLeft: 'auto' }}
               startIcon={<Add />}
             >
-              Add Supplier
+              Add Order
             </Button>
           </Box>
 
@@ -183,15 +180,12 @@ function SupplierDetails() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    
                     <TableCell>Order ID</TableCell>
                     <TableCell>Type</TableCell>
                     <TableCell>Quantity</TableCell>
                     <TableCell>Inventory ID</TableCell>
-                    <TableCell>Jewellery ID</TableCell>
                     <TableCell>Supplier ID</TableCell>
                     <TableCell>Status</TableCell>
-                    <TableCell>Date</TableCell>
                     <TableCell>Description</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
@@ -199,20 +193,17 @@ function SupplierDetails() {
                 <TableBody>
                   {noResults ? (
                     <TableRow>
-                      <TableCell colSpan={11} align="center">No supplier orders found.</TableCell>
+                      <TableCell colSpan={8} align="center">No supplier orders found.</TableCell>
                     </TableRow>
                   ) : (
                     suppliers.map((item) => (
                       <TableRow key={item._id}>
-                       
                         <TableCell>{abbreviateId(item.SupOrderID)}</TableCell>
                         <TableCell>{item.type}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>{abbreviateId(item.InvID)}</TableCell>
-                        <TableCell>{abbreviateId(item.JID)}</TableCell>
                         <TableCell>{abbreviateId(item.SupID)}</TableCell>
                         <TableCell>{item.status}</TableCell>
-                        <TableCell>{new Date(item.date).toLocaleDateString()}</TableCell>
                         <TableCell>{item.description || 'No Description'}</TableCell>
                         <TableCell>
                           <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>

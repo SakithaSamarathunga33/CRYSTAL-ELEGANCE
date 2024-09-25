@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, TextField, Button, Typography, MenuItem, Select, InputLabel, FormControl, Snackbar, Alert } from '@mui/material';
+import { Box, TextField, Button, Typography, MenuItem, Select, InputLabel, FormControl, Snackbar, Alert, Radio, RadioGroup, FormControlLabel, FormLabel } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/suppliers";
@@ -10,13 +10,11 @@ const URL = "http://localhost:4000/suppliers";
 function AddSupplier({ onBack }) {
     const [formData, setFormData] = useState({
         SupOrderID: '',
-        type: '',
+        type: 'Gems', // Default value for radio button
         quantity: '',
         InvID: '',
-        JID: '',
         SupID: '',
         status: 'Pending',
-        date: '',
         description: ''
     });
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -34,8 +32,7 @@ function AddSupplier({ onBack }) {
         try {
             console.log('Submitting form data:', formData); // Log form data for debugging
             const response = await axios.post(URL, {
-                ...formData,
-                date: new Date(formData.date).toISOString() // Convert date to ISO string
+                ...formData
             });
             console.log('Response from server:', response.data); // Log server response
             // Show alert on successful addition
@@ -48,7 +45,6 @@ function AddSupplier({ onBack }) {
             alert('Error adding supplier: ' + (error.response ? error.response.data.message : error.message));
         }
     };
-    
 
     const handleSnackbarClose = () => {
         setOpenSnackbar(false);
@@ -67,15 +63,20 @@ function AddSupplier({ onBack }) {
                     onChange={handleChange}
                     margin="normal"
                 />
-                <TextField
-                    label="Type"
-                    name="type"
-                    variant="outlined"
-                    fullWidth
-                    value={formData.type}
-                    onChange={handleChange}
-                    margin="normal"
-                />
+                
+                <FormControl component="fieldset" margin="normal">
+                    <FormLabel component="legend">Type</FormLabel>
+                    <RadioGroup
+                        name="type"
+                        value={formData.type}
+                        onChange={handleChange}
+                        row
+                    >
+                        <FormControlLabel value="Gems" control={<Radio />} label="Gems" />
+                        <FormControlLabel value="Others" control={<Radio />} label="Others" />
+                    </RadioGroup>
+                </FormControl>
+
                 <TextField
                     label="Quantity"
                     name="quantity"
@@ -95,15 +96,7 @@ function AddSupplier({ onBack }) {
                     onChange={handleChange}
                     margin="normal"
                 />
-                <TextField
-                    label="JID"
-                    name="JID"
-                    variant="outlined"
-                    fullWidth
-                    value={formData.JID}
-                    onChange={handleChange}
-                    margin="normal"
-                />
+                
                 <TextField
                     label="SupID"
                     name="SupID"
@@ -126,17 +119,6 @@ function AddSupplier({ onBack }) {
                         <MenuItem value="Cancelled">Cancelled</MenuItem>
                     </Select>
                 </FormControl>
-                <TextField
-                    label="Date"
-                    name="date"
-                    type="date"
-                    variant="outlined"
-                    fullWidth
-                    value={formData.date}
-                    onChange={handleChange}
-                    margin="normal"
-                    InputLabelProps={{ shrink: true }}
-                />
                 <TextField
                     label="Description"
                     name="description"

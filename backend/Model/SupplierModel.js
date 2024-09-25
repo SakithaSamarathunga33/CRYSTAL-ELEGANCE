@@ -5,10 +5,8 @@ const supplierSchema = new mongoose.Schema({
     type: { type: String, required: true },
     quantity: { type: Number, required: true },
     InvID: { type: String, required: true },
-    JID: { type: String, required: true },
     SupID: { type: String, required: true },
     status: { type: String, enum: ['Pending', 'Completed', 'Cancelled'], default: 'Pending' },
-    date: { type: Date, required: true },
     description: { type: String, required: true }
 });
 

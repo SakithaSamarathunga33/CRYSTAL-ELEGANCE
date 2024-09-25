@@ -29,15 +29,17 @@ function AdminDashboard() {
 
   const [currentTab, setCurrentTab] = useState('');
   const [showSampleButton, setShowSampleButton] = useState(false);
+  const [showSupplierListButton, setShowSupplierListButton] = useState(false);
 
   useEffect(() => {
     const currentPath = location.pathname;
     const currentItem = menuItems.find(item => item.path === currentPath);
     if (currentItem) {
       setCurrentTab(currentItem.text);
-      setShowSampleButton(currentItem.text === 'Jewellery Management'); // Show button only for Jewellery Management
-      
+      setShowSampleButton(currentItem.text === 'Jewellery Management');
+      setShowSupplierListButton(currentItem.text === 'Supplier Management');
     }
+
   }, [location.pathname]);
 
   const handleMenuClick = (path) => {
@@ -50,9 +52,14 @@ function AdminDashboard() {
   };
 
   const handleSampleButtonClick = () => {
-    navigate('/admindashboard/jewellery-details'); // Navigate to the Jewellery Details page
+    navigate('/admindashboard/jewellery-details');
   };
 
+  
+
+  const handleSupplierListButtonClick = () => {
+    navigate('/admindashboard/supplier-list'); // Navigate to the Supplier List page
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -83,7 +90,7 @@ function AdminDashboard() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 0, // Remove padding
+          p: 0,
           backgroundColor: '#f4f6f8',
           minHeight: '100vh',
         }}
@@ -98,6 +105,11 @@ function AdminDashboard() {
               </Button>
             )}
             
+            {showSupplierListButton && (
+              <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }} onClick={handleSupplierListButtonClick}>
+                View Supplier List
+              </Button>
+            )}
             <Button variant="outlined" onClick={handleLogout} sx={{ marginLeft: 2, color: 'white', borderColor: 'white' }}>
               <FontAwesomeIcon icon={faSignOutAlt} /> Logout
             </Button>
