@@ -8,6 +8,20 @@ import { faTachometerAlt, faUsers, faGem, faBoxOpen, faClipboardList, faComments
 
 const drawerWidth = 240;
 
+const menuItems = [
+  { text: 'Dashboard', icon: <FontAwesomeIcon icon={faTachometerAlt} />, path: '/admindashboard' },
+  { text: 'User Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/user-management' },
+  { text: 'Jewellery Management', icon: <FontAwesomeIcon icon={faRing} />, path: '/admindashboard/jewellery-management' },
+  { text: 'Gem Management', icon: <FontAwesomeIcon icon={faGem} />, path: '/admindashboard/gem-management' },
+  { text: 'Inventory Management', icon: <FontAwesomeIcon icon={faBoxOpen} />, path: '/admindashboard/inventory-management' },
+  { text: 'Employee Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/employee-management' },
+  { text: 'Supplier Management', icon: <FontAwesomeIcon icon={faTruck} />, path: '/admindashboard/supplier-management' },
+  { text: 'Appointment Management', icon: <FontAwesomeIcon icon={faClipboardList} />, path: '/admindashboard/appointment-management' },
+  { text: 'Order Management', icon: <FontAwesomeIcon icon={faShoppingCart} />, path: '/admindashboard/order-management' },
+  { text: 'Feedback Management', icon: <FontAwesomeIcon icon={faComments} />, path: '/admindashboard/feedback-management' },
+  { text: 'Support Management', icon: <FontAwesomeIcon icon={faHeadset} />, path: '/admindashboard/support-management' },
+];
+
 function AdminDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,21 +29,6 @@ function AdminDashboard() {
 
   const [currentTab, setCurrentTab] = useState('');
   const [showSampleButton, setShowSampleButton] = useState(false);
-  const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State for Employee Management button
-
-  const menuItems = [
-    { text: 'Dashboard', icon: <FontAwesomeIcon icon={faTachometerAlt} />, path: '/admindashboard' },
-    { text: 'User Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/user-management' },
-    { text: 'Jewellery Management', icon: <FontAwesomeIcon icon={faRing} />, path: '/admindashboard/jewellery-management' },
-    { text: 'Gem Management', icon: <FontAwesomeIcon icon={faGem} />, path: '/admindashboard/gem-management' },
-    { text: 'Inventory Management', icon: <FontAwesomeIcon icon={faBoxOpen} />, path: '/admindashboard/inventory-management' },
-    { text: 'Employee Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/employee-management' },
-    { text: 'Supplier Management', icon: <FontAwesomeIcon icon={faTruck} />, path: '/admindashboard/supplier-management' },
-    { text: 'Appointment Management', icon: <FontAwesomeIcon icon={faClipboardList} />, path: '/admindashboard/appointment-management' },
-    { text: 'Order Management', icon: <FontAwesomeIcon icon={faShoppingCart} />, path: '/admindashboard/order-management' },
-    { text: 'Feedback Management', icon: <FontAwesomeIcon icon={faComments} />, path: '/admindashboard/feedback-management' },
-    { text: 'Support Management', icon: <FontAwesomeIcon icon={faHeadset} />, path: '/admindashboard/support-management' },
-  ];
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -37,7 +36,7 @@ function AdminDashboard() {
     if (currentItem) {
       setCurrentTab(currentItem.text);
       setShowSampleButton(currentItem.text === 'Jewellery Management'); // Show button only for Jewellery Management
-      setShowEmployeeButton(currentItem.text === 'Employee Management'); // Show button only for Employee Management
+      
     }
   }, [location.pathname]);
 
@@ -54,9 +53,6 @@ function AdminDashboard() {
     navigate('/admindashboard/jewellery-details'); // Navigate to the Jewellery Details page
   };
 
-  const handleEmployeeButtonClick = () => {
-    navigate('/admindashboard/employee-details'); // Navigate to the Employee Details page
-  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -101,11 +97,7 @@ function AdminDashboard() {
                 View Jewellery Details
               </Button>
             )}
-            {showEmployeeButton && (
-              <Button variant="contained" color="secondary" sx={{ marginLeft: 2 }} onClick={handleEmployeeButtonClick}>
-                View Employee Details
-              </Button>
-            )}
+            
             <Button variant="outlined" onClick={handleLogout} sx={{ marginLeft: 2, color: 'white', borderColor: 'white' }}>
               <FontAwesomeIcon icon={faSignOutAlt} /> Logout
             </Button>
