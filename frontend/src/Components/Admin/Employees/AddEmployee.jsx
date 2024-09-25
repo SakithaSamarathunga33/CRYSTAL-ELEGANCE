@@ -18,7 +18,11 @@ function AddEmployee({ onBack }) {
     salary: 0 // Initialize salary properly
   });
   const [error, setError] = useState(null);
+<<<<<<< Updated upstream
   const [loading, setLoading] = useState(false);
+=======
+  const [emailError, setEmailError] = useState(''); // State to hold email error message
+>>>>>>> Stashed changes
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -26,10 +30,25 @@ function AddEmployee({ onBack }) {
     setEmployee({ ...employee, [name]: value });
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email validation regex
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null); // Reset error state
+<<<<<<< Updated upstream
     setLoading(true); // Set loading state
+=======
+    setEmailError(''); // Reset email error state
+
+    // Check for email validation
+    if (!validateEmail(employee.email)) {
+      setEmailError('Please enter a valid email address');
+      return; // Stop form submission if email is invalid
+    }
+>>>>>>> Stashed changes
 
     try {
       await axios.post(URL, employee);
@@ -77,9 +96,14 @@ function AddEmployee({ onBack }) {
           onChange={handleChange}
           fullWidth
           margin="normal"
+<<<<<<< Updated upstream
           variant="outlined"
           required // Make it required
           sx={{ borderRadius: 1 }}
+=======
+          error={!!emailError} // Show error state if email is invalid
+          helperText={emailError} // Display email error message
+>>>>>>> Stashed changes
         />
         
         <FormControl fullWidth margin="normal">
