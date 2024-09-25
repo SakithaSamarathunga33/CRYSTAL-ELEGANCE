@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper, IconButton } from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, Typography, IconButton, Grid, TextField, Paper } from '@mui/material';
 import { Edit, Delete, Print, Add } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -52,7 +52,7 @@ function JewelleryDetails() {
       
       console.log('Delete response:', response);
       
-      if (response.status === 200) {
+      if (response.status === 204) {
         console.log(`Successfully deleted jewellery with ID: ${id}`);
         setJewellery(prev => prev.filter(item => item._id !== id));
       } else {
@@ -68,10 +68,9 @@ function JewelleryDetails() {
     doc.text("Jewellery Details Report", 10, 10);
 
     doc.autoTable({
-      head: [['ID',  'Name', 'Price', 'Quantity', 'Status', 'Weight', 'Gold Standard']],
+      head: [['ID', 'Name', 'Price', 'Quantity', 'Status', 'Weight', 'Gold Standard']],
       body: jewellery.map(item => [
         item.JID, 
-         
         item.name, 
         item.price, 
         item.quantity, 
@@ -157,66 +156,54 @@ function JewelleryDetails() {
             </Button>
           </Box>
 
-          <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1 }}>
-            <TableContainer component={Paper} sx={{ border: '1px solid', borderColor: 'divider' }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Image</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Short Description</TableCell>
-                    <TableCell>Price</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Weight</TableCell> {/* Add weight column */}
-                    <TableCell>Gold Standard</TableCell> {/* Add gold standard column */}
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {noResults ? (
-                    <TableRow>
-                      <TableCell colSpan={10} align="center">No jewellery found.</TableCell>
-                    </TableRow>
-                  ) : (
-                    jewellery.map((item) => (
-                      <TableRow key={item._id}>
-                        <TableCell>{item.JID}</TableCell>
-                        <TableCell>
-                          <img src={item.image || 'default-image-path'} alt={item.name} style={{ width: '50px', height: '50px' }} />
-                        </TableCell>
-                        <TableCell>{item.name}</TableCell>
-                        <TableCell>{shortenDescription(item.description || 'No Description')}</TableCell>
-                        <TableCell>{item.price}</TableCell>
-                        <TableCell>{item.quantity}</TableCell>
-                        <TableCell>{item.status}</TableCell>
-                        <TableCell>{item.weight}</TableCell> {/* Add weight value */}
-                        <TableCell>{item.goldStandard}</TableCell> {/* Add gold standard value */}
-                        <TableCell>
-                          <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>
-                            <Edit />
-                          </IconButton>
-                          <IconButton onClick={() => deleteJewellery(item._id)} sx={{ color: 'error.main' }}>
-                            <Delete />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
+          <Grid container spacing={2}>
+            {noResults ? (
+              <Typography variant="h6" align="center" sx={{ width: '100%', marginTop: 2 }}>
+                No jewellery found.
+              </Typography>
+            ) : (
+              jewellery.map((item) => (
+                <Grid item xs={12} sm={6} md={4} key={item._id}>
+                  <Card sx={{ maxWidth: 345, margin: 'auto', border: '1px solid', borderColor: 'divider' }}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={item.image || 'default-image-path'}
+                      alt={item.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h6" component="div">{item.name}</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {shortenDescription(item.description || 'No Description')}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">Price: {item.price}</Typography>
+                      <Typography variant="body2" color="text.secondary">Quantity: {item.quantity}</Typography>
+                      <Typography variant="body2" color="text.secondary">Status: {item.status}</Typography>
+                      <Typography variant="body2" color="text.secondary">Weight: {item.weight}</Typography>
+                      <Typography variant="body2" color="text.secondary">Gold Standard: {item.goldStandard}</Typography>
+                    </CardContent>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: 1 }}>
+                      <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton onClick={() => deleteJewellery(item._id)} sx={{ color: 'error.main' }}>
+                        <Delete />
+                      </IconButton>
+                    </Box>
+                  </Card>
+                </Grid>
+              ))
+            )}
+          </Grid>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handlePDF}
-              sx={{ marginTop: 2, borderRadius: 2 }}
-            >
-              <Print /> Download
-            </Button>
-          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handlePDF}
+            sx={{ marginTop: 2, borderRadius: 2 }}
+          >
+            <Print /> Download
+          </Button>
         </>
       )}
     </Box>

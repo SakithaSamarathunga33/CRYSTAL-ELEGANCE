@@ -5,7 +5,7 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import { Edit, Delete, Print, Add } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import AddSupplier from './AddSupplier';
+import AddSupplier from './AddSupplierOrder';
 import { useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/suppliers";

@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+// Home Components
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
 import Jewellery from './Components/Home/Jewellery';
@@ -11,6 +12,7 @@ import Contact from './Components/Home/ContactUs';
 import Register from './Components/Login/Register';
 import UserProfile from './Components/pages/UserProfile';
 
+// Admin Components
 import AdminDashboard from './Components/Admin/AdminDashboard';
 import UserDetails from './Components/Admin/Users/UserDetails';
 import AddUser from './Components/Admin/Users/AddUser';
@@ -19,14 +21,13 @@ import UpdateUser from './Components/Admin/Users/UpdateUser';
 import JewelleryDetails from './Components/Admin/Jewellery/JewelleryDetails';
 import AddJewellery from './Components/Admin/Jewellery/AddJewellery';
 import UpdateJewellery from './Components/Admin/Jewellery/UpdateJewellery';
-import JewelleryProfile from './Components/pages/JewelleryProfile';
 import JewelleryManagement from './Components/Admin/Jewellery/JewelleryDashboard';
 
 import GemDetails from './Components/Admin/Gem/GemDetails';  
 import AddGem from './Components/Admin/Gem/AddGem';        
 import UpdateGem from './Components/Admin/Gem/UpdateGem'; 
-import GemProfile from './Components/pages/GemProfile';
 import Gem from './Components/Admin/Gem/Gem';
+import GemProfile from './Components/pages/GemProfile';
 
 import InventoryDetails from './Components/Admin/Inventory/InventoryDetails';
 import AddInventory from './Components/Admin/Inventory/AddInventory';
@@ -41,9 +42,14 @@ import AddSalary from './Components/Admin/Employees/AddSalary';
 import EmployeeDashboard from './Components/Admin/Employees/EmployeeDashboard';
 
 import SupplierDetails from './Components/Admin/Suppliers/SupplierDetails';
-import AddSupplier from './Components/Admin/Suppliers/AddSupplier';
+import AddSupplier from './Components/Admin/Suppliers/AddSupplierOrder';
 import UpdateSupplier from './Components/Admin/Suppliers/UpdateSupplier';
 import Supplier from './Components/Admin/Suppliers/Supplier';
+import AddSupplierList from './Components/Admin/Suppliers/AddSupplierList';
+import SupplierDashboard from './Components/Admin/Suppliers/SupplierListDetails';
+import SupplierList from './Components/Admin/Suppliers/SupplierList';
+import UpdateSupplierList from './Components/Admin/Suppliers/UpdateSupplierList';
+
 
 import FeedbackDetails from './Components/Admin/Feedback/FeedbackDetails';
 import AddFeedback from './Components/Admin/Feedback/AddFeedback';
@@ -51,9 +57,7 @@ import UpdateFeedback from './Components/Admin/Feedback/UpdateFeedback';
 import Feedback from './Components/Admin/Feedback/Feedback';
 
 import SupportDetails from './Components/Admin/Support/SupportDetails';
-
 import OrderDetails from './Components/Admin/Order/OrderDetails';
-
 import AppointmentDetails from './Components/Admin/Appointment/AppointmentDetails';
 
 import { AuthProvider } from './Components/Auth/AuthContext';  // Import AuthProvider
@@ -66,46 +70,42 @@ function App() {
           {/* Home Page as the default route */}
           <Route path="/" element={<Home />} />
 
-          {/* Login Page */}
+          {/* Authentication Routes */}
           <Route path="/login" element={<Login />} />
-          <Route path='/jewellery' element={<Jewellery />} />
-          <Route path='/gems' element={<Gems />} />
-          <Route path='/about' element={<AboutUs />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/signup' element={<Register />} />
-          <Route path='/userprofile' element={<UserProfile />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/jewellery" element={<Jewellery />} />
+          <Route path="/gems" element={<Gems />} />
 
-          {/* Login Page */}
-          <Route path="/login" element={<Login />} />
-          <Route path='/jewellery' element={<Jewellery />} />
-          <Route path='/Gems' element={<Gems />} />
-          <Route path='/About' element={<AboutUs />} />
-          <Route path='/Contact' element={<Contact />} />
-          <Route path='/signup' element={<Register />} />
-          <Route path="/jewellery/:id" element={<JewelleryProfile />} />
-
+          {/* Admin Dashboard Routes */}
           <Route path="/admindashboard" element={<AdminDashboard />}>
+            {/* User Management */}
             <Route path="user-management" element={<UserDetails />} />
             <Route path="adduser" element={<AddUser />} />
             <Route path="update-user/:id" element={<UpdateUser />} />
 
+            {/* Jewellery Management */}
             <Route path="jewellery-management" element={<JewelleryManagement />} />
-            <Route path="jewellery/:JID" element={<Jewellery />} />
             <Route path="add-jewellery" element={<AddJewellery />} />
             <Route path="update-jewellery/:JID" element={<UpdateJewellery />} />
             <Route path="jewellery-details" element={<JewelleryDetails />} />
 
+            {/* Gem Management */}
             <Route path="gem-management" element={<GemDetails />} />  
             <Route path="add-gem" element={<AddGem />} />            
             <Route path="update-gem/:GID" element={<UpdateGem />} /> 
             <Route path="gem/:GID" element={<Gem />} />
             <Route path="gem-profile/:GID" element={<GemProfile />} />
 
+            {/* Inventory Management */}
             <Route path="inventory-management" element={<InventoryDetails />} />
             <Route path="inventory/:id" element={<Inventory />} />
             <Route path="add-inventory" element={<AddInventory />} />
             <Route path="update-inventory/:id" element={<UpdateInventory />} />
 
+            {/* Employee Management */}
             <Route path="employee-management" element={<EmployeeDashboard />} />
             <Route path="employee/:id" element={<Employee />} />
             <Route path="add-employee" element={<AddEmployee />} />
@@ -113,16 +113,17 @@ function App() {
             <Route path="add-salary/:id" element={<AddSalary />} />
             <Route path="employee-details" element={<EmployeeDetails />} />
 
-
-            <Route path="inventory-management" element={<InventoryDetails />} />
-            <Route path="inventory/:id" element={<Inventory />} />
-            <Route path="add-inventory" element={<AddInventory />} />
-            <Route path="update-inventory/:id" element={<UpdateInventory />} />
+            {/* Supplier Management */}
             <Route path="supplier-management" element={<SupplierDetails />} />
             <Route path="supplier/:id" element={<Supplier />} />
             <Route path="add-supplier" element={<AddSupplier />} />
             <Route path="update-supplier/:id" element={<UpdateSupplier />} />
-
+            <Route path="add-supplier-list" element={<AddSupplierList />} />
+            <Route path="supplier-list-details" element={<SupplierDashboard />} />
+            <Route path="supplier-list" element={<SupplierList />} />     
+            <Route path="update-supplier-list/:id" element={<UpdateSupplierList />} />
+                    
+            {/* Feedback Management */}
             <Route path="feedback-management" element={<FeedbackDetails />} />
             <Route path="feedback/:id" element={<Feedback />} />
             <Route path="add-feedback" element={<AddFeedback />} />

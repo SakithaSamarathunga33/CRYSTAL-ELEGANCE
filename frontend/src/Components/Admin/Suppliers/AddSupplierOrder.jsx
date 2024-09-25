@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/suppliers";
 
-function AddSupplier({ onBack }) {
+function AddSupplierOrder({ onBack }) {
     const [formData, setFormData] = useState({
         SupOrderID: '',
         type: 'Gems', // Default value for radio button
@@ -52,7 +52,7 @@ function AddSupplier({ onBack }) {
 
     return (
         <Box sx={{ padding: 3 }}>
-            <Typography variant="h6" gutterBottom>Add Supplier</Typography>
+            <Typography variant="h6" gutterBottom>Add Order</Typography>
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="SupOrderID"
@@ -134,7 +134,7 @@ function AddSupplier({ onBack }) {
                     color="primary"
                     sx={{ marginTop: 2 }}
                 >
-                    Add Supplier
+                    Add  Order
                 </Button>
                 <Button
                     variant="outlined"
@@ -158,4 +158,4 @@ function AddSupplier({ onBack }) {
     );
 }
 
-export default AddSupplier;
+export default AddSupplierOrder;

@@ -58,7 +58,7 @@ function AdminDashboard() {
   
 
   const handleSupplierListButtonClick = () => {
-    navigate('/admindashboard/supplier-list'); // Navigate to the Supplier List page
+    navigate('/admindashboard/supplier-list-details'); // Navigate to the Supplier List page
   };
 
   return (
