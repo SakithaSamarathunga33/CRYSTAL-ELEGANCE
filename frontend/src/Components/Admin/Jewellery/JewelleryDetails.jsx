@@ -20,6 +20,11 @@ const fetchJewellery = async () => {
   }
 };
 
+const shortenDescription = (description) => {
+  const words = description.split(' ');
+  return words.length > 3 ? words.slice(0, 3).join(' ') + '...' : description;
+};
+
 function JewelleryDetails() {
   const [jewellery, setJewellery] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -42,19 +47,14 @@ function JewelleryDetails() {
 
   const deleteJewellery = async (id) => {
     try {
-      console.log(`Attempting to delete jewellery with ID: ${id}`); // Log the ID being deleted
+      console.log(`Attempting to delete jewellery with ID: ${id}`);
       const response = await axios.delete(`${URL}/${id}`);
       
-      console.log('Delete response:', response); // Log the response
+      console.log('Delete response:', response);
       
       if (response.status === 200) {
         console.log(`Successfully deleted jewellery with ID: ${id}`);
-        // Update state to remove the deleted jewellery item
-        setJewellery(prev => {
-          const updatedList = prev.filter(item => item._id !== id); // Filter by MongoDB _id
-          console.log('Updated jewellery list:', updatedList); // Log the updated list
-          return updatedList;
-        });
+        setJewellery(prev => prev.filter(item => item._id !== id));
       } else {
         console.error("Unexpected response status:", response.status);
       }
@@ -127,23 +127,7 @@ function JewelleryDetails() {
               variant="outlined"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              sx={{
-                flexShrink: 1,
-                width: '200px',
-                backgroundColor: 'white',
-                borderRadius: 1,
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'grey.300',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'primary.main',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'primary.main',
-                  },
-                },
-              }}
+              sx={{ flexShrink: 1, width: '200px', backgroundColor: 'white', borderRadius: 1 }}
             />
             <Button
               variant="contained"
@@ -172,6 +156,7 @@ function JewelleryDetails() {
                     <TableCell>ID</TableCell>
                     <TableCell>Image</TableCell>
                     <TableCell>Name</TableCell>
+                    <TableCell>Short Description</TableCell>
                     <TableCell>Price</TableCell>
                     <TableCell>Quantity</TableCell>
                     <TableCell>Status</TableCell>
@@ -181,7 +166,7 @@ function JewelleryDetails() {
                 <TableBody>
                   {noResults ? (
                     <TableRow>
-                      <TableCell colSpan={7} align="center">No jewellery found.</TableCell>
+                      <TableCell colSpan={8} align="center">No jewellery found.</TableCell>
                     </TableRow>
                   ) : (
                     jewellery.map((item) => (
@@ -191,6 +176,7 @@ function JewelleryDetails() {
                           <img src={item.image || 'default-image-path'} alt={item.name} style={{ width: '50px', height: '50px' }} />
                         </TableCell>
                         <TableCell>{item.name}</TableCell>
+                        <TableCell>{shortenDescription(item.description || 'No Description')}</TableCell>
                         <TableCell>{item.price}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>{item.status}</TableCell>

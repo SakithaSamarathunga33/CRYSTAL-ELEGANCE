@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Header from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
-import { Container, Typography, Box, Link, TextField, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
+import { Container, Typography, Box, TextField, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
+import contactUsImage from '../Images/coverc.png'; // Adjust path as needed
 
 function ContactUs() {
   const [open, setOpen] = useState(false);
@@ -43,31 +44,88 @@ function ContactUs() {
   return (
     <Box sx={{ backgroundColor: '#FAF2F2', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
+      
+      {/* Image at the top with fade-in animation */}
+      <Box
+        component="img"
+        src={contactUsImage}
+        alt="Contact Us"
+        sx={{
+          width: '100%',
+          height: 'auto',
+          animation: 'fadeIn 1s ease-in-out', // Apply fade-in animation
+        }}
+      />
+      
       <Container maxWidth="md" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingY: 5 }}>
-        <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-          Contact Us
-        </Typography>
-
-        {/* Social Media Links */}
-        <Box sx={{ marginBottom: '30px', width: '100%', textAlign: 'center' }}>
+        
+        {/* Contact Form with slide-in animation */}
+        <Paper
+          elevation={6}
+          sx={{
+            padding: 4,
+            borderRadius: 2,
+            width: '100%',
+            maxWidth: '600px',
+            textAlign: 'center',
+            marginBottom: '30px',
+            animation: 'slideIn 0.5s ease-in-out', // Slide-in animation
+          }}
+        >
           <Typography variant="h5" component="h2" gutterBottom>
-            Follow Us
+            Send Us a Message
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-            <Link href="https://www.instagram.com" target="_blank" rel="noopener" sx={styles.socialLink}>
-              Instagram
-            </Link>
-            <Link href="https://www.facebook.com" target="_blank" rel="noopener" sx={styles.socialLink}>
-              Facebook
-            </Link>
-            <Link href="https://www.twitter.com" target="_blank" rel="noopener" sx={styles.socialLink}>
-              Twitter
-            </Link>
+          <Box component="form" sx={{ marginTop: '20px' }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField label="Name" variant="outlined" fullWidth required sx={styles.inputFocus} />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField label="Email" variant="outlined" fullWidth required sx={styles.inputFocus} />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Message"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  required
+                  sx={styles.inputFocus}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    backgroundColor: '#F8B9B7',
+                    color: '#fff',
+                    paddingY: 1.5,
+                    borderRadius: 2,
+                    boxShadow: 'none',
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
-        </Box>
+        </Paper>
 
-        {/* FAQ Section */}
-        <Paper elevation={6} sx={{ padding: 4, borderRadius: 2, marginBottom: '30px', width: '100%' }}>
+        {/* FAQ Section with slide-in animation */}
+        <Paper
+          elevation={6}
+          sx={{
+            padding: 4,
+            borderRadius: 2,
+            width: '100%',
+            animation: 'slideIn 0.5s ease-in-out', // Slide-in animation
+          }}
+        >
           <Typography variant="h5" component="h2" gutterBottom align="center">
             Frequently Asked Questions
           </Typography>
@@ -97,39 +155,6 @@ function ContactUs() {
             </Button>
           </DialogActions>
         </Dialog>
-
-        {/* Contact Form */}
-        <Paper elevation={6} sx={{ padding: 4, borderRadius: 2, width: '100%', maxWidth: '600px', textAlign: 'center' }}>
-          <Typography variant="h5" component="h2" gutterBottom>
-            Send Us a Message
-          </Typography>
-          <Box component="form" sx={{ marginTop: '20px' }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField label="Name" variant="outlined" fullWidth required sx={styles.inputFocus} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField label="Email" variant="outlined" fullWidth required sx={styles.inputFocus} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Message"
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  rows={4}
-                  required
-                  sx={styles.inputFocus}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button type="submit" fullWidth variant="contained" sx={{ backgroundColor: '#F8B9B7', color: '#fff', paddingY: 1.5, borderRadius: 2, boxShadow: 'none', textTransform: 'none', fontWeight: 'bold' }}>
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Paper>
       </Container>
       <Footer />
     </Box>
@@ -195,6 +220,5 @@ const styles = {
     borderRadius: '8px',
   },
 };
-
 
 export default ContactUs;

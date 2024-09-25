@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useContext } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Box, Toolbar, Typography, Button } from '@mui/material';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
@@ -14,7 +15,11 @@ function AdminDashboard() {
 
   const [currentTab, setCurrentTab] = useState('');
   const [showSampleButton, setShowSampleButton] = useState(false);
+
   const [showEmployeeButton, setShowEmployeeButton] = useState(false);
+
+  const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State for Employee Management button
+
 
   const menuItems = [
     { text: 'Dashboard', icon: <FontAwesomeIcon icon={faTachometerAlt} />, path: '/admindashboard' },
@@ -38,7 +43,12 @@ function AdminDashboard() {
       setShowSampleButton(currentItem.text === 'Jewellery Management'); // Show button only for Jewellery Management
       setShowEmployeeButton(currentItem.text === 'Employee Management'); // Show button only for Employee Management
     }
+
   }, [location.pathname, menuItems]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
 
   const handleMenuClick = (path) => {
     navigate(path);
@@ -92,17 +102,7 @@ function AdminDashboard() {
         }}
       >
         <Toolbar />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            backgroundColor: '#1976d2',
-            padding: '10px 20px',
-            color: 'white',
-            height: '60px',
-          }}
-        >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1976d2', padding: '10px 20px', color: 'white', height: '60px' }}>
           <Typography variant="h5">{currentTab}</Typography>
           <div>
             {showSampleButton && (
