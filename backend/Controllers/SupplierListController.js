@@ -1,105 +1,94 @@
 const SupplierList = require('../Model/SupplierListModel'); // Adjust the path as necessary
 
-// Create a new supplier
-exports.createSupplier = async (req, res) => {
-  const { SupId, SupName, items, description } = req.body;
-
+const generateSupId = async () => {
   try {
-    const newSupplier = new SupplierList({
-      SupId,
-      SupName,
-      items, // Expecting an array of strings
-      description,
-    });
+    const lastSupplier = await SupplierList.findOne().sort({ SupId: -1 });
+    const lastId = lastSupplier ? parseInt(lastSupplier.SupId.replace('SUP', '')) : 0;
+    const nextId = `SUP${String(lastId + 1).padStart(4, '0')}`;
+    return nextId;
+  } catch (error) {
+    console.error('Error generating SupId:', error.message);
+    return 'SUP0001'; // Fallback ID if error occurs
+  }
+};
 
-    await newSupplier.save();
-    res.status(201).json(newSupplier);
+// Create a new Supplier
+exports.createSupplier = async (req, res) => {
+  try {
+    const supId = await generateSupId(); // Generate SupId before creating a new supplier
+    const supplierData = { ...req.body, SupId: supId };
+    const supplier = new SupplierList(supplierData);
+    await supplier.save();
+    res.status(201).json(supplier);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
-
-// Get all suppliers
-exports.getSuppliers = async (req, res) => {
+// Get all Suppliers
+exports.getAllSuppliers = async (req, res) => {
   try {
-    const suppliers = await SupplierList.find(); // No populate needed for items
+    const suppliers = await SupplierList.find(); // Remove populate if not needed
     res.status(200).json(suppliers);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get a specific supplier by ID
-exports.getSupplierById = async (req, res) => {
+// Get a Supplier by SupId
+exports.getSupplierBySupId = async (req, res) => {
   try {
-    const supplier = await SupplierList.findById(req.params.id);
-    if (!supplier) return res.status(404).json({ message: 'Supplier not found' });
-    
+    const supplier = await SupplierList.findOne({ SupId: req.params.supId });
+    if (!supplier) {
+      return res.status(404).json({ message: 'Supplier not found' });
+    }
     res.status(200).json(supplier);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Update a supplier
+// Update a Supplier by SupId
 exports.updateSupplier = async (req, res) => {
   try {
-    const updatedSupplier = await SupplierList.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true } // Return the updated document
+    // Validate the incoming data if needed
+    const { SupId, SupName, items, description } = req.body;
+
+    // Ensure all required fields are present
+    if (!SupId || !SupName || !description) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Update the supplier using findOneAndUpdate
+    const updatedSupplier = await SupplierList.findOneAndUpdate(
+      { SupId: req.params.supId }, // Match by SupId
+      { SupId, SupName, items, description }, // Update fields
+      { new: true, runValidators: true } // Return the updated document and run validators
     );
 
-    if (!updatedSupplier) return res.status(404).json({ message: 'Supplier not found' });
+    // Check if supplier was found and updated
+    if (!updatedSupplier) {
+      return res.status(404).json({ message: 'Supplier not found' });
+    }
 
+    // Respond with the updated supplier data
     res.status(200).json(updatedSupplier);
   } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
-// Delete a supplier
-exports.deleteSupplier = async (req, res) => {
-  try {
-    const deletedSupplier = await SupplierList.findByIdAndDelete(req.params.id);
-    if (!deletedSupplier) return res.status(404).json({ message: 'Supplier not found' });
-
-    res.status(204).send(); // No content
-  } catch (error) {
+    // Handle errors and respond
+    console.error("Error during update:", error.message); // Log the error for debugging
     res.status(500).json({ message: error.message });
   }
 };
 
-// Add an item to the supplier's item list
-exports.addItemToSupplier = async (req, res) => {
-  const { item } = req.body; // Assuming you're sending a string to add
 
+// Delete a Supplier by SupId
+exports.deleteSupplier = async (req, res) => {
   try {
-    const supplier = await SupplierList.findById(req.params.id);
-    if (!supplier) return res.status(404).json({ message: 'Supplier not found' });
-
-    supplier.items.push(item); // Add the new item
-    await supplier.save();
-
-    res.status(200).json(supplier);
+    const supplier = await SupplierList.findOneAndDelete({ SupId: req.params.supId });
+    if (!supplier) {
+      return res.status(404).json({ message: 'Supplier not found' });
+    }
+    res.status(200).json({ message: 'Supplier deleted' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
-// Remove an item from the supplier's item list
-exports.removeItemFromSupplier = async (req, res) => {
-  const { item } = req.body; // Assuming you're sending a string to remove
-
-  try {
-    const supplier = await SupplierList.findById(req.params.id);
-    if (!supplier) return res.status(404).json({ message: 'Supplier not found' });
-
-    supplier.items = supplier.items.filter(i => i !== item); // Remove the item
-    await supplier.save();
-
-    res.status(200).json(supplier);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };

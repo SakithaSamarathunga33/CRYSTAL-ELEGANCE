@@ -7,9 +7,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 const URL = "http://localhost:4000/gems"; // Updated to point to gems
 
 function UpdateGem() {
-  const { GID } = useParams(); // Use GID for gems
+  const { id } = useParams(); // Use id for gems
   const [gem, setGem] = useState({
-    image: '',
     name: '',
     color: '',
     price: '',
@@ -23,12 +22,20 @@ function UpdateGem() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Fetching gem with GID:", GID);
+    console.log("Fetching gem with ID:", id);
     const fetchGem = async () => {
       try {
-        const response = await axios.get(`${URL}/${GID}`);
+        const response = await axios.get(`${URL}/${id}`);
         console.log("Fetched gem data:", response.data);
-        setGem(response.data);
+        setGem({
+          name: response.data.name,
+          color: response.data.color,
+          price: response.data.price,
+          weight: response.data.weight,
+          category: response.data.category,
+          quantity: response.data.quantity,
+          status: response.data.status
+        });
         setLoading(false);
       } catch (error) {
         console.error("Error fetching gem:", error);
@@ -38,7 +45,7 @@ function UpdateGem() {
     };
 
     fetchGem();
-  }, [GID]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,7 +54,7 @@ function UpdateGem() {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`${URL}/${GID}`, gem);
+      await axios.put(`${URL}/${id}`, gem);
       alert('Gem updated successfully');
       navigate('/admindashboard/gem-management');
     } catch (error) {
@@ -62,14 +69,6 @@ function UpdateGem() {
   return (
     <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1 }}>
       <Typography variant="h6" gutterBottom>Update Gem</Typography>
-      <TextField
-        label="Image URL"
-        name="image"
-        value={gem.image}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
       <TextField
         label="Name"
         name="name"

@@ -1,24 +1,11 @@
 const mongoose = require('mongoose');
 
 const supplierListSchema = new mongoose.Schema({
-  SupId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  SupName: {
-    type: String,
-    required: true,
-  },
-  items: [{
-    type: [String],
-    required: true,
-  }],
-  description: {
-    type: String,
-  }
+  SupId: { type: String, required: true, unique: true }, // Custom supplier ID
+  SupName: { type: String, required: true },
+  items: [{ type: String }], // List of item IDs (custom IDs)
+  description: { type: String, required: true },
 });
 
-const SupplierList = mongoose.model('SupplierList', supplierListSchema);
+module.exports = mongoose.model('SupplierList', supplierListSchema);
 
-module.exports = SupplierList;

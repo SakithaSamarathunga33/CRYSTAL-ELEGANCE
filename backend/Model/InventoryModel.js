@@ -1,39 +1,13 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-// Define the Inventory Schema
-const inventorySchema = new mongoose.Schema({
-    InvID: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    ItemName: {
-        type: String,
-        required: true
-    },
-    type: {
-        type: String,
-        required: true
-    },
-    OrderID: {
-        type: String, // Change to String if not using ObjectId
-        required: true
-    },
-    Cost: {
-        type: Number,
-        required: true
-    },
-    Date: {
-        type: Date,
-        required: true
-    },
-    Note: {
-        type: String,
-        required: false
-    }
-});
+// Inventory Schema
+const inventorySchema = new Schema({
+    InvID: { type: String, required: true, unique: true }, // Custom Inventory ID
+    GID: { type: String, required: true }, // Reference to Gem's GID
+    quantity: { type: Number, required: true },
+    minStock: { type: Number, required: true },
+    status: { type: String, required: true }
+}, { timestamps: true });
 
-// Create the Inventory model
-const Inventory = mongoose.model('Inventory', inventorySchema);
-
-module.exports = Inventory;
+module.exports = mongoose.model('Inventory', inventorySchema);

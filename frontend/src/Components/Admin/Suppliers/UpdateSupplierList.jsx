@@ -6,9 +6,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 const URL = "http://localhost:4000/api/suppliers";
 
 function UpdateSupplierList() {
-  const { id } = useParams();
+  const { supId } = useParams(); // Get supId from URL parameters
   const navigate = useNavigate();
-  
+
   const [supplier, setSupplier] = useState({
     SupId: '',
     SupName: '',
@@ -22,7 +22,8 @@ function UpdateSupplierList() {
   useEffect(() => {
     const fetchSupplierDetails = async () => {
       try {
-        const response = await axios.get(`${URL}/${id}`);
+        const response = await axios.get(`${URL}/${supId}`); // Fetch supplier by supId
+        console.log("Fetched Supplier:", response.data); // Log the fetched data
         setSupplier(response.data);
         setLoading(false);
       } catch (error) {
@@ -32,7 +33,7 @@ function UpdateSupplierList() {
     };
 
     fetchSupplierDetails();
-  }, [id]);
+  }, [supId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,11 +47,11 @@ function UpdateSupplierList() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${URL}/${id}`, supplier);
+      await axios.put(`${URL}/${supplier.SupId}`, supplier); // Update supplier
       setSnackbarMessage('Supplier updated successfully!');
       setOpenSnackbar(true);
       setTimeout(() => {
-        navigate('/admindashboard/supplier-list-details'); // Redirect after 2 seconds
+        navigate('/admindashboard/supplier-list-details'); // Redirect to supplier list
       }, 2000);
     } catch (error) {
       console.error("Error updating supplier:", error);
@@ -63,7 +64,11 @@ function UpdateSupplierList() {
     setOpenSnackbar(false);
   };
 
-  if (loading) return <Typography>Loading...</Typography>;
+  const handleBack = () => {
+    navigate(-1); // Go back to previous page
+  };
+
+  if (loading) return <Typography>Loading...</Typography>; // Show loading message
 
   return (
     <Box sx={{ padding: 3 }}>
@@ -108,6 +113,9 @@ function UpdateSupplierList() {
         />
         <Button variant="contained" type="submit" sx={{ marginTop: 2 }}>
           Update Supplier
+        </Button>
+        <Button variant="outlined" onClick={handleBack} sx={{ marginTop: 2, marginLeft: 2 }}>
+          Back
         </Button>
       </form>
 

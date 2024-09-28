@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -8,22 +8,44 @@ import { useNavigate } from 'react-router-dom';
 const URL = "http://localhost:4000/inventory";
 
 function AddInventory({ onBack }) {
-  const [ItemName, setItemName] = useState('');
-  const [type, setType] = useState('');
-  const [OrderID, setOrderID] = useState('');
-  const [Cost, setCost] = useState('');
-  const [Date, setDate] = useState('');
-  const [Note, setNote] = useState('');
+  const [InvID, setInvID] = useState('');
+  const [GID, setGID] = useState(''); // Gem ID
+  const [quantity, setQuantity] = useState('');
+  const [minStock, setMinStock] = useState('');
+  const [status, setStatus] = useState('');
   const [error, setError] = useState(null);
-
+  
   const navigate = useNavigate();
+
+  // Function to generate the next InvID
+  const generateInvID = async () => {
+    try {
+      const response = await axios.get(URL); // Fetch all inventory items
+      const inventories = response.data;
+
+      // Extract existing InvIDs and find the next one
+      const currentIds = inventories.map(inv => parseInt(inv.InvID.replace('INV', '')));
+      const maxId = currentIds.length ? Math.max(...currentIds) : 0;
+
+      // Generate the next InvID
+      const nextID = `INV${String(maxId + 1).padStart(3, '0')}`;
+      setInvID(nextID);
+    } catch (error) {
+      console.error('Error fetching inventory:', error);
+      setInvID('INV001'); // Fallback ID if error occurs
+    }
+  };
+
+  useEffect(() => {
+    generateInvID(); // Generate InvID on component mount
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
-      const response = await axios.post(URL, { ItemName, type, OrderID, Cost, Date, Note });
+      const response = await axios.post(URL, { InvID, GID, quantity, minStock, status });
       if (response.status === 201) {
         alert('Inventory added successfully');
         navigate('/admindashboard/inventory-management');
@@ -40,52 +62,44 @@ function AddInventory({ onBack }) {
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
-          label="Item Name"
+          label="Inventory ID"
           variant="outlined"
-          value={ItemName}
-          onChange={(e) => setItemName(e.target.value)}
+          value={InvID}
+          InputProps={{ readOnly: true }} // Make InvID read-only
           fullWidth
           margin="normal"
         />
         <TextField
-          label="Type"
+          label="Gem ID"
           variant="outlined"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
+          value={GID}
+          onChange={(e) => setGID(e.target.value)}
           fullWidth
           margin="normal"
         />
         <TextField
-          label="Order ID"
-          variant="outlined"
-          value={OrderID}
-          onChange={(e) => setOrderID(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Cost"
+          label="Quantity"
           variant="outlined"
           type="number"
-          value={Cost}
-          onChange={(e) => setCost(e.target.value)}
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
           fullWidth
           margin="normal"
         />
         <TextField
-          label="Date"
+          label="Minimum Stock"
           variant="outlined"
-          type="date"
-          value={Date}
-          onChange={(e) => setDate(e.target.value)}
+          type="number"
+          value={minStock}
+          onChange={(e) => setMinStock(e.target.value)}
           fullWidth
           margin="normal"
         />
         <TextField
-          label="Note"
+          label="Status"
           variant="outlined"
-          value={Note}
-          onChange={(e) => setNote(e.target.value)}
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
           fullWidth
           margin="normal"
         />

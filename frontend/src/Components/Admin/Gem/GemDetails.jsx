@@ -1,7 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper, IconButton } from '@mui/material';
+import {
+  Box,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Paper,
+  IconButton,
+} from '@mui/material';
 import { Edit, Delete, Print, Add } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -47,13 +59,9 @@ function GemDetails() {
 
       console.log('Delete response:', response);
 
-      if (response.status === 200) {
+      if (response.status === 204) {
         console.log(`Successfully deleted gem with ID: ${id}`);
-        setGems(prev => {
-          const updatedList = prev.filter(item => item._id !== id);
-          console.log('Updated gem list:', updatedList);
-          return updatedList;
-        });
+        setGems(prev => prev.filter(item => item.GID !== id)); // Adjusted to use GID
       } else {
         console.error("Unexpected response status:", response.status);
       }
@@ -67,8 +75,8 @@ function GemDetails() {
     doc.text("Gem Details Report", 10, 10);
 
     doc.autoTable({
-      head: [['ID', 'Image', 'Name', 'Color', 'Price', 'Weight', 'Category', 'Quantity', 'Status']],
-      body: gems.map(item => [item.GID, item.image || 'No Image', item.name, item.color, item.price, item.weight, item.category, item.quantity, item.status]),
+      head: [['ID', 'Name', 'Color', 'Price', 'Weight', 'Category', 'Quantity', 'Status']],
+      body: gems.map(item => [item.GID, item.name, item.color, item.price, item.weight, item.category, item.quantity, item.status]),
       startY: 20,
       margin: { top: 20 },
       styles: {
@@ -169,7 +177,6 @@ function GemDetails() {
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
-                    <TableCell>Image</TableCell>
                     <TableCell>Name</TableCell>
                     <TableCell>Color</TableCell>
                     <TableCell>Price</TableCell>
@@ -183,15 +190,12 @@ function GemDetails() {
                 <TableBody>
                   {noResults ? (
                     <TableRow>
-                      <TableCell colSpan={10} align="center">No gems found.</TableCell>
+                      <TableCell colSpan={9} align="center">No gems found.</TableCell>
                     </TableRow>
                   ) : (
                     gems.map((item) => (
-                      <TableRow key={item._id}>
+                      <TableRow key={item.GID}> {/* Updated to use GID */}
                         <TableCell>{item.GID}</TableCell>
-                        <TableCell>
-                          <img src={item.image || 'default-image-path'} alt={item.name} style={{ width: '50px', height: '50px' }} />
-                        </TableCell>
                         <TableCell>{item.name}</TableCell>
                         <TableCell>{item.color}</TableCell>
                         <TableCell>{item.price}</TableCell>
@@ -200,10 +204,10 @@ function GemDetails() {
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>{item.status}</TableCell>
                         <TableCell>
-                          <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>
+                          <IconButton onClick={() => handleEdit(item.GID)} sx={{ color: 'primary.main' }}>
                             <Edit />
                           </IconButton>
-                          <IconButton onClick={() => deleteGem(item._id)} sx={{ color: 'error.main' }}>
+                          <IconButton onClick={() => deleteGem(item.GID)} sx={{ color: 'error.main' }}>
                             <Delete />
                           </IconButton>
                         </TableCell>

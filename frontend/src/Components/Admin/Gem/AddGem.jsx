@@ -8,7 +8,6 @@ const URL = "http://localhost:4000/api/gems"; // Adjust URL for gems
 
 // eslint-disable-next-line react/prop-types
 function AddGem({ onBack }) {
-  const [image, setImage] = useState('');
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
   const [price, setPrice] = useState('');
@@ -25,7 +24,7 @@ function AddGem({ onBack }) {
     setError(null); // Reset error state
 
     try {
-      const response = await axios.post(URL, { image, name, color, price, weight, category, quantity, status });
+      const response = await axios.post(URL, { name, color, price, weight, category, quantity, status });
       if (response.status === 201) {
         alert('Gem added successfully');
         navigate('/admindashboard/gem-management');
@@ -41,14 +40,6 @@ function AddGem({ onBack }) {
         Add New Gem
       </Typography>
       <form onSubmit={handleSubmit}>
-        <TextField
-          label="Image URL"
-          variant="outlined"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
         <TextField
           label="Name"
           variant="outlined"

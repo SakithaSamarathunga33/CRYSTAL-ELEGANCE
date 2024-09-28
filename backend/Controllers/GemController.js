@@ -1,86 +1,95 @@
-const Gem = require('../Model/GemModel'); // Assuming you have a Gem model
+const Gem = require('../Model/GemModel'); // Adjust path as necessary
 
-// Generate gem ID with leading zeros
-const generateGemId = async () => {
-    const lastGem = await Gem.findOne().sort({ GID: -1 }).limit(1);
-    const lastId = lastGem ? parseInt(lastGem.GID.replace('G', ''), 10) : 0;
-    const newId = `G${(lastId + 1).toString().padStart(3, '0')}`; // Adjust padding as needed
-    return newId;
-};
-
-// Create a new gem
-exports.createGem = async (req, res) => {
+const GemController = {
+  // Create a new Gem
+  createGem: async (req, res) => {
     try {
-        const { image, name, color, price, weight, category, quantity, status, description } = req.body;
-        const GID = await generateGemId(); // Generate new gem ID
-        const newGem = new Gem({ GID, name, color, price, weight, category, quantity, status, image, description });
-        await newGem.save();
+      const { GID, name, color, weight, price, quantity, category, status } = req.body;
 
-        res.status(201).json({ message: 'Gem created successfully', gem: newGem });
+      // Validate required fields
+      if (!GID || !name || !price || !quantity) {
+        return res.status(400).json({ message: 'GID, name, price, and quantity are required.' });
+      }
+
+      // Check for existing Gem ID
+      const existingGem = await Gem.findOne({ GID });
+      if (existingGem) {
+        return res.status(400).json({ message: `Gem with ID ${GID} already exists.` });
+      }
+
+      // Create and save new Gem
+      const newGem = new Gem({ GID, name, color, weight, price, quantity, category, status });
+      await newGem.save();
+
+      res.status(201).json(newGem);
     } catch (error) {
-        res.status(500).json({ message: 'Error creating gem', error });
+      console.error('Error creating gem:', error);
+      res.status(500).json({ message: 'Error creating gem', error: error.message });
     }
-};
+  },
 
-// Get all gems
-exports.getAllGems = async (req, res) => {
+  // Get all Gems
+  getAllGems: async (req, res) => {
     try {
-        const gems = await Gem.find();
-        res.status(200).json(gems);
+      const gems = await Gem.find();
+      res.status(200).json(gems);
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving gems', error });
+      console.error('Error fetching gems:', error);
+      res.status(500).json({ message: 'Error fetching gems', error: error.message });
     }
-};
+  },
 
-// Get a single gem by ID
-exports.getGemById = async (req, res) => {
-    const id = req.params.id;
-
+  // Get a Gem by ID
+  getGemById: async (req, res) => {
+    const { id } = req.params;
     try {
-        const gem = await Gem.findById(id);
-        if (!gem) {
-            return res.status(404).json({ message: 'Gem not found' });
-        }
-        res.status(200).json(gem);
+      const gem = await Gem.findOne({ GID: id });
+      if (!gem) {
+        return res.status(404).json({ message: 'Gem not found' });
+      }
+      res.status(200).json(gem);
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving gem', error });
+      console.error('Error fetching gem by ID:', error);
+      res.status(500).json({ message: 'Error fetching gem', error: error.message });
     }
-};
+  },
 
-// Update a gem by ID
-exports.updateGem = async (req, res) => {
-    const id = req.params.id;
-    const { image, name, color, price, weight, category, quantity, status, description } = req.body;
-
-    try {
-        const updatedGem = await Gem.findByIdAndUpdate(
-            id,
-            { name, color, price, weight, category, quantity, status, image, description },
-            { new: true } // Return the updated gem
-        );
-
-        if (!updatedGem) {
-            return res.status(404).json({ message: 'Gem not found' });
-        }
-
-        res.status(200).json({ message: 'Gem updated successfully', gem: updatedGem });
-    } catch (error) {
-        res.status(500).json({ message: 'Error updating gem', error });
-    }
-};
-
-// Delete a gem by ID
-exports.deleteGem = async (req, res) => {
-    const id = req.params.id;
+  // Update a Gem by ID
+  updateGem: async (req, res) => {
+    const { id } = req.params;
+    const { name, color, weight, price, quantity, category, status } = req.body; // Expecting updated details
 
     try {
-        const deletedGem = await Gem.findByIdAndDelete(id);
-        if (!deletedGem) {
-            return res.status(404).json({ message: 'Gem not found' });
-        }
+      const gem = await Gem.findOneAndUpdate(
+        { GID: id },
+        { name, color, weight, price, quantity, category, status },
+        { new: true, runValidators: true } // Return the updated document and run validators
+      );
 
-        res.status(200).json({ message: 'Gem deleted successfully' });
+      if (!gem) {
+        return res.status(404).json({ message: 'Gem not found' });
+      }
+      res.status(200).json(gem);
     } catch (error) {
-        res.status(500).json({ message: 'Error deleting gem', error });
+      console.error('Error updating gem:', error);
+      res.status(500).json({ message: 'Error updating gem', error: error.message });
     }
+  },
+
+  // Delete a Gem by ID
+  deleteGem: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const gem = await Gem.findOneAndDelete({ GID: id });
+      if (!gem) {
+        return res.status(404).json({ message: 'Gem not found' });
+      }
+      res.status(204).send(); // No content
+    } catch (error) {
+      console.error('Error deleting gem:', error);
+      res.status(500).json({ message: 'Error deleting gem', error: error.message });
+    }
+  },
 };
+
+module.exports = GemController;

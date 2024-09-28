@@ -1,52 +1,69 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Box, TextField, Button, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
-const URL = "http://localhost:4000/inventory";
+const URL = "http://localhost:4000/inventory"; // Ensure this is your correct URL
 
-function UpdateInventory() {
-  const { id } = useParams();
+const UpdateInventory = () => {
+  const { InvID } = useParams(); // Get the inventory ID from the URL params
+  const navigate = useNavigate(); // For navigating after updating
   const [inventory, setInventory] = useState({
-    ItemName: '',
-    type: '',
-    OrderID: '',
-    Cost: '',
-    Date: '',
-    Note: ''
+    InvID: '',
+    GID: '',
+    quantity: '',
+    minStock: '',
+    status: ''
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
+  // Fetch the inventory item when the component mounts
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await axios.get(`${URL}/${id}`);
-        setInventory(response.data);
+        console.log(`Fetching inventory with ID: ${InvID}`); // Log the ID
+
+        const response = await axios.get(`${URL}/${InvID}`);
+        
+        console.log('Response data:', response.data); // Log the fetched data
+
+        if (response.data) {
+          setInventory(response.data); // Set the fetched data to the state
+        } else {
+          setError('Inventory not found.');
+        }
         setLoading(false);
       } catch (error) {
-        setError(error.response ? error.response.data.message : 'An error occurred');
+        console.error('Error fetching inventory:', error);
+        setError('Failed to load inventory.');
         setLoading(false);
       }
     };
 
     fetchInventory();
-  }, [id]);
+  }, [InvID]);
 
+  // Handle input changes in the form
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInventory({ ...inventory, [name]: value });
+    setInventory({
+      ...inventory,
+      [e.target.name]: e.target.value
+    });
   };
 
+  // Handle the update request
   const handleUpdate = async () => {
     try {
-      await axios.put(`${URL}/${id}`, inventory);
+      console.log('Updating inventory with:', inventory); // Log the data being sent
+
+      await axios.put(`${URL}/update/${InvID}`, inventory);
+
       alert('Inventory updated successfully');
-      navigate('/admindashboard/inventory-management');
+      navigate('/admindashboard/inventory-management'); // Navigate after success
     } catch (error) {
-      setError(error.response ? error.response.data.message : 'An error occurred');
+      console.error('Error updating inventory:', error);
+      setError('Failed to update inventory.');
     }
   };
 
@@ -54,55 +71,53 @@ function UpdateInventory() {
     return <Typography>Loading...</Typography>;
   }
 
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
+
   return (
     <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1 }}>
-      <Typography variant="h6" gutterBottom>Update Inventory</Typography>
+      <Typography variant="h4" gutterBottom>Update Inventory</Typography>
+
       <TextField
-        label="Item Name"
-        name="ItemName"
-        value={inventory.ItemName}
+        label="Inventory ID"
+        name="InvID"
+        value={inventory.InvID || ''} // Ensure value is set correctly
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        disabled // Disable editing of InvID
+      />
+      <TextField
+        label="Gem ID"
+        name="GID"
+        value={inventory.GID || ''} // Ensure value is set correctly
         onChange={handleChange}
         fullWidth
         margin="normal"
       />
       <TextField
-        label="Type"
-        name="type"
-        value={inventory.type}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Order ID"
-        name="OrderID"
-        value={inventory.OrderID}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Cost"
-        name="Cost"
+        label="Quantity"
+        name="quantity"
         type="number"
-        value={inventory.Cost}
+        value={inventory.quantity || ''} // Ensure value is set correctly
         onChange={handleChange}
         fullWidth
         margin="normal"
       />
       <TextField
-        label="Date"
-        name="Date"
-        type="date"
-        value={inventory.Date}
+        label="Minimum Stock"
+        name="minStock"
+        type="number"
+        value={inventory.minStock || ''} // Ensure value is set correctly
         onChange={handleChange}
         fullWidth
         margin="normal"
       />
       <TextField
-        label="Note"
-        name="Note"
-        value={inventory.Note}
+        label="Status"
+        name="status"
+        value={inventory.status || ''} // Ensure value is set correctly
         onChange={handleChange}
         fullWidth
         margin="normal"
@@ -122,6 +137,6 @@ function UpdateInventory() {
       )}
     </Box>
   );
-}
+};
 
 export default UpdateInventory;

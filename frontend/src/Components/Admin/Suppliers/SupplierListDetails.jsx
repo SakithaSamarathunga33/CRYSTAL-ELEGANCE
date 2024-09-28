@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Card, CardContent, CardActions, Typography, TextField, Grid, Paper, IconButton } from '@mui/material';
+import { Box, Button, Card, CardContent, CardActions, Typography, TextField, Grid, IconButton } from '@mui/material';
 import { Edit, Delete, Print, Add } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -36,29 +36,25 @@ function SupplierListDetails() {
     });
   }, []);
 
-  const handleEdit = (id) => {
-    navigate(`/admindashboard/update-supplier-list/${id}`);
+  const handleEdit = (supId) => {
+    navigate(`/admindashboard/update-supplier-list/${supId}`);
   };
 
-  const deleteSupplierList = async (id) => {
+  const deleteSupplierList = async (supId) => {
     try {
-      console.log(`Attempting to delete supplier list with ID: ${id}`);
-      const response = await axios.delete(`${URL}/${id}`);
+      console.log(`Attempting to delete supplier list with ID: ${supId}`);
+      const response = await axios.delete(`${URL}/${supId}`);
       
       if (response.status === 200) {
-        console.log(`Successfully deleted supplier list with ID: ${id}`);
-        // Update the supplier list immediately
-        setSupplierLists(prev => prev.filter(item => item._id !== id));
-        
-        // Update noResults state if necessary
-        setNoResults(prevLists => prevLists.length === 1); // Adjust as needed
+        console.log(`Successfully deleted supplier list with ID: ${supId}`);
+        setSupplierLists(prev => prev.filter(item => item.SupId !== supId)); // Change from _id to SupId
+        setNoResults(prevLists => prevLists.length === 1);
       }
     } catch (error) {
       console.error("Error deleting supplier list:", error.response ? error.response.data : error.message);
     }
   };
   
-
   const handlePDF = () => {
     const doc = new jsPDF();
     doc.text("Supplier List Details Report", 10, 10);
@@ -109,7 +105,12 @@ function SupplierListDetails() {
   };
 
   const handleBack = () => {
-    navigate('/admindashboard/supplier-management'); // Adjust this path to your Supplier Management page
+    navigate('/admindashboard/supplier-management');
+  };
+
+  // New function to handle placing an order
+  const handlePlaceOrder = (supId) => {
+    navigate(`/admindashboard/add-supplier/${supId}`); // Navigate with the supplier ID
   };
 
   return (
@@ -170,7 +171,7 @@ function SupplierListDetails() {
           </Grid>
         ) : (
           supplierLists.map((item) => (
-            <Grid item xs={12} sm={6} md={4} key={item._id}>
+            <Grid item xs={12} sm={6} md={4} key={item.SupId}> {/* Change key to SupId */}
               <Card sx={{ backgroundColor: '#fff', borderRadius: 2, boxShadow: 3 }}>
                 <CardContent>
                   <Typography variant="h6">{abbreviateId(item.SupId)}</Typography>
@@ -185,12 +186,20 @@ function SupplierListDetails() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>
+                  <IconButton onClick={() => handleEdit(item.SupId)} sx={{ color: 'primary.main' }}>
                     <Edit />
                   </IconButton>
-                  <IconButton onClick={() => deleteSupplierList(item._id)} sx={{ color: 'error.main' }}>
+                  <IconButton onClick={() => deleteSupplierList(item.SupId)} sx={{ color: 'error.main' }}>
                     <Delete />
                   </IconButton>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handlePlaceOrder(item.SupId)} // Use item.SupId
+                    sx={{ marginLeft: 'auto' }}
+                  >
+                    Place Order
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>

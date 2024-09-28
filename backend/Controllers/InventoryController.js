@@ -1,94 +1,173 @@
-const Inventory = require('../Model/InventoryModel'); // Adjust the path as necessary
-const mongoose = require('mongoose');
+const Inventory = require('../Model/InventoryModel');
+const Gem = require('../Model/GemModel');
+const SupplierOrder = require('../Model/SupplierOrderModel');
 
-// Generate a new Inventory ID
-const generateInventoryID = async () => {
-    const lastInventory = await Inventory.findOne().sort({ InvID: -1 }).limit(1);
-    const lastId = lastInventory ? parseInt(lastInventory.InvID.replace('I', ''), 10) : 0;
-    const newId = `I${(lastId + 1).toString().padStart(3, '0')}`; // Adjust padding as needed
-    return newId;
-};
-
-// Create a new inventory item
+// Create Inventory Entry
 exports.createInventory = async (req, res) => {
+    const { GID, quantity, minStock, status } = req.body; // Removed InvID from destructuring
+
+    if (!GID || quantity === undefined || minStock === undefined || !status) {
+        return res.status(400).json({ message: 'All fields except InvID are required.' });
+    }
+
     try {
-        const { ItemName, type, OrderID, Cost, Date, Note } = req.body;
+        const gem = await Gem.findOne({ GID });
+        if (!gem) {
+            return res.status(404).json({ message: 'Gem not found' });
+        }
 
-        // Generate a new Inventory ID
-        const InvID = await generateInventoryID();
+        // Fetch existing inventory to determine the next InvID
+        const inventories = await Inventory.find({});
+        const currentIds = inventories.map(inv => parseInt(inv.InvID.replace('INV', '')));
+        const maxId = currentIds.length ? Math.max(...currentIds) : 0;
 
-        const newInventory = new Inventory({
+        // Generate the next InvID
+        const InvID = `INV${String(maxId + 1).padStart(3, '0')}`; // Auto-generate InvID
+
+        const inventory = new Inventory({
             InvID,
-            ItemName,
-            type,
-            OrderID,
-            Cost,
-            Date,
-            Note
+            GID,
+            quantity,
+            minStock,
+            status
         });
 
-        await newInventory.save();
-
-        res.status(201).json({ message: 'Inventory item created successfully', inventory: newInventory });
+        await inventory.save();
+        res.status(201).json(inventory);
     } catch (error) {
-        res.status(500).json({ message: 'Error creating inventory item', error });
+        console.error("Error creating inventory:", error);
+        res.status(500).json({ message: 'Failed to create inventory item', error: error.message });
     }
 };
 
-// Get all inventory items
-exports.getAllInventories = async (req, res) => {
+// Get All Inventory Items
+exports.getAllInventory = async (req, res) => {
     try {
-        const inventories = await Inventory.find();
-        res.status(200).json(inventories);
+        const inventory = await Inventory.find();
+        res.status(200).json(inventory);
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving inventory items', error });
+        console.error("Error fetching inventory:", error);
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Get a single inventory item by ID
+// Get Inventory Item by ID
 exports.getInventoryById = async (req, res) => {
+    const { InvID } = req.params;
+
     try {
-        const inventory = await Inventory.findById(req.params.id);
+        const inventoryItem = await Inventory.findOne({ InvID });
+        if (!inventoryItem) {
+            return res.status(404).json({ message: 'Inventory item not found' });
+        }
+        res.status(200).json(inventoryItem);
+    } catch (error) {
+        console.error("Error fetching inventory item:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Update Inventory Item (prepopulation)
+exports.updateInventory = async (req, res) => {
+    const { InvID } = req.params;
+
+    try {
+        const inventory = await Inventory.findOne({ InvID }).populate('GID');
         if (!inventory) {
             return res.status(404).json({ message: 'Inventory item not found' });
         }
+
         res.status(200).json(inventory);
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving inventory item', error });
+        console.error("Error fetching inventory for update:", error);
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Update an inventory item by ID
-exports.updateInventory = async (req, res) => {
-    try {
-        const { ItemName, type, OrderID, Cost, Date, Note } = req.body;
+// Perform Inventory Update
+exports.performUpdateInventory = async (req, res) => {
+    const { InvID } = req.params;
+    const { quantity, minStock, status } = req.body;
 
-        const updatedInventory = await Inventory.findByIdAndUpdate(
-            req.params.id,
-            { ItemName, type, OrderID, Cost, Date, Note },
-            { new: true } // Return the updated inventory item
+    if (quantity === undefined || minStock === undefined) {
+        return res.status(400).json({ message: 'Quantity and minStock are required.' });
+    }
+
+    try {
+        const inventory = await Inventory.findOneAndUpdate(
+            { InvID },
+            { quantity, minStock, status },
+            { new: true }
         );
 
-        if (!updatedInventory) {
+        if (!inventory) {
             return res.status(404).json({ message: 'Inventory item not found' });
         }
 
-        res.status(200).json({ message: 'Inventory item updated successfully', inventory: updatedInventory });
+        if (inventory.quantity <= inventory.minStock && inventory.quantity > 0) {
+            inventory.status = 'Low Stock';
+        } else if (inventory.quantity === 0) {
+            inventory.status = 'Out of Stock';
+        } else {
+            inventory.status = 'In Stock';
+        }
+
+        await inventory.save();
+        res.status(200).json(inventory);
     } catch (error) {
-        res.status(500).json({ message: 'Error updating inventory item', error });
+        console.error("Error updating inventory:", error);
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Delete an inventory item by ID
+// Delete Inventory Item
 exports.deleteInventory = async (req, res) => {
+    const { InvID } = req.params;
     try {
-        const deletedInventory = await Inventory.findByIdAndDelete(req.params.id);
-        if (!deletedInventory) {
+        const inventory = await Inventory.findOneAndDelete({ InvID });
+        if (!inventory) {
+            return res.status(404).json({ message: 'Inventory item not found' });
+        }
+        res.status(204).json();
+    } catch (error) {
+        console.error("Error deleting inventory:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Place Supplier Order for Low Stock
+exports.placeSupplierOrderForLowStock = async (req, res) => {
+    const { InvID } = req.params;
+    try {
+        const inventory = await Inventory.findOne({ InvID }).populate('GID');
+        if (!inventory) {
             return res.status(404).json({ message: 'Inventory item not found' });
         }
 
-        res.status(200).json({ message: 'Inventory item deleted successfully' });
+        if (inventory.quantity > inventory.minStock) {
+            return res.status(400).json({ message: 'Stock is sufficient, no need to place an order.' });
+        }
+
+        const { SupOrderID, SupID, quantity } = req.body;
+
+        if (!SupOrderID || !SupID || quantity === undefined) {
+            return res.status(400).json({ message: 'SupOrderID, SupID, and quantity are required.' });
+        }
+
+        const supplierOrder = new SupplierOrder({
+            SupOrderID,
+            GID: inventory.GID,
+            quantity,
+            InvID: inventory.InvID,
+            SupID,
+            status: 'Pending',
+            description: `Order for ${quantity} units of ${inventory.GID.name}`
+        });
+
+        await supplierOrder.save();
+        res.status(201).json(supplierOrder);
     } catch (error) {
-        res.status(500).json({ message: 'Error deleting inventory item', error });
+        console.error("Error placing supplier order:", error);
+        res.status(500).json({ message: error.message });
     }
 };

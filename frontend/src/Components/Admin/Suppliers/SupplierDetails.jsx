@@ -8,7 +8,7 @@ import 'jspdf-autotable';
 import AddSupplier from './AddSupplierOrder';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/suppliers";
+const URL = "http://localhost:4000/suppliers/orders";
 
 const fetchSuppliers = async () => {
   try {
@@ -164,15 +164,7 @@ function SupplierDetails() {
             >
               Search
             </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleAddSupplier}
-              sx={{ borderRadius: 2, marginLeft: 'auto' }}
-              startIcon={<Add />}
-            >
-              Add Order
-            </Button>
+            
           </Box>
 
           <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1 }}>
@@ -181,7 +173,7 @@ function SupplierDetails() {
                 <TableHead>
                   <TableRow>
                     <TableCell>Order ID</TableCell>
-                    <TableCell>Type</TableCell>
+                    
                     <TableCell>Quantity</TableCell>
                     <TableCell>Inventory ID</TableCell>
                     <TableCell>Supplier ID</TableCell>
@@ -199,7 +191,7 @@ function SupplierDetails() {
                     suppliers.map((item) => (
                       <TableRow key={item._id}>
                         <TableCell>{abbreviateId(item.SupOrderID)}</TableCell>
-                        <TableCell>{item.type}</TableCell>
+                        
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>{abbreviateId(item.InvID)}</TableCell>
                         <TableCell>{abbreviateId(item.SupID)}</TableCell>

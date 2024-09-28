@@ -1,16 +1,40 @@
 const mongoose = require('mongoose');
 
-const GemSchema = new mongoose.Schema({
-  GID: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  color: { type: String },
-  price: { type: Number, required: true },
-  weight: { type: String },
-  category: { type: String },
-  quantity: { type: Number, required: true },
-  status: { type: String, required: true },
-  image: { type: String },
-  description: { type: String }
-});
+const gemSchema = new mongoose.Schema({
+  GID: {
+    type: String,
+    required: true,
+    unique: true, // Ensure GID is unique
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  color: {
+    type: String,
+    required: true,
+  },
+  weight: {
+    type: String, // Consider using a number type if weight is a numeric value
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
+}, { timestamps: true });
 
-module.exports = mongoose.model('Gem', GemSchema);
+const Gem = mongoose.model('Gem', gemSchema);
+module.exports = Gem;

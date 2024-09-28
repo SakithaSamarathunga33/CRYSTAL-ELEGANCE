@@ -9,7 +9,6 @@ const URL = "http://localhost:4000/api/suppliers";
 
 function AddSupplierList() {
     const [formData, setFormData] = useState({
-        SupId: '',
         SupName: '',
         items: '',
         description: ''
@@ -51,16 +50,6 @@ function AddSupplierList() {
         <Box sx={{ padding: 3 }}>
             <Typography variant="h6" gutterBottom>Add Supplier List</Typography>
             <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Supplier ID"
-                    name="SupId"
-                    variant="outlined"
-                    fullWidth
-                    value={formData.SupId}
-                    onChange={handleChange}
-                    margin="normal"
-                    required
-                />
                 <TextField
                     label="Supplier Name"
                     name="SupName"

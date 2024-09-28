@@ -7,10 +7,10 @@ import { useParams } from 'react-router-dom';
 const URL = "http://localhost:4000/inventory";
 
 function Inventory() {
-  const { id } = useParams();
+  const { id } = useParams(); // Use 'id' from URL params, should correspond to InvID
   const [inventory, setInventory] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const fetchInventory = async () => {
       try {
@@ -36,13 +36,11 @@ function Inventory() {
       </Typography>
       <Divider sx={{ marginBottom: 2 }} />
       <Paper sx={{ padding: 3 }}>
-        <Typography variant="h6">ID: {inventory.InvID}</Typography>
-        <Typography variant="h6">Item Name: {inventory.ItemName}</Typography>
-        <Typography variant="h6">Type: {inventory.type}</Typography>
-        <Typography variant="h6">Order ID: {inventory.OrderID}</Typography>
-        <Typography variant="h6">Cost: ${inventory.Cost}</Typography>
-        <Typography variant="h6">Date: {new Date(inventory.Date).toLocaleDateString()}</Typography>
-        <Typography variant="h6">Note: {inventory.Note || 'No Note'}</Typography>
+        <Typography variant="h6">Inventory ID: {inventory.InvID}</Typography>
+        <Typography variant="h6">Gem ID: {inventory.GID}</Typography>
+        <Typography variant="h6">Quantity: {inventory.quantity}</Typography>
+        <Typography variant="h6">Minimum Stock: {inventory.minStock}</Typography>
+        <Typography variant="h6">Status: {inventory.status}</Typography>
       </Paper>
     </Box>
   );

@@ -33,6 +33,8 @@ import InventoryDetails from './Components/Admin/Inventory/InventoryDetails';
 import AddInventory from './Components/Admin/Inventory/AddInventory';
 import UpdateInventory from './Components/Admin/Inventory/UpdateInventory';
 import Inventory from './Components/Admin/Inventory/Inventory';
+import PlaceOrder from './Components/Admin/Inventory/PlaceOrder';
+import AddQuantityDescription from './Components/Admin/Inventory/AddQuantityDescription';
 
 import EmployeeDetails from './Components/Admin/Employees/EmployeeDetails';
 import AddEmployee from './Components/Admin/Employees/AddEmployee';
@@ -42,13 +44,15 @@ import AddSalary from './Components/Admin/Employees/AddSalary';
 import EmployeeDashboard from './Components/Admin/Employees/EmployeeDashboard';
 
 import SupplierDetails from './Components/Admin/Suppliers/SupplierDetails';
-import AddSupplier from './Components/Admin/Suppliers/AddSupplierOrder';
+import AddSupplierOrder from './Components/Admin/Suppliers/AddSupplierOrder';
 import UpdateSupplier from './Components/Admin/Suppliers/UpdateSupplier';
 import Supplier from './Components/Admin/Suppliers/Supplier';
 import AddSupplierList from './Components/Admin/Suppliers/AddSupplierList';
 import SupplierDashboard from './Components/Admin/Suppliers/SupplierListDetails';
 import SupplierList from './Components/Admin/Suppliers/SupplierList';
 import UpdateSupplierList from './Components/Admin/Suppliers/UpdateSupplierList';
+import QuantityDescription from './Components/Admin/Suppliers/QuantityDescriptionList';
+import EditQuantityDescription from './Components/Admin/Suppliers/EditQuantityDescription';
 
 
 import FeedbackDetails from './Components/Admin/Feedback/FeedbackDetails';
@@ -103,7 +107,9 @@ function App() {
             <Route path="inventory-management" element={<InventoryDetails />} />
             <Route path="inventory/:id" element={<Inventory />} />
             <Route path="add-inventory" element={<AddInventory />} />
-            <Route path="update-inventory/:id" element={<UpdateInventory />} />
+            <Route path="update-inventory/:InvID" element={<UpdateInventory />} />
+            <Route path="place-order/:InvID" element={<PlaceOrder />} />
+            <Route path="add-quantity-description" element={<AddQuantityDescription />} />
 
             {/* Employee Management */}
             <Route path="employee-management" element={<EmployeeDashboard />} />
@@ -116,12 +122,16 @@ function App() {
             {/* Supplier Management */}
             <Route path="supplier-management" element={<SupplierDetails />} />
             <Route path="supplier/:id" element={<Supplier />} />
-            <Route path="add-supplier" element={<AddSupplier />} />
+            <Route path="add-supplier/:supId" element={<AddSupplierOrder />} />
             <Route path="update-supplier/:id" element={<UpdateSupplier />} />
             <Route path="add-supplier-list" element={<AddSupplierList />} />
             <Route path="supplier-list-details" element={<SupplierDashboard />} />
             <Route path="supplier-list" element={<SupplierList />} />     
-            <Route path="update-supplier-list/:id" element={<UpdateSupplierList />} />
+            <Route path="update-supplier-list/:supId" element={<UpdateSupplierList />} />
+            <Route path="quantity-description" element={<QuantityDescription />} />
+            <Route path="edit-quantity-description/:id" element={<EditQuantityDescription />} />
+
+
                     
             {/* Feedback Management */}
             <Route path="feedback-management" element={<FeedbackDetails />} />

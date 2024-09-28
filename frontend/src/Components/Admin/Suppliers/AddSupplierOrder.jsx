@@ -1,82 +1,120 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, TextField, Button, Typography, MenuItem, Select, InputLabel, FormControl, Snackbar, Alert, Radio, RadioGroup, FormControlLabel, FormLabel } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box, TextField, Button, Typography, MenuItem, Select, InputLabel, FormControl, Snackbar, Alert } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const URL = "http://localhost:4000/suppliers";
+const URL = "http://localhost:4000/suppliers/orders";
 
-function AddSupplierOrder({ onBack }) {
+function AddSupplierOrder() {
+    const { supId } = useParams(); // Get the supplier ID from the URL
     const [formData, setFormData] = useState({
-        SupOrderID: '',
-        type: 'Gems', // Default value for radio button
-        quantity: '',
+        SupOrderID: '', // This will be auto-generated
+        GID: '',
         InvID: '',
-        SupID: '',
+        SupID: supId || '', // Pre-fill SupID with the supplier ID
+        quantity: '',
         status: 'Pending',
         description: ''
     });
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [snackbarMessage, ] = useState('');
-    const [snackbarSeverity,] = useState('success');
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    // Function to generate SupOrderID
+    const generateSupOrderID = async () => {
         try {
-            console.log('Submitting form data:', formData); // Log form data for debugging
-            const response = await axios.post(URL, {
-                ...formData
-            });
-            console.log('Response from server:', response.data); // Log server response
-            // Show alert on successful addition
-            alert('Supplier order added successfully');
-            // Redirect after a short delay
-            setTimeout(() => navigate('/admindashboard/supplier-management'), 2000);
+            const response = await axios.get(`${URL}/nextOrderID`); // Call your API to get the next order ID
+            return response.data.nextOrderID; // Adjust based on your API response
         } catch (error) {
-            console.error("Error adding supplier:", error.response ? error.response.data : error.message);
-            // Show alert on error
-            alert('Error adding supplier: ' + (error.response ? error.response.data.message : error.message));
+            console.error("Error fetching SupOrderID:", error);
+            return 'SO0001'; // Fallback in case of error
         }
     };
 
+    useEffect(() => {
+        const fetchSupOrderID = async () => {
+            const id = await generateSupOrderID();
+            setFormData(prevState => ({
+                ...prevState,
+                SupOrderID: id
+            }));
+        };
+        fetchSupOrderID();
+    }, []);
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            await axios.post(URL, formData);
+            setSnackbarMessage('Order added successfully!');
+            setSnackbarSeverity('success');
+            setOpenSnackbar(true);
+            navigate('/admindashboard/supplier-management'); // Redirect after successful submission
+        } catch (error) {
+            setSnackbarMessage('Error adding order: ' + (error.response?.data?.message || error.message));
+            setSnackbarSeverity('error');
+            setOpenSnackbar(true);
+        }
+    };
+
+    // Function to handle closing the snackbar
     const handleSnackbarClose = () => {
         setOpenSnackbar(false);
     };
 
     return (
         <Box sx={{ padding: 3 }}>
-            <Typography variant="h6" gutterBottom>Add Order</Typography>
+            <Typography variant="h6" gutterBottom>Add Supplier Order</Typography>
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="SupOrderID"
                     name="SupOrderID"
                     variant="outlined"
                     fullWidth
-                    value={formData.SupOrderID}
+                    value={formData.SupOrderID} // This will be auto-generated
+                    margin="normal"
+                    disabled // Disable editing for SupOrderID
+                />
+                <TextField
+                    label="GID (Gem ID)"
+                    name="GID"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.GID}
                     onChange={handleChange}
                     margin="normal"
+                    required
                 />
-                
-                <FormControl component="fieldset" margin="normal">
-                    <FormLabel component="legend">Type</FormLabel>
-                    <RadioGroup
-                        name="type"
-                        value={formData.type}
-                        onChange={handleChange}
-                        row
-                    >
-                        <FormControlLabel value="Gems" control={<Radio />} label="Gems" />
-                        <FormControlLabel value="Others" control={<Radio />} label="Others" />
-                    </RadioGroup>
-                </FormControl>
-
+                <TextField
+                    label="InvID (Inventory ID)"
+                    name="InvID"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.InvID}
+                    onChange={handleChange}
+                    margin="normal"
+                    required
+                />
+                <TextField
+                    label="SupID (Supplier ID)"
+                    name="SupID"
+                    variant="outlined"
+                    fullWidth
+                    value={formData.SupID} // Already filled with supId
+                    onChange={handleChange}
+                    margin="normal"
+                    required
+                    disabled // Disable editing for SupID
+                />
                 <TextField
                     label="Quantity"
                     name="quantity"
@@ -86,25 +124,7 @@ function AddSupplierOrder({ onBack }) {
                     value={formData.quantity}
                     onChange={handleChange}
                     margin="normal"
-                />
-                <TextField
-                    label="InvID"
-                    name="InvID"
-                    variant="outlined"
-                    fullWidth
-                    value={formData.InvID}
-                    onChange={handleChange}
-                    margin="normal"
-                />
-                
-                <TextField
-                    label="SupID"
-                    name="SupID"
-                    variant="outlined"
-                    fullWidth
-                    value={formData.SupID}
-                    onChange={handleChange}
-                    margin="normal"
+                    required
                 />
                 <FormControl fullWidth variant="outlined" margin="normal">
                     <InputLabel>Status</InputLabel>
@@ -134,12 +154,12 @@ function AddSupplierOrder({ onBack }) {
                     color="primary"
                     sx={{ marginTop: 2 }}
                 >
-                    Add  Order
+                    Add Order
                 </Button>
                 <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={onBack}
+                    onClick={() => navigate('/admindashboard/supplier-list-details')} // Link back button to SupplierListDetails
                     sx={{ marginTop: 2, marginLeft: 2 }}
                 >
                     Back
