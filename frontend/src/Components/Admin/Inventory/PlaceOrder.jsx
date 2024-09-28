@@ -1,147 +1,127 @@
-import React, { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, TextField, Button, Typography, Snackbar, Alert } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box, TextField, Button, Typography } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
 
-const API_BASE_URL = "http://localhost:4000/inventory";
+const URL = "http://localhost:4000/inventory";
 
-function PlaceOrder() {
-  const [formData, setFormData] = useState({
-    SupOrderID: '',
-    GID: '',
-    InvID: '', // This will be used in the URL
-    SupID: '',
-    quantity: '',
-    status: 'Pending',
-    description: ''
+function UpdateInventory() {
+  const { id } = useParams();
+  const [inventory, setInventory] = useState({
+    ItemName: '',
+    type: '',
+    OrderID: '',
+    Cost: '',
+    Date: '',
+    Note: ''
   });
-  
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+  useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        const response = await axios.get(`${URL}/${id}`);
+        setInventory(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.response ? error.response.data.message : 'An error occurred');
+        setLoading(false);
+      }
+    };
+
+    fetchInventory();
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInventory({ ...inventory, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const { InvID, ...orderData } = formData; // Extract InvID from formData and send the rest in the body
-    
+  const handleUpdate = async () => {
     try {
-      await axios.post(`${API_BASE_URL}/${InvID}/place-order`, orderData); // Use InvID in the URL path
-      setSnackbarMessage('Order placed successfully!');
-      setSnackbarSeverity('success');
-      setOpenSnackbar(true);
-      navigate('/admindashboard/supplier-management'); // Redirect after successful submission
+      await axios.put(`${URL}/${id}`, inventory);
+      alert('Inventory updated successfully');
+      navigate('/admindashboard/inventory-management');
     } catch (error) {
-      setSnackbarMessage('Error placing order: ' + (error.response?.data?.message || error.message));
-      setSnackbarSeverity('error');
-      setOpenSnackbar(true);
+      setError(error.response ? error.response.data.message : 'An error occurred');
     }
   };
 
-  const handleSnackbarClose = () => {
-    setOpenSnackbar(false);
-  };
+  if (loading) {
+    return <Typography>Loading...</Typography>;
+  }
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h6" gutterBottom>Place Order</Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="SupOrderID"
-          name="SupOrderID"
-          variant="outlined"
-          fullWidth
-          value={formData.SupOrderID}
-          onChange={handleChange}
-          margin="normal"
-        />
-        <TextField
-          label="GID (Gem ID)"
-          name="GID"
-          variant="outlined"
-          fullWidth
-          value={formData.GID}
-          onChange={handleChange}
-          margin="normal"
-          required
-        />
-        <TextField
-          label="InvID (Inventory ID)"
-          name="InvID"
-          variant="outlined"
-          fullWidth
-          value={formData.InvID}
-          onChange={handleChange}
-          margin="normal"
-          required
-        />
-        <TextField
-          label="SupID (Supplier ID)"
-          name="SupID"
-          variant="outlined"
-          fullWidth
-          value={formData.SupID}
-          onChange={handleChange}
-          margin="normal"
-          required
-        />
-        <TextField
-          label="Quantity"
-          name="quantity"
-          type="number"
-          variant="outlined"
-          fullWidth
-          value={formData.quantity}
-          onChange={handleChange}
-          margin="normal"
-          required
-        />
-        <TextField
-          label="Description"
-          name="description"
-          variant="outlined"
-          fullWidth
-          value={formData.description}
-          onChange={handleChange}
-          margin="normal"
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ marginTop: 2 }}
-        >
-          Place Order
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => navigate('/admindashboard/inventory-management')} // Link back button
-          sx={{ marginTop: 2, marginLeft: 2 }}
-        >
-          Back
-        </Button>
-      </form>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
+    <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1 }}>
+      <Typography variant="h6" gutterBottom>Update Inventory</Typography>
+      <TextField
+        label="Item Name"
+        name="ItemName"
+        value={inventory.ItemName}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Type"
+        name="type"
+        value={inventory.type}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Order ID"
+        name="OrderID"
+        value={inventory.OrderID}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Cost"
+        name="Cost"
+        type="number"
+        value={inventory.Cost}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Date"
+        name="Date"
+        type="date"
+        value={inventory.Date}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Note"
+        name="Note"
+        value={inventory.Note}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleUpdate}
+        sx={{ marginTop: 2 }}
       >
-        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+        Update Inventory
+      </Button>
+      {error && (
+        <Typography color="error" sx={{ marginTop: 2 }}>
+          {error}
+        </Typography>
+      )}
     </Box>
   );
 }
 
-export default PlaceOrder;
+export default UpdateInventory;

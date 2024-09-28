@@ -90,8 +90,7 @@ function JewelleryPage() {
   const imageBarItems = [
     'https://cdn-chefn.nitrocdn.com/IcbkoxBoZAaIwhSaprplormwGmobedsR/assets/images/optimized/rev-9831c11/antavo.com/wp-content/uploads/2020/08/jewellery-cover-image.png',
     'https://scontent.xx.fbcdn.net/v/t1.6435-9/76756904_10157791448093491_8346626872230019072_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=2a1932&_nc_ohc=0N1qFSbOTlsQ7kNvgElxjvo&_nc_ht=scontent.xx&_nc_gid=AaQiwzpHZWdFUhEeExvh2od&oh=00_AYDEc8WmE6-m1jAo1-6XmNJVMakoVnsjSQ5s97SXblHGlg&oe=671930E4',
-    'https://scontent.xx.fbcdn.net/v/t39.30808-6/301566601_464878962319426_2848548890105463308_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=FYrdPsMkMr8Q7kNvgGLO2ka&_nc_ht=scontent.xx&_nc_gid=A7WJ7GbfL0gy2ryf8aPbQt2&oh=00_AYD_XrTQjPyqjOlKpbOFb1SvNa_qfZkGRTxw2L9W3ujURQ&oe=66F78FD9',
-     'http://www.valdostavault.com/wp/wp-content/uploads/2012/10/xmas-cover.jpg',
+    'http://www.valdostavault.com/wp/wp-content/uploads/2012/10/xmas-cover.jpg',
   ];
 
   return (

@@ -58,9 +58,7 @@ const QuantityDescriptionList = () => {
         setNoResults(filteredEntries.length === 0);
     };
 
-    const handleAddEntry = () => {
-        navigate('/admindashboard/add-quantity-description');
-    };
+    
 
     return (
         <Box sx={{ padding: 3, backgroundColor: '#f5f5f5', borderRadius: 2 }}>
@@ -96,20 +94,7 @@ const QuantityDescriptionList = () => {
                 >
                     Search
                 </Button>
-                <Button
-                    variant="contained"
-                    onClick={handleAddEntry}
-                    sx={{
-                        borderRadius: 2,
-                        marginLeft: 'auto',
-                        backgroundColor: '#4caf50',
-                        '&:hover': {
-                            backgroundColor: '#45a049',
-                        },
-                    }}
-                >
-                    Add Quantity Description
-                </Button>
+                
             </Box>
 
             <TableContainer>

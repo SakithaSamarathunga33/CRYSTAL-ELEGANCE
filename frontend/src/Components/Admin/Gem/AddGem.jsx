@@ -1,34 +1,36 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/gems"; // Adjust URL for gems
+const URL = "http://localhost:4000/api/gems"; // Update the URL to point to your gems endpoint
 
-// eslint-disable-next-line react/prop-types
-function AddGem({ onBack }) {
-  const [name, setName] = useState('');
-  const [color, setColor] = useState('');
-  const [price, setPrice] = useState('');
-  const [weight, setWeight] = useState('');
-  const [category, setCategory] = useState('Precious'); // Default to 'Precious'
-  const [quantity, setQuantity] = useState('');
-  const [status, setStatus] = useState('available'); // Default to 'available'
+function AddGem() {
+  const [gem, setGem] = useState({
+    GID: '',
+    name: '',
+    price: '',
+    quantity: '',
+    color: '',
+    weight: '',
+    category: '',
+    status: 'available',
+  });
   const [error, setError] = useState(null);
-
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setGem({ ...gem, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Reset error state
-
     try {
-      const response = await axios.post(URL, { name, color, price, weight, category, quantity, status });
-      if (response.status === 201) {
-        alert('Gem added successfully');
-        navigate('/admindashboard/gem-management');
-      }
+      await axios.post(URL, gem);
+      alert('Gem added successfully');
+      navigate('/admindashboard/gem-management'); // Redirect after successful submission
     } catch (error) {
       setError(error.response ? error.response.data.message : 'An error occurred');
     }
@@ -36,72 +38,78 @@ function AddGem({ onBack }) {
 
   return (
     <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1 }}>
-      <Typography variant="h5" gutterBottom>
-        Add New Gem
-      </Typography>
+      <Typography variant="h6" gutterBottom>Add Gem</Typography>
       <form onSubmit={handleSubmit}>
         <TextField
-          label="Name"
-          variant="outlined"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          label="GID"
+          name="GID"
+          value={gem.GID}
+          onChange={handleChange}
           fullWidth
           margin="normal"
+          required
         />
         <TextField
-          label="Color"
-          variant="outlined"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
+          label="Name"
+          name="name"
+          value={gem.name}
+          onChange={handleChange}
           fullWidth
           margin="normal"
+          required
         />
         <TextField
           label="Price"
-          variant="outlined"
+          name="price"
           type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          value={gem.price}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Quantity"
+          name="quantity"
+          type="number"
+          value={gem.quantity}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Color"
+          name="color"
+          value={gem.color}
+          onChange={handleChange}
           fullWidth
           margin="normal"
         />
         <TextField
           label="Weight"
-          variant="outlined"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
+          name="weight"
+          type="number"
+          value={gem.weight}
+          onChange={handleChange}
           fullWidth
           margin="normal"
         />
         <TextField
           label="Category"
-          variant="outlined"
-          select
-          SelectProps={{ native: true }}
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          fullWidth
-          margin="normal"
-        >
-          <option value="Precious">Precious</option>
-          <option value="Semi-Precious">Semi-Precious</option>
-        </TextField>
-        <TextField
-          label="Quantity"
-          variant="outlined"
-          type="number"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
+          name="category"
+          value={gem.category}
+          onChange={handleChange}
           fullWidth
           margin="normal"
         />
         <TextField
           label="Status"
-          variant="outlined"
+          name="status"
           select
           SelectProps={{ native: true }}
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
+          value={gem.status}
+          onChange={handleChange}
           fullWidth
           margin="normal"
         >
@@ -109,21 +117,26 @@ function AddGem({ onBack }) {
           <option value="out of stock">Out of Stock</option>
         </TextField>
         <Button
-          type="submit"
           variant="contained"
           color="primary"
+          type="submit"
           sx={{ marginTop: 2 }}
         >
           Add Gem
         </Button>
+        
         <Button
           variant="outlined"
           color="secondary"
+          onClick={() => {
+            navigate('/admindashboard/gem-management');
+            window.location.reload(); // Refresh the page
+          }}
           sx={{ marginTop: 2, marginLeft: 2 }}
-          onClick={onBack}
         >
           Back
         </Button>
+        
         {error && (
           <Typography color="error" sx={{ marginTop: 2 }}>
             {error}

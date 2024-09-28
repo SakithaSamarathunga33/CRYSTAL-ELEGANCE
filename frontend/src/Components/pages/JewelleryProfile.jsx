@@ -53,14 +53,11 @@ const JewelleryProfile = () => {
     }
   }, [jewellery]);
 
-  const handleAddToBag = () => {
-    if (!authState.user) {
-      setSnackbarMessage('You need to be logged in to add items to the bag.');
-      setSnackbarOpen(true);
-    } else {
-      // Logic for adding to bag
-      alert('Added to bag!');
-    }
+  const handleBuyNow = () => {
+    if (!jewellery) return; // Ensure jewellery data is available
+
+    // Navigate to the payment page, passing the jewellery ID
+    navigate(`/makepayment/${jewellery.JID}`, { state: { jewellery } });
   };
 
   const handleSnackbarClose = () => {
@@ -128,7 +125,7 @@ const JewelleryProfile = () => {
               <Button 
                 variant="contained" 
                 color="secondary" 
-                onClick={handleAddToBag} 
+                onClick={handleBuyNow} 
                 sx={{
                   padding: '10px 20px', 
                   borderRadius: '20px', 
@@ -139,7 +136,7 @@ const JewelleryProfile = () => {
                   }
                 }}
               >
-                Add to Bag
+                Buy Now
               </Button>
               <br /><br />
               <Button 

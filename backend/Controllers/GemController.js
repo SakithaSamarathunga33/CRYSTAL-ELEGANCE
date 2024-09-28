@@ -54,27 +54,34 @@ const GemController = {
     }
   },
 
-  // Update a Gem by ID
-  updateGem: async (req, res) => {
-    const { id } = req.params;
-    const { name, color, weight, price, quantity, category, status } = req.body; // Expecting updated details
+// Update a Gem by ID
+updateGem: async (req, res) => {
+  const { id } = req.params; // Expecting the GID as a parameter
+  const { name, color, weight, price, quantity, category, status } = req.body; // Expecting updated details
 
-    try {
-      const gem = await Gem.findOneAndUpdate(
-        { GID: id },
-        { name, color, weight, price, quantity, category, status },
-        { new: true, runValidators: true } // Return the updated document and run validators
-      );
+  // Validate required fields
+  if (!name || !price || !quantity) {
+    return res.status(400).json({ message: 'Name, price, and quantity are required.' });
+  }
 
-      if (!gem) {
-        return res.status(404).json({ message: 'Gem not found' });
-      }
-      res.status(200).json(gem);
-    } catch (error) {
-      console.error('Error updating gem:', error);
-      res.status(500).json({ message: 'Error updating gem', error: error.message });
+  try {
+    // Find and update the gem based on GID
+    const gem = await Gem.findOneAndUpdate(
+      { GID: id }, // Using GID from params
+      { name, color, weight, price, quantity, category, status },
+      { new: true, runValidators: true } // Return the updated document and run validators
+    );
+
+    if (!gem) {
+      return res.status(404).json({ message: 'Gem not found' });
     }
-  },
+
+    res.status(200).json(gem); // Respond with the updated gem
+  } catch (error) {
+    console.error('Error updating gem:', error);
+    res.status(500).json({ message: 'Error updating gem', error: error.message });
+  }
+},
 
   // Delete a Gem by ID
   deleteGem: async (req, res) => {

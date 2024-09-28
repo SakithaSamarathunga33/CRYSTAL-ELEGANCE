@@ -19,6 +19,7 @@ const authRoutes = require('./Routes/AuthRoutes');
 const gemRoutes = require('./Routes/GemRoutes');
 const supplierlistRoutes = require('./Routes/SupplierListRoutes');
 const quantityDescriptionRoutes = require('./Routes/quantityDescriptionRoutes');
+const orderRoutes = require('./Routes/OrderRoutes');
 
 // Middleware
 app.use(express.json()); // Ensure this is before your routes
@@ -37,6 +38,7 @@ app.use('/auth', authRoutes);
 app.use('/api/gems', gemRoutes);
 app.use('/api/suppliers', supplierlistRoutes);
 app.use('/api/quantity-description', quantityDescriptionRoutes);
+app.use('/orders', orderRoutes);
 
 // Serve static files (uploaded images)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

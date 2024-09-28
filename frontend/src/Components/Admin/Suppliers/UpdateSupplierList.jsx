@@ -1,132 +1,104 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, TextField, Typography, Snackbar } from '@mui/material';
+import { Box, Typography, TextField, Button, Paper, IconButton } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/api/suppliers";
 
-function UpdateSupplierList() {
-  const { supId } = useParams(); // Get supId from URL parameters
+function UpdateSupplier() {
+  const { supId } = useParams(); // Get the supplier ID from the URL
   const navigate = useNavigate();
-
-  const [supplier, setSupplier] = useState({
-    SupId: '',
-    SupName: '',
-    items: [],
-    description: '',
-  });
+  const [supplier, setSupplier] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchSupplierDetails = async () => {
+    const fetchSupplier = async () => {
       try {
-        const response = await axios.get(`${URL}/${supId}`); // Fetch supplier by supId
-        console.log("Fetched Supplier:", response.data); // Log the fetched data
+        const response = await axios.get(`${URL}/${supId}`);
         setSupplier(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching supplier details:", error);
+        setError('Error fetching supplier data.');
         setLoading(false);
       }
     };
 
-    fetchSupplierDetails();
+    fetchSupplier();
   }, [supId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'items') {
-      setSupplier(prev => ({ ...prev, items: value.split(',').map(item => item.trim()) }));
-    } else {
-      setSupplier(prev => ({ ...prev, [name]: value }));
-    }
+    setSupplier((prevSupplier) => ({
+      ...prevSupplier,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${URL}/${supplier.SupId}`, supplier); // Update supplier
-      setSnackbarMessage('Supplier updated successfully!');
-      setOpenSnackbar(true);
-      setTimeout(() => {
-        navigate('/admindashboard/supplier-list-details'); // Redirect to supplier list
-      }, 2000);
+      await axios.put(`${URL}/${supId}`, supplier);
+      navigate('/admindashboard/supplier-management'); // Redirect to the supplier list after update
     } catch (error) {
-      console.error("Error updating supplier:", error);
-      setSnackbarMessage('Failed to update supplier. Please try again.');
-      setOpenSnackbar(true);
+      setError('Error updating supplier.');
     }
-  };
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
   };
 
   const handleBack = () => {
-    navigate(-1); // Go back to previous page
+    navigate('/admindashboard/supplier-management'); // Navigate back to the supplier list
   };
 
-  if (loading) return <Typography>Loading...</Typography>; // Show loading message
+  if (loading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>Error: {error}</Typography>;
 
   return (
     <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Update Supplier List
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Supplier ID"
-          name="SupId"
-          value={supplier.SupId}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          disabled // Prevent editing the ID
-        />
-        <TextField
-          label="Supplier Name"
-          name="SupName"
-          value={supplier.SupName}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Items (comma separated)"
-          name="items"
-          value={supplier.items.join(', ')}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Description"
-          name="description"
-          value={supplier.description}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          multiline
-          rows={4}
-        />
-        <Button variant="contained" type="submit" sx={{ marginTop: 2 }}>
+      <Paper sx={{ padding: 3 }}>
+        <Typography variant="h4" gutterBottom>
           Update Supplier
-        </Button>
-        <Button variant="outlined" onClick={handleBack} sx={{ marginTop: 2, marginLeft: 2 }}>
-          Back
-        </Button>
-      </form>
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        message={snackbarMessage}
-      />
+        </Typography>
+        <IconButton onClick={handleBack} sx={{ color: 'primary.main' }}>
+          <ArrowBack />
+        </IconButton>
+        <form onSubmit={handleUpdate}>
+          <TextField
+            label="Supplier Name"
+            name="SupName"
+            value={supplier.SupName}
+            onChange={handleChange}
+            fullWidth
+            required
+            sx={{ marginBottom: 2 }}
+          />
+          <TextField
+            label="Items (comma-separated)"
+            name="items"
+            value={supplier.items.join(', ')}
+            onChange={handleChange}
+            fullWidth
+            required
+            sx={{ marginBottom: 2 }}
+          />
+          <TextField
+            label="Description"
+            name="description"
+            value={supplier.description}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            rows={4}
+            sx={{ marginBottom: 2 }}
+          />
+          <Button variant="contained" color="primary" type="submit">
+            Update Supplier
+          </Button>
+        </form>
+      </Paper>
     </Box>
   );
 }
 
-export default UpdateSupplierList;
+export default UpdateSupplier;

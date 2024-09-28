@@ -11,6 +11,7 @@ import AboutUs from './Components/Home/AboutUs';
 import Contact from './Components/Home/ContactUs';
 import Register from './Components/Login/Register';
 import UserProfile from './Components/pages/UserProfile';
+import Appointments from './Components/pages/Appointment';
 
 // Admin Components
 import AdminDashboard from './Components/Admin/AdminDashboard';
@@ -61,10 +62,14 @@ import UpdateFeedback from './Components/Admin/Feedback/UpdateFeedback';
 import Feedback from './Components/Admin/Feedback/Feedback';
 
 import SupportDetails from './Components/Admin/Support/SupportDetails';
-import OrderDetails from './Components/Admin/Order/OrderDetails';
+
 import AppointmentDetails from './Components/Admin/Appointment/AppointmentDetails';
 
+import OrderDetails from './Components/Admin/Order/OrderDetails';
+
 import { AuthProvider } from './Components/Auth/AuthContext';  // Import AuthProvider
+import JewelleryProfile from './Components/pages/JewelleryProfile';
+import MakePayment from './Components/pages/MakePayment';
 
 function App() {
   return (
@@ -82,6 +87,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/jewellery" element={<Jewellery />} />
           <Route path="/gems" element={<Gems />} />
+          <Route path="/jewellery/:id" element={<JewelleryProfile />} />
+          <Route path="/makepayment/:id" element={<MakePayment />} />
+          <Route path="/appointment" element={<Appointments />} />
 
           {/* Admin Dashboard Routes */}
           <Route path="/admindashboard" element={<AdminDashboard />}>
@@ -95,6 +103,7 @@ function App() {
             <Route path="add-jewellery" element={<AddJewellery />} />
             <Route path="update-jewellery/:JID" element={<UpdateJewellery />} />
             <Route path="jewellery-details" element={<JewelleryDetails />} />
+            
 
             {/* Gem Management */}
             <Route path="gem-management" element={<GemDetails />} />  

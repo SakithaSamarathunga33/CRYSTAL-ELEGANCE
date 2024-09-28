@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Typography, Paper, Divider } from '@mui/material';
+import { Box, Typography, Paper, Divider, IconButton } from '@mui/material';
+import { Edit } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/api/suppliers";
 
 function SupplierList() {
   const [supplierLists, setSupplierLists] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSupplierLists = async () => {
@@ -23,6 +26,10 @@ function SupplierList() {
 
     fetchSupplierLists();
   }, []);
+
+  const handleEdit = (supId) => {
+    navigate(`/admindashboard/update-supplier/${supId}`);
+  };
 
   if (loading) return <Typography>Loading...</Typography>;
   if (supplierLists.length === 0) return <Typography>No supplier lists found.</Typography>;
@@ -43,6 +50,9 @@ function SupplierList() {
           <Typography variant="h6">
             Description: {supplierList.description || 'No Description'}
           </Typography>
+          <IconButton onClick={() => handleEdit(supplierList.SupId)} color="primary" sx={{ marginTop: 1 }}>
+            <Edit />
+          </IconButton>
         </Paper>
       ))}
     </Box>
