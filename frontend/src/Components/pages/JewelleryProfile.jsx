@@ -22,7 +22,7 @@ const JewelleryProfile = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const URL = 'http://localhost:4000/feedback';
-  const { authState } = useContext(AuthContext); // Access authentication state
+  const { authState, isAuthenticated, loading } = useContext(AuthContext); // Access authentication state
   const navigate = useNavigate(); // Use navigate for redirection
 
   // Fetch jewellery details
@@ -56,8 +56,13 @@ const JewelleryProfile = () => {
   const handleBuyNow = () => {
     if (!jewellery) return; // Ensure jewellery data is available
 
-    // Navigate to the payment page, passing the jewellery ID
-    navigate(`/makepayment/${jewellery.JID}`, { state: { jewellery } });
+    if (!isAuthenticated) { // Check if the user is logged in
+      setSnackbarMessage('You need to be logged in to proceed with the purchase.');
+      setSnackbarOpen(true); // Open the snackbar with the message
+    } else {
+      // Navigate to the payment page, passing the jewellery ID
+      navigate(`/makepayment/${jewellery.JID}`, { state: { jewellery } });
+    }
   };
 
   const handleSnackbarClose = () => {
@@ -65,7 +70,7 @@ const JewelleryProfile = () => {
   };
 
   const handleRedirectToLogin = () => {
-    navigate('/login');
+    navigate('/login'); // Redirect to login page
     setSnackbarOpen(false); // Close the Snackbar after redirecting
   };
 
@@ -73,7 +78,7 @@ const JewelleryProfile = () => {
     return field ? `${fieldName}: ${field}` : `${fieldName}: No details available`;
   };
 
-  if (!jewellery) return <div>Loading...</div>;
+  if (!jewellery || loading) return <div>Loading...</div>; // Show loading state if jewellery data or authentication is being fetched
 
   return (
     <div>
@@ -232,10 +237,19 @@ const JewelleryProfile = () => {
       {/* Snackbar for alerts */}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={null} // Disable auto-hide for custom action
+        autoHideDuration={6000} // Optional auto-hide duration
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleSnackbarClose} severity="info" sx={{ width: '100%' }}>
+        <Alert 
+          onClose={handleSnackbarClose} 
+          severity="info" 
+          action={
+            <Button color="inherit" size="small" onClick={handleRedirectToLogin}>
+              Log In
+            </Button>
+          } 
+          sx={{ width: '100%' }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>

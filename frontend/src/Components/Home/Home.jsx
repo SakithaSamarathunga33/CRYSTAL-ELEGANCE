@@ -5,9 +5,11 @@ import { ShoppingCart as ShoppingCartIcon } from '@mui/icons-material';
 import Navbar from '../Navbar/Navbar'; // Ensure the path is correct
 import backgroundImage1 from '../Images/Rectangle2.png';
 import backgroundImage2 from '../Images/Rectangle3.png';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function Home() {
   const [fadeIn, setFadeIn] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,6 +17,10 @@ function Home() {
     }, 100); // Delay for initial fade-in effect
     return () => clearTimeout(timer);
   }, []);
+
+  const handleShopNowClick = () => {
+    navigate('/jewellery'); // Navigate to /jewellery
+  };
 
   return (
     <div style={{ 
@@ -107,6 +113,7 @@ function Home() {
             transform: fadeIn ? 'translateY(0)' : 'translateY(20px)',
             transition: 'transform 2s ease-out, opacity 2s ease-out',
           }}
+          onClick={handleShopNowClick} // Navigate on click
         >
           Shop Now
         </Button>
