@@ -9,7 +9,7 @@ import AddFeedback from '../Admin/Feedback/AddFeedback2'; // Ensure you have thi
 import { AuthContext } from '../Auth/AuthContext'; // Import AuthContext
 
 // Import the background image from the images folder
-import backgroundImage from '../Images/b5.jpg'; // Adjust path accordingly
+import backgroundImage from '../Images/3433814.jpg'; // Adjust path accordingly
 
 const JewelleryProfile = () => {
   const [jewellery, setJewellery] = useState(null);
@@ -123,9 +123,9 @@ const JewelleryProfile = () => {
               </Card>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography variant="h3" color="white">{jewellery.name}</Typography>
-              <Typography variant="body1" color="white">{jewellery.description}</Typography>
-              <Typography variant="h4" color="white">Rs {jewellery.price}</Typography>
+              <Typography variant="h3" color="#000">{jewellery.name}</Typography>
+              <Typography variant="body1" color="#333">{jewellery.description}</Typography>
+              <Typography variant="h4" color="#000">Rs {jewellery.price}</Typography>
               <br /><br /><br /><br />
               <Button 
                 variant="contained" 
@@ -172,11 +172,11 @@ const JewelleryProfile = () => {
                     marginTop: 2,
                   }}
                 >
-                  <Typography variant="h6" color="white">{displayField(jewellery.quantity, 'Quantity')}</Typography>
-                  <Typography variant="h6" color="white">{displayField(jewellery.status, 'Status')}</Typography>
-                  <Typography variant="h6" color="white">{displayField(jewellery.weight, 'Weight')}</Typography>
-                  <Typography variant="h6" color="white">{displayField(jewellery.goldStandard, 'Gold Standard')}</Typography>
-                  <Typography variant="body2" color="white">{displayField(jewellery.description, 'Description')}</Typography>
+                  <Typography variant="h6" color="#333">{displayField(jewellery.quantity, 'Quantity')}</Typography>
+                  <Typography variant="h6" color="#333">{displayField(jewellery.status, 'Status')}</Typography>
+                  <Typography variant="h6" color="#333">{displayField(jewellery.weight, 'Weight')}</Typography>
+                  <Typography variant="h6" color="#333">{displayField(jewellery.goldStandard, 'Gold Standard')}</Typography>
+                  <Typography variant="body2" color="#333">{displayField(jewellery.description, 'Description')}</Typography>
                 </Box>
               )}
               <br /><br />
@@ -221,7 +221,7 @@ const JewelleryProfile = () => {
                       <CardContent>
                         <Typography variant="h6">Customer Name: {feedback.customerId}</Typography>
                         <Typography variant="body1">Rating: {feedback.rating}</Typography>
-                        <Typography variant="body2">{feedback.comment}</Typography>
+                        <Typography variant="body2">Comment: {feedback.comment}</Typography>
                       </CardContent>
                     </Card>
                   ))
@@ -231,30 +231,16 @@ const JewelleryProfile = () => {
           </Box>
         </Container>
       </Box>
-      
-      <Footer />
 
-      {/* Snackbar for alerts */}
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000} // Optional auto-hide duration
-        onClose={handleSnackbarClose}
-      >
-        <Alert 
-          onClose={handleSnackbarClose} 
-          severity="info" 
-          action={
-            <Button color="inherit" size="small" onClick={handleRedirectToLogin}>
-              Log In
-            </Button>
-          } 
-          sx={{ width: '100%' }}
-        >
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity="info" sx={{ width: '100%' }}>
           {snackbarMessage}
         </Alert>
       </Snackbar>
+
+      <Footer />
     </div>
   );
-}
+};
 
 export default JewelleryProfile;
