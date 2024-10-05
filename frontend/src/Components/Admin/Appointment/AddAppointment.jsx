@@ -97,17 +97,7 @@ export default class AddAppointment extends Component {
             onChange={this.handleChange}
             sx={{ marginBottom: 2 }}
           />
-          <TextField
-            label="Appointment Time"
-            name="appointmentTime"
-            type="time"
-            variant="outlined"
-            fullWidth
-            required
-            value={appointmentTime}
-            onChange={this.handleChange}
-            sx={{ marginBottom: 2 }}
-          />
+          
           <TextField
             label="Service Type"
             name="serviceType"

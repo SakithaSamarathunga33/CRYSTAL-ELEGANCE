@@ -12,6 +12,8 @@ import Contact from './Components/Home/ContactUs';
 import Register from './Components/Login/Register';
 import UserProfile from './Components/pages/UserProfile';
 import Appointments from './Components/pages/Appointment';
+import PrivacyPolicy from './Components/pages/PrivacyPolicy';
+import TermsOfUse from './Components/pages/TermsOfUse';
 
 // Admin Components
 import AdminDashboard from './Components/Admin/AdminDashboard';
@@ -93,6 +95,8 @@ function App() {
           <Route path="/jewellery/:id" element={<JewelleryProfile />} />
           <Route path="/makepayment/:id" element={<MakePayment />} />
           <Route path="/appointment" element={<Appointments />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/termsofuse" element={<TermsOfUse />} />
 
           {/* Admin Dashboard Routes */}
           <Route path="/admindashboard" element={<AdminDashboard />}>

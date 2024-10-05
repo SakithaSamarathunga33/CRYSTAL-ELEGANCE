@@ -175,7 +175,7 @@ function AppointmentDetails() {
                     <TableCell>Email</TableCell>
                     <TableCell>Appointment Date</TableCell>
                     <TableCell>Service Type</TableCell>
-                    <TableCell>Status</TableCell>
+                    
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -193,7 +193,7 @@ function AppointmentDetails() {
                         <TableCell>{item.email}</TableCell>
                         <TableCell>{new Date(item.appointmentDate).toLocaleDateString()}</TableCell>
                         <TableCell>{item.serviceType}</TableCell>
-                        <TableCell>{item.status}</TableCell>
+                        
                         <TableCell>
                           <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>
                             <Edit />

@@ -3,6 +3,7 @@ import Header from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import { Container, Typography, Box, TextField, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
 import contactUsImage from '../Images/coverc.png'; // Adjust path as needed
+import userImage from '../Images/t2.png'; // Add a user image here
 
 function ContactUs() {
   const [open, setOpen] = useState(false);
@@ -57,105 +58,126 @@ function ContactUs() {
         }}
       />
       
-      <Container maxWidth="md" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingY: 5 }}>
-        
-        {/* Contact Form with slide-in animation */}
-        <Paper
-          elevation={6}
-          sx={{
-            padding: 4,
-            borderRadius: 2,
-            width: '100%',
-            maxWidth: '600px',
-            textAlign: 'center',
-            marginBottom: '30px',
-            animation: 'slideIn 0.5s ease-in-out', // Slide-in animation
-          }}
-        >
-          <Typography variant="h5" component="h2" gutterBottom>
-            Send Us a Message
-          </Typography>
-          <Box component="form" sx={{ marginTop: '20px' }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField label="Name" variant="outlined" fullWidth required sx={styles.inputFocus} />
+      {/* Background area with user image */}
+      <Box
+        sx={{
+          backgroundImage: `url(${userImage})`, // Set the background image here
+          backgroundSize: 'cover', // Cover the entire box
+          backgroundPosition: 'center',
+          height: '100vh', // Set height to cover full viewport height
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start', // Align items to the top
+          paddingTop: '20px', // Optional: add some padding at the top
+          margin: '0', // Remove margin to ensure full coverage
+          borderRadius: '0', // Remove rounding if full coverage is desired
+        }}
+      >
+        <Container maxWidth="md" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingY: 5 }}>
+          
+          {/* Contact Form with slide-in animation */}
+          <Paper
+            elevation={6}
+            sx={{
+              padding: 4,
+              borderRadius: 2,
+              width: '100%',
+              maxWidth: '600px',
+              textAlign: 'center',
+              marginBottom: '30px',
+              animation: 'slideIn 0.5s ease-in-out', // Slide-in animation
+              backgroundColor: 'rgba(255, 255, 255, 0.8)', // Set transparent background
+              backdropFilter: 'blur(10px)', // Optional: add a blur effect for better readability
+            }}
+          >
+            <Typography variant="h5" component="h2" gutterBottom>
+              Send Us a Message
+            </Typography>
+            <Box component="form" sx={{ marginTop: '20px' }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField label="Name" variant="outlined" fullWidth required sx={styles.inputFocus} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField label="Email" variant="outlined" fullWidth required sx={styles.inputFocus} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Message"
+                    variant="outlined"
+                    fullWidth
+                    multiline
+                    rows={4}
+                    required
+                    sx={styles.inputFocus}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                      backgroundColor: '#F8B9B7',
+                      color: '#fff',
+                      paddingY: 1.5,
+                      borderRadius: 2,
+                      boxShadow: 'none',
+                      textTransform: 'none',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField label="Email" variant="outlined" fullWidth required sx={styles.inputFocus} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Message"
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  rows={4}
-                  required
-                  sx={styles.inputFocus}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{
-                    backgroundColor: '#F8B9B7',
-                    color: '#fff',
-                    paddingY: 1.5,
-                    borderRadius: 2,
-                    boxShadow: 'none',
-                    textTransform: 'none',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Paper>
-
-        {/* FAQ Section with slide-in animation */}
-        <Paper
-          elevation={6}
-          sx={{
-            padding: 4,
-            borderRadius: 2,
-            width: '100%',
-            animation: 'slideIn 0.5s ease-in-out', // Slide-in animation
-          }}
-        >
-          <Typography variant="h5" component="h2" gutterBottom align="center">
-            Frequently Asked Questions
-          </Typography>
-          {faqs.map((faq, index) => (
-            <Box key={index} sx={{ marginBottom: '15px' }}>
-              <Typography
-                variant="h6"
-                gutterBottom
-                sx={{ cursor: 'pointer', color: '#007bff', '&:hover': { textDecoration: 'underline' } }}
-                onClick={() => handleClickOpen(faq)}
-              >
-                {faq.question}
-              </Typography>
             </Box>
-          ))}
-        </Paper>
+          </Paper>
 
-        {/* FAQ Dialog */}
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>{selectedFAQ?.question}</DialogTitle>
-          <DialogContent>
-            <Typography>{selectedFAQ?.answer}</Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Container>
+          {/* FAQ Section with slide-in animation */}
+          <Paper
+            elevation={6}
+            sx={{
+              padding: 4,
+              borderRadius: 2,
+              width: '100%',
+              animation: 'slideIn 0.5s ease-in-out', // Slide-in animation
+              backgroundColor: 'rgba(255, 255, 255, 0.8)', // Set transparent background
+              backdropFilter: 'blur(10px)', // Optional: add a blur effect for better readability
+            }}
+          >
+            <Typography variant="h5" component="h2" gutterBottom align="center">
+              Frequently Asked Questions
+            </Typography>
+            {faqs.map((faq, index) => (
+              <Box key={index} sx={{ marginBottom: '15px' }}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{ cursor: 'pointer', color: '#007bff', '&:hover': { textDecoration: 'underline' } }}
+                  onClick={() => handleClickOpen(faq)}
+                >
+                  {faq.question}
+                </Typography>
+              </Box>
+            ))}
+          </Paper>
+
+          {/* FAQ Dialog */}
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>{selectedFAQ?.question}</DialogTitle>
+            <DialogContent>
+              <Typography>{selectedFAQ?.answer}</Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Container>
+      </Box>
       <Footer />
     </Box>
   );

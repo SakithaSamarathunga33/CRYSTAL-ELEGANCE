@@ -10,6 +10,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import Logo from '../Images/3.png';
+import BackgroundImage from '../Images/l1.png'; // Import your background image
 
 function Register() {
     const navigate = useNavigate();
@@ -67,7 +68,16 @@ function Register() {
     };
 
     return (
-        <Box sx={{ backgroundColor: '#FAF2F2', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box
+            sx={{
+                backgroundImage: `url(${BackgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                minHeight: '100vh',
+                display: 'flex',
+                flexDirection: 'column'
+            }}
+        >
             <Navbar />
             <Container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingY: 5 }}>
                 <Paper elevation={6} sx={{ paddingRight: 4, paddingLeft: 4, paddingTop: 4, borderRadius: 2, maxWidth: 900 }}>

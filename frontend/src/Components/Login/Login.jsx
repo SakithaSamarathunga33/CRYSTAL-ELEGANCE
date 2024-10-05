@@ -7,7 +7,8 @@ import Footer from '../Footer/Footer';
 import { Box, Button, Container, Grid, TextField, Typography, Paper, Divider } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
-import Logo from '../Images/3.png';
+import Logo from '../Images/3.png'; // Your logo
+import BackgroundImage from '../Images/l1.png'; // Import your background image
 
 function Login() {
     const navigate = useNavigate();
@@ -60,19 +61,38 @@ function Login() {
     };
 
     return (
-        <Box sx={{ backgroundColor: '#FAF2F2', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box
+            sx={{
+                backgroundImage: `url(${BackgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                minHeight: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
             <Navbar />
-            <Container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingY: 5 }}>
-                <Paper elevation={6} sx={{ paddingRight: 4, paddingLeft: 4, paddingTop: 4, borderRadius: 2, maxWidth: 900 }}>
+            <Container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingY: 5, paddingRight: 4 }}>
+                <Paper
+                    elevation={6}
+                    sx={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)', // White with transparency
+                        padding: 4,
+                        borderRadius: 2,
+                        maxWidth: 900,
+                        backdropFilter: 'blur(10px)', // Adds a blur effect
+                        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)', // Soft shadow
+                    }}
+                >
                     <Grid container spacing={4}>
                         <Grid item xs={12} sm={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F8D9D9', borderRadius: 2 }}>
                             <img src={Logo} alt="Crystal Elegance" style={{ maxWidth: '100%', paddingRight: 30, height: '50vh', paddingBottom: 30 }} />
                         </Grid>
                         <Grid item xs={12} sm={7}>
-                            <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
+                            <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#333' }}>
                                 LOGIN
                             </Typography>
-                            <Typography variant="subtitle1" sx={{ marginBottom: 2 }}>
+                            <Typography variant="subtitle1" sx={{ marginBottom: 2, color: '#666' }}>
                                 We add elegance to your freedom
                             </Typography>
                             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
@@ -113,7 +133,7 @@ function Login() {
                                 >
                                     Login Now
                                 </Button>
-                                <Divider sx={{ marginY: 2 }}>
+                                <Divider sx={{ marginY: 2}}>
                                     <Typography variant="body2">Login with Others</Typography>
                                 </Divider>
                             </Box>

@@ -165,7 +165,7 @@ function JewelleryDetails() {
                     <TableCell>ID</TableCell>
                     <TableCell>Image</TableCell>
                     <TableCell>Name</TableCell>
-                    <TableCell>Short Description</TableCell>
+                   
                     <TableCell>Price</TableCell>
                     <TableCell>Quantity</TableCell>
                     <TableCell>Status</TableCell>
@@ -187,7 +187,7 @@ function JewelleryDetails() {
                           <img src={item.image || 'default-image-path'} alt={item.name} style={{ width: '50px', height: '50px' }} />
                         </TableCell>
                         <TableCell>{item.name}</TableCell>
-                        <TableCell>{shortenDescription(item.description || 'No Description')}</TableCell>
+                        
                         <TableCell>{item.price}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>{item.status}</TableCell>

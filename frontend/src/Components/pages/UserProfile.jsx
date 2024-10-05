@@ -92,16 +92,40 @@ function UserProfile() {
     };
 
     if (loading) {
-        return <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <CircularProgress />
-        </Box>;
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <CircularProgress />
+            </Box>
+        );
     }
 
     return (
-        <Box sx={{ backgroundColor: '#F8DADA', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box 
+            sx={{ 
+                backgroundImage: 'url("https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?cs=srgb&dl=pexels-jplenio-1103970.jpg&fm=jpg")', // Replace with your image URL
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                minHeight: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                paddingBottom: 10 // Padding to prevent footer overlap
+            }}
+        >
             <Navbar />
             <Container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingY: 7 }}>
-                <Paper elevation={6} sx={{ padding: 4, borderRadius: 2, maxWidth: 900, width: '100%', display: 'flex', height: '100%' }}>
+                <Paper
+                    elevation={10}
+                    sx={{
+                        padding: 4,
+                        borderRadius: 2,
+                        maxWidth: 900,
+                        width: '100%',
+                        display: 'flex',
+                        height: '100%',
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)', // Slightly transparent white background
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                    }}
+                >
                     <Grid container sx={{ height: '100%' }}>
                         {/* Left side: Avatar and Buttons */}
                         <Grid 
@@ -120,7 +144,7 @@ function UserProfile() {
                             <Avatar
                                 src={user.image}
                                 alt={user.name}
-                                sx={{ width: 120, height: 120, marginBottom: 2 }}
+                                sx={{ width: 120, height: 120, marginBottom: 2, border: '4px solid #FF6F61', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)' }}
                             />
                             {!editing && (
                                 <>
@@ -128,7 +152,7 @@ function UserProfile() {
                                         variant="contained"
                                         startIcon={<Edit />}
                                         fullWidth
-                                        sx={{ marginBottom: 2, backgroundColor: '#ffffff', color: '#000', textTransform: 'none' }}
+                                        sx={{ marginBottom: 2, backgroundColor: '#FF6F61', color: '#ffffff', textTransform: 'none', '&:hover': { backgroundColor: '#FF4F45' }}}
                                         onClick={() => setEditing(true)}
                                     >
                                         Edit Account
@@ -137,7 +161,7 @@ function UserProfile() {
                                         variant="contained"
                                         startIcon={<Lock />}
                                         fullWidth
-                                        sx={{ marginBottom: 2, backgroundColor: '#ffffff', color: '#000', textTransform: 'none' }}
+                                        sx={{ marginBottom: 2, backgroundColor: '#FF6F61', color: '#ffffff', textTransform: 'none', '&:hover': { backgroundColor: '#FF4F45' }}}
                                     >
                                         Change Password
                                     </Button>
@@ -145,7 +169,7 @@ function UserProfile() {
                                         variant="contained"
                                         startIcon={<Delete />}
                                         fullWidth
-                                        sx={{ marginBottom: 2, backgroundColor: '#ffffff', color: '#000', textTransform: 'none' }}
+                                        sx={{ marginBottom: 2, backgroundColor: '#FF6F61', color: '#ffffff', textTransform: 'none', '&:hover': { backgroundColor: '#FF4F45' }}}
                                         onClick={handleDelete}
                                     >
                                         Delete Account
@@ -154,7 +178,7 @@ function UserProfile() {
                                         variant="contained"
                                         startIcon={<Logout />}
                                         fullWidth
-                                        sx={{ backgroundColor: '#ffffff', color: '#000', textTransform: 'none' }}
+                                        sx={{ backgroundColor: '#FF6F61', color: '#ffffff', textTransform: 'none', '&:hover': { backgroundColor: '#FF4F45' }}}
                                         onClick={handleLogout}
                                     >
                                         Logout
@@ -170,7 +194,7 @@ function UserProfile() {
                                     <IconButton onClick={() => setEditing(false)} sx={{ marginBottom: 2 }}>
                                         <ArrowBack />
                                     </IconButton>
-                                    <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
+                                    <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#FF6F61' }}>
                                         Edit Profile
                                     </Typography>
                                     {error && <Typography color="error">{error}</Typography>}
@@ -181,6 +205,8 @@ function UserProfile() {
                                         onChange={handleChange}
                                         fullWidth
                                         margin="normal"
+                                        variant="outlined"
+                                        sx={{ backgroundColor: '#F8DADA' }} // Light background for input fields
                                     />
                                     <TextField
                                         label="Name"
@@ -189,6 +215,8 @@ function UserProfile() {
                                         onChange={handleChange}
                                         fullWidth
                                         margin="normal"
+                                        variant="outlined"
+                                        sx={{ backgroundColor: '#F8DADA' }}
                                     />
                                     <TextField
                                         label="Email"
@@ -197,6 +225,8 @@ function UserProfile() {
                                         onChange={handleChange}
                                         fullWidth
                                         margin="normal"
+                                        variant="outlined"
+                                        sx={{ backgroundColor: '#F8DADA' }}
                                     />
                                     <TextField
                                         label="Phone"
@@ -205,6 +235,8 @@ function UserProfile() {
                                         onChange={handleChange}
                                         fullWidth
                                         margin="normal"
+                                        variant="outlined"
+                                        sx={{ backgroundColor: '#F8DADA' }}
                                     />
                                     <Button
                                         variant="contained"
@@ -225,7 +257,7 @@ function UserProfile() {
                                 </>
                             ) : (
                                 <>
-                                    <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
+                                    <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#FF6F61' }}>
                                         MY ACCOUNT
                                     </Typography>
                                     <Typography variant="body1" sx={{ marginBottom: 2 }}>

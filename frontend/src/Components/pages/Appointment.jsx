@@ -10,16 +10,20 @@ import {
   TextField,
   Typography,
   Paper,
+  Divider,
   Snackbar,
   Alert,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
-import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DescriptionIcon from '@mui/icons-material/Description';
+import Logo from '../Images/3.png'; // Use the same logo as in the Login component
 
 const URL = "http://localhost:4000/appointments";
 
@@ -75,12 +79,18 @@ function Appointment() {
     <Box sx={{ backgroundColor: '#FAF2F2', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
       <Container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', paddingY: 5 }}>
-        <Paper elevation={6} sx={{ padding: 4, borderRadius: 2, maxWidth: 900 }}>
+        <Paper elevation={6} sx={{ paddingRight: 4, paddingLeft: 4, paddingTop: 4, borderRadius: 2, maxWidth: 900 }}>
           <Grid container spacing={4}>
             <Grid item xs={12} sm={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F8D9D9', borderRadius: 2 }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold' }}>Add Appointment</Typography>
+              <img src={Logo} alt="Crystal Elegance" style={{ maxWidth: '100%', height: '50vh', paddingBottom: 30, paddingRight: 30 }} />
             </Grid>
             <Grid item xs={12} sm={7}>
+              <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
+                Schedule an Appointment
+              </Typography>
+              <Typography variant="subtitle1" sx={{ marginBottom: 2 }}>
+                We add elegance to your freedom
+              </Typography>
               <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
                 <TextField
                   fullWidth
@@ -149,15 +159,21 @@ function Appointment() {
                   }}
                   sx={{ marginBottom: 2 }}
                 />
-                <TextField
+                <InputLabel id="service-type-label">Service Type</InputLabel>
+                <Select
                   fullWidth
-                  placeholder="Service Type"
+                  labelId="service-type-label"
                   variant="outlined"
                   name="serviceType"
                   value={appointment.serviceType}
                   onChange={handleInputChange}
-                  sx={{ marginBottom: 2 }}
-                />
+                  sx={{ marginBottom: 2, backgroundColor: '#FDF2F2', borderRadius: 2 }}
+                >
+                  <MenuItem value="" disabled>Select a Service</MenuItem>
+                  <MenuItem value="buy_gem">Buy a Gem</MenuItem>
+                  <MenuItem value="repair_jewelry">Repair a Jewelry</MenuItem>
+                  <MenuItem value="visit">Visit</MenuItem>
+                </Select>
                 <TextField
                   fullWidth
                   placeholder="Notes"
@@ -187,8 +203,9 @@ function Appointment() {
                     fontWeight: 'bold',
                   }}
                 >
-                  Add Appointment
+                  Schedule Appointment
                 </Button>
+                <Divider sx={{ marginY: 2 }} />
               </Box>
             </Grid>
           </Grid>
@@ -196,7 +213,7 @@ function Appointment() {
       </Container>
       <Snackbar open={success} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-          Appointment added successfully!
+          Appointment scheduled successfully!
         </Alert>
       </Snackbar>
       <Snackbar open={Boolean(error)} autoHideDuration={6000} onClose={handleCloseSnackbar}>
