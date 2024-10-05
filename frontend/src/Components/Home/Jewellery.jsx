@@ -17,7 +17,6 @@ import {
   MenuItem,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-// Importing Swiper related components has been removed as it's no longer needed
 import background3 from '../Images/background.png';
 
 const URL = "http://localhost:4000/jewellery";
@@ -228,10 +227,11 @@ function JewelleryPage() {
           </Grid>
         </Grid>
 
+        {/* Full-width Grid for Jewellery Items */}
         <Grid container spacing={2}>
           {jewellery.length > 0 ? (
             jewellery.map(item => (
-              <Grid item xs={12} sm={6} md={3} key={item._id}>
+              <Grid item xs={12} sm={6} md={4} key={item._id}>
                 <Card
                   sx={{
                     boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
