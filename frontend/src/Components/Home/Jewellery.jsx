@@ -17,8 +17,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+// Importing Swiper related components has been removed as it's no longer needed
 import background3 from '../Images/background.png';
 
 const URL = "http://localhost:4000/jewellery";
@@ -96,7 +95,7 @@ function JewelleryPage() {
   return (
     <div 
       style={{ 
-        backgroundImage: 'url(https://as1.ftcdn.net/v2/jpg/01/78/07/96/1000_F_178079650_J6H1bEM6tuTWBCxxRsu3h6GSdqqberqn.jpg)',
+        backgroundImage: 'url(https://img.freepik.com/free-vector/white-abstract-background_23-2148817571.jpg?w=1380&t=st=1728114360~exp=1728114960~hmac=e6644fdf030f71cf7e3d548f6c2bd369d2e4486144db2c8689799b8195705b50)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         minHeight: '100vh',
@@ -107,19 +106,9 @@ function JewelleryPage() {
       <br />
 
       {/* Image Bar */}
-      <Swiper
-        spaceBetween={10}
-        slidesPerView={3}
-        navigation
-        style={{ marginBottom: '20px' }}
-        breakpoints={{
-          320: { slidesPerView: 1 },
-          600: { slidesPerView: 2 },
-          960: { slidesPerView: 3 },
-        }}
-      >
+      <Grid container spacing={2} sx={{ marginBottom: '20px' }}>
         {imageBarItems.map((image, index) => (
-          <SwiperSlide key={index}>
+          <Grid item xs={12} sm={6} md={4} key={index}>
             <img 
               src={image} 
               alt={`Promo ${index + 1}`} 
@@ -133,9 +122,9 @@ function JewelleryPage() {
                 animationDelay: `${0.5 + index * 0.3}s`, // Stagger the fade-in for each image
               }} 
             />
-          </SwiperSlide>
+          </Grid>
         ))}
-      </Swiper>
+      </Grid>
 
       <Container>
         <Typography variant="h4" align="left" gutterBottom sx={{ fontWeight: 'bold', marginBottom: '20px', opacity: 0, animation: 'fadeInText 1.5s forwards', animationDelay: '0.8s' }}>
@@ -239,29 +228,19 @@ function JewelleryPage() {
           </Grid>
         </Grid>
 
-        <Swiper
-          spaceBetween={10}
-          slidesPerView={4}
-          navigation
-          style={{ marginBottom: '20px' }}
-          breakpoints={{
-            320: { slidesPerView: 1 },
-            600: { slidesPerView: 2 },
-            960: { slidesPerView: 3 },
-            1200: { slidesPerView: 4 },
-          }}
-        >
+        <Grid container spacing={2}>
           {jewellery.length > 0 ? (
             jewellery.map(item => (
-              <SwiperSlide key={item._id}>
+              <Grid item xs={12} sm={6} md={3} key={item._id}>
                 <Card
                   sx={{
                     boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                    transition: 'transform 0.2s, box-shadow 0.2s', // Smooth zoom-in on hover
+                    transition: 'transform 0.2s, box-shadow 0.2s',
                     '&:hover': {
-                      transform: 'scale(1.05)', // Zoom-in on hover
+                      transform: 'scale(1.05)',
                       boxShadow: '0 6px 12px rgba(0,0,0,0.4)',
-                    }
+                    },
+                    marginBottom: '20px',
                   }}
                 >
                   <Link to={`/jewellery/${item._id}`}>
@@ -282,13 +261,12 @@ function JewelleryPage() {
                     </Typography>
                   </CardContent>
                 </Card>
-              </SwiperSlide>
+              </Grid>
             ))
           ) : (
             <Typography>No jewellery items found.</Typography>
           )}
-        </Swiper>
-
+        </Grid>
       </Container>
 
       <Footer />
@@ -297,5 +275,3 @@ function JewelleryPage() {
 }
 
 export default JewelleryPage;
-
-
