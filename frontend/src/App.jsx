@@ -64,6 +64,8 @@ import Feedback from './Components/Admin/Feedback/Feedback';
 import SupportDetails from './Components/Admin/Support/SupportDetails';
 
 import AppointmentDetails from './Components/Admin/Appointment/AppointmentDetails';
+import AddAppointment from './Components/Admin/Appointment/AddAppointment';
+import UpdateAppointment from './Components/Admin/Appointment/UpdateAppointment';
 
 import OrderDetails from './Components/Admin/Order/OrderDetails';
 
@@ -153,6 +155,8 @@ function App() {
             <Route path="order-management" element={<OrderDetails />} />
 
             <Route path="appointment-management" element={<AppointmentDetails />} />
+            <Route path="add-appointment" element={<AddAppointment />} />
+            <Route path="update-appointment/:id" element={<UpdateAppointment />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
