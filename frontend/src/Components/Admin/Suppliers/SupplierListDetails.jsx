@@ -30,9 +30,9 @@ const SupplierListDetails = () => {
   }, []);
 
   const handleEdit = (supId) => {
-    navigate(`/admindashboard/update-supplier/${supId}`);
+    navigate(`/admindashboard/update-supplier-list/${supId}`);
   };
-
+  
   const handleDelete = async (supId) => {
     if (window.confirm('Are you sure you want to delete this supplier?')) {
       try {

@@ -24,6 +24,7 @@ exports.createSupplier = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 // Get all Suppliers
 exports.getAllSuppliers = async (req, res) => {
   try {
@@ -48,20 +49,20 @@ exports.getSupplierBySupId = async (req, res) => {
 };
 
 // Update a Supplier by SupId
+// Update a Supplier by SupId
 exports.updateSupplier = async (req, res) => {
   try {
-    // Validate the incoming data if needed
-    const { SupId, SupName, items, description } = req.body;
+    const { SupName, items, description } = req.body;
 
     // Ensure all required fields are present
-    if (!SupId || !SupName || !description) {
+    if (!SupName || !description) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
     // Update the supplier using findOneAndUpdate
     const updatedSupplier = await SupplierList.findOneAndUpdate(
       { SupId: req.params.supId }, // Match by SupId
-      { SupId, SupName, items, description }, // Update fields
+      { SupName, items, description }, // Update fields
       { new: true, runValidators: true } // Return the updated document and run validators
     );
 
