@@ -106,9 +106,7 @@ function SupplierDetails() {
         setNoResults(filteredSuppliers.length === 0);
     };
 
-    const handleAddSupplier = () => {
-        setShowAddSupplierForm(true);
-    };
+    
 
     const handleBack = () => {
         setShowAddSupplierForm(false);

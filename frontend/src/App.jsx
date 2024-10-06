@@ -46,9 +46,9 @@ import Employee from './Components/Admin/Employees/Employee';
 import AddSalary from './Components/Admin/Employees/AddSalary';
 import EmployeeDashboard from './Components/Admin/Employees/EmployeeDashboard';
 
-import SupplierDetails from './Components/Admin/Suppliers/SupplierDetails';
+import SupplierDetails from './Components/Admin/Suppliers/SupplierOrderDetails';
 import AddSupplierOrder from './Components/Admin/Suppliers/AddSupplierOrder';
-import UpdateSupplier from './Components/Admin/Suppliers/UpdateSupplier';
+import UpdateSupplier from './Components/Admin/Suppliers/UpdateSupplierOrder';
 import Supplier from './Components/Admin/Suppliers/Supplier';
 import AddSupplierList from './Components/Admin/Suppliers/AddSupplierList';
 import SupplierDashboard from './Components/Admin/Suppliers/SupplierListDetails';
