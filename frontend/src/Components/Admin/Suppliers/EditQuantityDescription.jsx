@@ -10,7 +10,7 @@ const EditQuantityDescription = () => {
     const [quantity, setQuantity] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
-    const [statuses] = useState(['Available', 'Unavailable', 'Pending']); // Sample statuses
+    const [statuses] = useState(['Completed', 'canceled', 'Pending']); // Sample statuses
     const [openSnackbar, setOpenSnackbar] = useState(false); // Snackbar open state
     const navigate = useNavigate();
 
