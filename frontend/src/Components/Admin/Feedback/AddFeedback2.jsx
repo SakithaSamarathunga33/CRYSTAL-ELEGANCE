@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { TextField, Button, Box } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { TextField, Button, Box, Typography } from '@mui/material';
 import axios from 'axios';
 import StarRatings from 'react-star-ratings';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Auth/AuthContext'; // Import AuthContext
 
 const URL = "http://localhost:4000/feedback";
 
 function AddFeedback({ jewelleryId, onBack }) {
+  const { authState } = useContext(AuthContext); // Use AuthContext to get user data
   const [feedback, setFeedback] = useState({
-    feedbackId: '',
-    customerId: '',
+    customerId: authState.user?.userId || '', // Use user's ID if available
     jewelleryId: jewelleryId || '',
     rating: 1,
     comment: ''
@@ -30,6 +31,12 @@ function AddFeedback({ jewelleryId, onBack }) {
     e.preventDefault();
     setError(null);
 
+    // Basic validation
+    if (!feedback.comment) {
+      setError('Comment is required');
+      return;
+    }
+
     try {
       await axios.post(URL, feedback);
       alert('Feedback added successfully');
@@ -42,14 +49,19 @@ function AddFeedback({ jewelleryId, onBack }) {
   return (
     <Box sx={{ padding: 3 }}>
       <form onSubmit={handleSubmit}>
-      <TextField
-          label="Customer Name"
+        {error && <Typography color="error">{error}</Typography>} {/* Display error message */}
+        <Typography color="primary">Leave Your Experience</Typography>
+        <br></br>
+        <input
+          type="hidden"
           name="customerId"
-          value={feedback.customerId}
+          value={authState.user?.userId || 'Anonymous'} // Display user's name or "Anonymous"
           onChange={handleInputChange}
           fullWidth
           margin="normal"
+          disabled // Disable this field as the customer ID is taken from the context
         />
+        
         <StarRatings
           rating={feedback.rating}
           starRatedColor="gold"
@@ -59,6 +71,7 @@ function AddFeedback({ jewelleryId, onBack }) {
           starSpacing="5px"
           name='rating'
         />
+        
         <TextField
           label="Comment"
           name="comment"
@@ -68,7 +81,9 @@ function AddFeedback({ jewelleryId, onBack }) {
           multiline
           rows={4}
           margin="normal"
+          required // Mark as required for form validation
         />
+        
         <Box sx={{ marginTop: 2 }}>
           <Button type="submit" variant="contained" color="primary">Submit Feedback</Button>
           <Button variant="outlined" color="secondary" onClick={onBack} sx={{ marginLeft: 2 }}>Cancel</Button>
