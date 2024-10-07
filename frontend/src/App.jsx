@@ -115,9 +115,7 @@ function App() {
           <Route path="/termsofuse" element={<TermsOfUse />} />
 
 
-          {/* Admin Dashboard */}
-          <Route path="/admindashboard" element={<AdminDashboard />}>
-            {/* Nested Admin Routes */}
+          
 
           {/* Admin Dashboard Routes */}
           <Route path="/admindashboard" element={<AdminDashboard />}>
