@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper, IconButton } from '@mui/material';
-import { Edit, Delete, Print, Add } from '@mui/icons-material';
+import { Edit, Delete, Add } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import AddEmployee from './AddEmployee'; // Adjust path as necessary
@@ -38,11 +38,12 @@ function EmployeeDetails() {
     navigate(`/admindashboard/update-employee/${id}`);
   };
 
-  const deleteEmployee = async (id) => {
+  const deleteEmployee = async (employee) => {
     try {
-      const response = await axios.delete(`${URL}/${id}`);
+      const response = await axios.delete(`${URL}/${employee._id}`);
       if (response.status === 200) {
-        setEmployees(prev => prev.filter(employee => employee._id !== id));
+        setEmployees(prev => prev.filter(emp => emp._id !== employee._id));
+        alert(`Employee ${employee.EMPID} (${employee.name}) deleted successfully.`);
       }
     } catch (error) {
       console.error("Error deleting employee:", error.response ? error.response.data : error.message);
@@ -99,14 +100,41 @@ function EmployeeDetails() {
     setShowAddEmployeeForm(false);
   };
 
+  const handleAddSalary = (id) => {
+    navigate(`/admindashboard/add-salary/${id}`); // Redirect to Add Salary page
+  };
+
+  const handleSummaryReport = () => {
+    navigate('/admindashboard/summary-report'); // Navigate to the Summary Report page
+  };
+
   return (
-    <Box>
+    <Box
+      sx={{
+        backgroundSize: 'cover',
+        backgroundImage: `url('https://rawayat.com.pk/cdn/shop/files/WhatsAppImage2023-11-17at3.55.06PM_700x.jpg?v=1700218682')`,
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start', // Start the content at the top
+        padding: 3,
+      }}
+    >
       {showAddEmployeeForm ? (
         <Box>
           <AddEmployee onBack={handleBack} />
         </Box>
       ) : (
-        <>
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '1600px',
+            backgroundColor: 'rgba(255, 255, 255, 0.7)', // Make the box slightly transparent
+            borderRadius: 2,
+            padding: 3,
+          }}
+        >
           <Box sx={{ display: 'flex', gap: 2, marginBottom: 2, alignItems: 'center', marginTop: 4 }}>
             <TextField
               label="Search"
@@ -116,7 +144,7 @@ function EmployeeDetails() {
               sx={{
                 flexShrink: 1,
                 width: '300px', // Increased width for the search bar
-                backgroundColor: 'white',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
                 borderRadius: 1,
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
@@ -141,7 +169,7 @@ function EmployeeDetails() {
             </Button>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               onClick={handleAddEmployee}
               sx={{ borderRadius: 2, marginLeft: 'auto' }}
               startIcon={<Add />}
@@ -184,14 +212,14 @@ function EmployeeDetails() {
                           <IconButton onClick={() => handleEdit(employee._id)} sx={{ color: 'primary.main' }}>
                             <Edit />
                           </IconButton>
-                          <IconButton onClick={() => deleteEmployee(employee._id)} sx={{ color: 'error.main' }}>
+                          <IconButton onClick={() => deleteEmployee(employee)} sx={{ color: 'error.main' }}>
                             <Delete />
                           </IconButton>
-                          <Button 
-                            variant="contained" 
-                            color="info" 
-                            onClick={() => navigate(`/admindashboard/add-salary/${employee._id}`)} 
-                            sx={{ marginLeft: 10 }}
+                          <Button
+                            variant="contained"
+                            color="info"
+                            onClick={() => handleAddSalary(employee._id)} // Redirect to Add Salary
+                            sx={{ marginLeft: 1 }}
                           >
                             Add Salary
                           </Button>
@@ -202,17 +230,17 @@ function EmployeeDetails() {
                 </TableBody>
               </Table>
             </TableContainer>
+          </Box>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handlePDF}
-              sx={{ marginTop: 5, borderRadius: 2 }}
-            >
-              <Print /> Download
+          <Box sx={{ display: 'flex', gap: 2, marginTop: 2 }}>
+            <Button variant="contained" color="primary" onClick={handlePDF}>
+              Generate PDF Report
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleSummaryReport}>
+              Summary Report
             </Button>
           </Box>
-        </>
+        </Box>
       )}
     </Box>
   );

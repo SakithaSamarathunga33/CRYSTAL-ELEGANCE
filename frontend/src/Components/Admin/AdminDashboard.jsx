@@ -31,7 +31,26 @@ function AdminDashboard() {
   const { logout } = useContext(AuthContext);
 
   const [currentTab, setCurrentTab] = useState('');
+
+  const [showSampleButton, setShowSampleButton] = useState(false);
+  const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State for Employee Management button
+
+  const menuItems = [
+    { text: 'Dashboard', icon: <FontAwesomeIcon icon={faTachometerAlt} />, path: '/admindashboard' },
+    { text: 'User Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/user-management' },
+    { text: 'Jewellery Management', icon: <FontAwesomeIcon icon={faRing} />, path: '/admindashboard/jewellery-management' },
+    { text: 'Gem Management', icon: <FontAwesomeIcon icon={faGem} />, path: '/admindashboard/gem-management' },
+    { text: 'Inventory Management', icon: <FontAwesomeIcon icon={faBoxOpen} />, path: '/admindashboard/inventory-management' },
+    { text: 'Employee Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/employee-management' },
+    { text: 'Supplier Management', icon: <FontAwesomeIcon icon={faTruck} />, path: '/admindashboard/supplier-management' },
+    { text: 'Appointment Management', icon: <FontAwesomeIcon icon={faClipboardList} />, path: '/admindashboard/appointment-management' },
+    { text: 'Order Management', icon: <FontAwesomeIcon icon={faShoppingCart} />, path: '/admindashboard/order-management' },
+    { text: 'Feedback Management', icon: <FontAwesomeIcon icon={faComments} />, path: '/admindashboard/feedback-management' },
+    { text: 'Support Management', icon: <FontAwesomeIcon icon={faHeadset} />, path: '/admindashboard/support-management' },
+  ];
+
   const [showSupplierListButton, setShowSupplierListButton] = useState(false);
+
 
   useEffect(() => {
     const currentPath = location.pathname;

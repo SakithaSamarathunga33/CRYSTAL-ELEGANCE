@@ -76,6 +76,9 @@ import { AuthProvider } from './Components/Auth/AuthContext';  // Import AuthPro
 import JewelleryProfile from './Components/pages/JewelleryProfile';
 import MakePayment from './Components/pages/MakePayment';
 
+// Import new Summary Report and EmployeeDetails components
+import SummaryReport from './Components/Admin/Employees/SummaryReport'; // Adjust path as necessary
+
 function App() {
   return (
     <AuthProvider>  {/* Wrap the entire app with AuthProvider */}
@@ -83,6 +86,17 @@ function App() {
         <Routes>
           {/* Home Page as the default route */}
           <Route path="/" element={<Home />} />
+
+
+          {/* Login Page */}
+          <Route path="/login" element={<Login />} />
+          <Route path='/jewellery' element={<Jewellery />} />
+          <Route path='/gems' element={<Gems />} />
+          <Route path='/about' element={<AboutUs />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/signup' element={<Register />} />
+          <Route path='/userprofile' element={<UserProfile />} />
+
 
           {/* Authentication Routes */}
           <Route path="/login" element={<Login />} />
@@ -93,16 +107,23 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/jewellery" element={<Jewellery />} />
           <Route path="/gems" element={<Gems />} />
+
           <Route path="/jewellery/:id" element={<JewelleryProfile />} />
           <Route path="/makepayment/:id" element={<MakePayment />} />
           <Route path="/appointment" element={<Appointments />} />
           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
           <Route path="/termsofuse" element={<TermsOfUse />} />
 
+
+          {/* Admin Dashboard */}
+          <Route path="/admindashboard" element={<AdminDashboard />}>
+            {/* Nested Admin Routes */}
+
           {/* Admin Dashboard Routes */}
           <Route path="/admindashboard" element={<AdminDashboard />}>
           <Route path="dashboard" element={<Dashboard />} />
             {/* User Management */}
+
             <Route path="user-management" element={<UserDetails />} />
             <Route path="adduser" element={<AddUser />} />
             <Route path="update-user/:id" element={<UpdateUser />} />
@@ -136,8 +157,12 @@ function App() {
             <Route path="update-employee/:id" element={<UpdateEmployee />} />
             <Route path="add-salary/:id" element={<AddSalary />} />
             <Route path="employee-details" element={<EmployeeDetails />} />
+            <Route path="summary-report" element={<SummaryReport />} />
+
+
 
             {/* Supplier Management */}
+
             <Route path="supplier-management" element={<SupplierDetails />} />
             <Route path="supplier/:id" element={<Supplier />} />
             <Route path="add-supplier/:supId" element={<AddSupplierOrder />} />
@@ -158,14 +183,19 @@ function App() {
             <Route path="update-feedback/:id" element={<UpdateFeedback />} />
 
             <Route path="support-management" element={<SupportDetails />} />
-
             <Route path="order-management" element={<OrderDetails />} />
-
             <Route path="appointment-management" element={<AppointmentDetails />} />
             <Route path="add-appointment" element={<AddAppointment />} />
             <Route path="update-appointment/:id" element={<UpdateAppointment />} />
           </Route>
 
+          {/* Summary Report Route */}
+          
+          
+          {/* EmployeeDetails Page */}
+          <Route path="/employee-details" element={<EmployeeDetails />} />
+
+          {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
