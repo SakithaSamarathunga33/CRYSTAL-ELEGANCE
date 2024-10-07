@@ -9,7 +9,7 @@ const generateUserId = async () => {
     const lastUser = await User.findOne().sort({ userId: -1 }).limit(1);
     const lastId = lastUser ? parseInt(lastUser.userId.slice(1), 10) : 0;
     const newId = (lastId + 1).toString().padStart(3, '0');
-    return `U${newId}`;
+    return `C${newId}`;
 };
 
 // Login user
@@ -52,8 +52,8 @@ exports.getUserProfile = async (req, res) => {
 // Update user profile
 exports.updateUserProfile = async (req, res) => {
     try {
-        const { userName, name, email, phone, type, password } = req.body;
-        const updateData = { userName, name, email, phone, type };
+        const { userName, name, email, phone, type, password, gender, birthday } = req.body;
+        const updateData = { userName, name, email, phone, type, gender, birthday };
 
         if (password) {
             updateData.password = await bcrypt.hash(password, saltRounds);
@@ -68,6 +68,9 @@ exports.updateUserProfile = async (req, res) => {
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
+
+        // Update the user object in the AuthContext
+        req.user = updatedUser;
 
         res.status(200).json({ message: 'User updated successfully', user: updatedUser });
     } catch (error) {
@@ -98,7 +101,7 @@ exports.changeUserPassword = async (req, res) => {
 // Create a new user
 exports.createUser = async (req, res) => {
     try {
-        const { userName, name, email, password, phone, type } = req.body;
+        const { userName, name, email, password, phone, type, gender, birthday } = req.body;
 
         const existingUser = await User.findOne({ $or: [{ userName }, { email }] });
         if (existingUser) {
@@ -107,7 +110,7 @@ exports.createUser = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const userId = await generateUserId();
-        const newUser = new User({ userId, userName, name, email, password: hashedPassword, phone, type });
+        const newUser = new User({ userId, userName, name, email, password: hashedPassword, phone, type, gender, birthday });
         await newUser.save();
 
         res.status(201).json({ message: 'User created successfully', user: newUser });
@@ -142,8 +145,8 @@ exports.getUserById = async (req, res) => {
 // Update a user by ID
 exports.updateUser = async (req, res) => {
     try {
-        const { userName, name, email, password, phone, type } = req.body;
-        const updateData = { userName, name, email, phone, type };
+        const { userName, name, email, password, phone, type, gender, birthday } = req.body;
+        const updateData = { userName, name, email, phone, type, gender, birthday };
 
         if (password) {
             updateData.password = await bcrypt.hash(password, saltRounds);
@@ -175,27 +178,5 @@ exports.deleteUser = async (req, res) => {
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting user', error: error.message });
-    }
-};
-exports.updateUserProfile = async (req, res) => {
-    try {
-        // ...
-
-        const updatedUser = await User.findOneAndUpdate(
-            { userId: req.user.userId },
-            updateData,
-            { new: true }
-        );
-
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Update the user object in the AuthContext
-        req.user = updatedUser;
-
-        res.status(200).json({ message: 'User updated successfully', user: updatedUser });
-    } catch (error) {
-        res.status(500).json({ message: 'Error updating user profile', error: error.message });
     }
 };

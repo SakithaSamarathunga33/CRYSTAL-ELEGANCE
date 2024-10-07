@@ -13,6 +13,8 @@ function AddUser({ onBack }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [gender, setGender] = useState(''); // Added gender state
+  const [birthday, setBirthday] = useState(''); // Added birthday state
   const [type, setType] = useState('user'); // Default to 'user'
   const [error, setError] = useState(null);
 
@@ -22,13 +24,13 @@ function AddUser({ onBack }) {
     e.preventDefault();
     setError(null); // Reset error state
 
-    if (!userName || !name || !email || !password || !phone) {
+    if (!userName || !name || !email || !password || !phone || !gender || !birthday) {
       setError('Please fill in all fields.');
       return;
     }
 
     try {
-      const response = await axios.post(URL, { userName, name, email, password, phone, type });
+      const response = await axios.post(URL, { userName, name, email, password, phone, gender, birthday, type });
       if (response.status === 201) {
         // Notify user of successful addition
         alert('User added successfully');
@@ -95,10 +97,36 @@ function AddUser({ onBack }) {
             onChange={(e) => setType(e.target.value)}
             label="User Type"
           >
-            <MenuItem value="user">User</MenuItem>
+            <MenuItem value="customer">Customer</MenuItem>
             <MenuItem value="admin">Admin</MenuItem>
           </Select>
         </FormControl>
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Gender</InputLabel>
+          <Select
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            label="Gender"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="bot">Bot</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          label="Birthday"
+          variant="outlined"
+          type="date"
+          value={birthday}
+          onChange={(e) => setBirthday(e.target.value)}
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        /><br></br>
         <Button
           type="submit"
           variant="contained"
