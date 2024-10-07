@@ -19,7 +19,6 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
-    
   },
   password: {
     type: String,
@@ -33,8 +32,17 @@ const UserSchema = new Schema({
   type: {
     type: String,
     required: true,
-    enum: ['admin', 'user'],
-    default: 'user'
+    enum: ['admin', 'customer'],
+    default: 'customer'
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female', 'bot'],  
+    required: true,  // Make this required or optional based on your needs
+  },
+  birthday: {
+    type: Date,
+    required: true,  // Make this required or optional based on your needs
   }
 });
 

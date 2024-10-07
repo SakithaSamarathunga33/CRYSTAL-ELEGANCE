@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper, IconButton } from '@mui/material';
-import { Edit, Delete, Print, Add } from '@mui/icons-material';
+import { Edit, Delete, Add } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import AddInventory from './AddInventory';
@@ -25,16 +24,27 @@ function InventoryDetails() {
   const [searchQuery, setSearchQuery] = useState('');
   const [noResults, setNoResults] = useState(false);
   const [showAddInventoryForm, setShowAddInventoryForm] = useState(false);
+  const [lowStockItems, setLowStockItems] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchInventory().then(data => {
-      setInventory(data);
-    }).catch(error => {
-      console.error("Error fetching inventory:", error);
-    });
+    const getInventory = async () => {
+      try {
+        const data = await fetchInventory();
+        setInventory(data);
+        filterLowStockItems(data);
+      } catch (error) {
+        console.error("Error fetching inventory:", error);
+      }
+    };
+    getInventory();
   }, []);
+
+  const filterLowStockItems = (inventoryData) => {
+    const lowStock = inventoryData.filter(item => item.quantity <= item.minStock);
+    setLowStockItems(lowStock);
+  };
 
   const handleEdit = (id) => {
     navigate(`/admindashboard/update-inventory/${id}`);
@@ -44,14 +54,13 @@ function InventoryDetails() {
     try {
       console.log(`Attempting to delete inventory with ID: ${id}`);
       const response = await axios.delete(`${URL}/${id}`);
-      
       console.log('Delete response:', response);
       
       if (response.status === 200) {
         console.log(`Successfully deleted inventory with ID: ${id}`);
         setInventory(prev => {
-          const updatedList = prev.filter(item => item._id !== id);
-          console.log('Updated inventory list:', updatedList);
+          const updatedList = prev.filter(item => item.InvID !== id);
+          filterLowStockItems(updatedList);
           return updatedList;
         });
       } else {
@@ -67,8 +76,8 @@ function InventoryDetails() {
     doc.text("Inventory Details Report", 10, 10);
 
     doc.autoTable({
-      head: [['ID', 'Item Name', 'Type', 'Order ID', 'Cost', 'Date', 'Note']],
-      body: inventory.map(item => [item.InvID, item.ItemName, item.type, item.OrderID, item.Cost, item.Date, item.Note || 'No Note']),
+      head: [['InvID', 'GID', 'Quantity', 'Min Stock', 'Status']],
+      body: inventory.map(item => [item.InvID, item.GID, item.quantity, item.minStock, item.status]),
       startY: 20,
       margin: { top: 20 },
       styles: {
@@ -88,6 +97,7 @@ function InventoryDetails() {
     if (searchQuery.trim() === "") {
       fetchInventory().then(data => {
         setInventory(data);
+        filterLowStockItems(data);
         setNoResults(false);
       }).catch(error => {
         console.error("Error fetching inventory:", error);
@@ -101,6 +111,7 @@ function InventoryDetails() {
       )
     );
     setInventory(filteredInventory);
+    filterLowStockItems(filteredInventory);
     setNoResults(filteredInventory.length === 0);
   };
 
@@ -110,6 +121,9 @@ function InventoryDetails() {
 
   const handleBack = () => {
     setShowAddInventoryForm(false);
+  };
+  const placeOrder = () => {
+    navigate(`/admindashboard/add-quantity-description`); // Navigate to the PlaceOrder page with the InvID
   };
 
   return (
@@ -168,38 +182,44 @@ function InventoryDetails() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Item Name</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Order ID</TableCell>
-                    <TableCell>Cost</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Note</TableCell>
+                    <TableCell>InvID</TableCell>
+                    <TableCell>GID</TableCell>
+                    <TableCell>Quantity</TableCell>
+                    <TableCell>Min Stock</TableCell>
+                    <TableCell>Status</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {noResults ? (
                     <TableRow>
-                      <TableCell colSpan={8} align="center">No inventory found.</TableCell>
+                      <TableCell colSpan={6} align="center">No inventory found.</TableCell>
                     </TableRow>
                   ) : (
                     inventory.map((item) => (
-                      <TableRow key={item._id}>
+                      <TableRow key={item.InvID}>
                         <TableCell>{item.InvID}</TableCell>
-                        <TableCell>{item.ItemName}</TableCell>
-                        <TableCell>{item.type}</TableCell>
-                        <TableCell>{item.OrderID}</TableCell>
-                        <TableCell>{item.Cost}</TableCell>
-                        <TableCell>{new Date(item.Date).toLocaleDateString()}</TableCell>
-                        <TableCell>{item.Note || 'No Note'}</TableCell>
+                        <TableCell>{item.GID}</TableCell>
+                        <TableCell>{item.quantity}</TableCell>
+                        <TableCell>{item.minStock}</TableCell>
+                        <TableCell>{item.status}</TableCell>
                         <TableCell>
-                          <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>
+                          <IconButton onClick={() => handleEdit(item.InvID)} sx={{ color: 'primary.main' }}>
                             <Edit />
                           </IconButton>
-                          <IconButton onClick={() => deleteInventory(item._id)} sx={{ color: 'error.main' }}>
+                          <IconButton onClick={() => deleteInventory(item.InvID)} sx={{ color: 'error.main' }}>
                             <Delete />
                           </IconButton>
+                          {item.quantity <= item.minStock && (
+                            <Button
+                              variant="contained"
+                              color="warning"
+                              onClick={() => placeOrder(item.InvID)}
+                              sx={{ marginLeft: 1 }}
+                            >
+                              Place Order
+                            </Button>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))
@@ -212,10 +232,36 @@ function InventoryDetails() {
               variant="contained"
               color="primary"
               onClick={handlePDF}
-              sx={{ marginTop: 2, borderRadius: 2 }}
+              sx={{ marginTop: 2 }}
             >
-              <Print /> Download
+              Generate PDF
             </Button>
+
+            <Box sx={{ marginTop: 2 }}>
+              <h3>Low Stock Items</h3>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>InvID</TableCell>
+                    <TableCell>GID</TableCell>
+                    <TableCell>Quantity</TableCell>
+                    <TableCell>Min Stock</TableCell>
+                    <TableCell>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {lowStockItems.map((item) => (
+                    <TableRow key={item.InvID}>
+                      <TableCell>{item.InvID}</TableCell>
+                      <TableCell>{item.GID}</TableCell>
+                      <TableCell>{item.quantity}</TableCell>
+                      <TableCell>{item.minStock}</TableCell>
+                      <TableCell>{item.status}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
           </Box>
         </>
       )}

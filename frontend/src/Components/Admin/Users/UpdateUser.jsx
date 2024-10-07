@@ -13,6 +13,8 @@ function UpdateUser() {
     email: '',
     password: '',
     phone: '',
+    gender: '', // Added gender field
+    birthday: '', // Added birthday field
     type: 'user' // Default to 'user'
   });
   const [loading, setLoading] = useState(true);
@@ -113,10 +115,37 @@ function UpdateUser() {
           onChange={handleChange}
           label="User Type"
         >
-          <MenuItem value="user">User</MenuItem>
-          <MenuItem value="admin">Admin</MenuItem>
+            <MenuItem value="customer">Customer</MenuItem>
+            <MenuItem value="admin">Admin</MenuItem>
         </Select>
       </FormControl>
+      <FormControl fullWidth margin="normal">
+        <InputLabel>Gender</InputLabel>
+        <Select
+          name="gender"
+          value={user.gender}
+          onChange={handleChange}
+          label="Gender"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="male">Male</MenuItem>
+          <MenuItem value="female">Female</MenuItem>
+          <MenuItem value="bot">Bot</MenuItem>
+          </Select>
+      </FormControl>
+      <TextField
+        label="Birthday"
+        name="birthday"
+        type="date"
+        value={user.birthday}
+        onChange={handleChange}
+        margin="normal"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      /><br></br>
       <Button
         variant="contained"
         color="primary"

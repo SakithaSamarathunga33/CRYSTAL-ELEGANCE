@@ -53,12 +53,12 @@ function Footer() {
           </Typography>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <Link href="/privacy" variant="body2" sx={{ color: 'black', textDecoration: 'none' }}>
+              <Link href="/privacypolicy" variant="body2" sx={{ color: 'black', textDecoration: 'none' }}>
                 Privacy Policy
               </Link>
             </Grid>
             <Grid item xs={6}>
-              <Link href="/terms" variant="body2" sx={{ color: 'black', textDecoration: 'none' }}>
+              <Link href="/termsofuse" variant="body2" sx={{ color: 'black', textDecoration: 'none' }}>
                 Terms of Use
               </Link>
             </Grid>
@@ -68,9 +68,7 @@ function Footer() {
               </Link>
             </Grid>
             <Grid item xs={6}>
-              <Link href="/legal" variant="body2" sx={{ color: 'black', textDecoration: 'none' }}>
-                Legal
-              </Link>
+              
             </Grid>
           </Grid>
         </Grid>

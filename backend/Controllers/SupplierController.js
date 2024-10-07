@@ -1,17 +1,9 @@
 const Supplier = require('../Model/SupplierModel');
 
 // Create a new supplier order
-
-const generateSalaryID = async () => {
-    const lastSalary = await Salary.findOne().sort({ salaryID: -1 }).limit(1);
-    const lastId = lastSalary ? parseInt(lastSalary.salaryID.replace('S', ''), 10) : 0;
-    const newId = `S${(lastId + 1).toString().padStart(3, '0')}`; // Adjust padding as needed
-    return newId;
-};
-
 exports.createSupplier = async (req, res) => {
     try {
-        const { SupOrderID, type, quantity, InvID, JID, SupID, status, date, description } = req.body;
+        const { SupOrderID, type, quantity, InvID, SupID, status, description } = req.body;
 
         // Check if SupOrderID already exists
         const existingSupplier = await Supplier.findOne({ SupOrderID });
@@ -19,15 +11,14 @@ exports.createSupplier = async (req, res) => {
             return res.status(400).json({ message: 'Supplier order ID already exists' });
         }
 
+        // Create a new supplier order
         const newSupplier = new Supplier({
             SupOrderID,
             type,
             quantity,
             InvID,
-            JID,
             SupID,
-            status,
-            date,
+            status, // Optional, defaults to 'Pending' if not provided
             description
         });
 
@@ -65,11 +56,11 @@ exports.getSupplierById = async (req, res) => {
 // Update a supplier order by ID
 exports.updateSupplier = async (req, res) => {
     try {
-        const { SupOrderID, type, quantity, InvID, JID, SupID, status, date, description } = req.body;
+        const { SupOrderID, type, quantity, InvID, SupID, status, description } = req.body;
 
         const updatedSupplier = await Supplier.findByIdAndUpdate(
             req.params.id,
-            { SupOrderID, type, quantity, InvID, JID, SupID, status, date, description },
+            { SupOrderID, type, quantity, InvID, SupID, status, description },
             { new: true } // Return the updated supplier order
         );
 

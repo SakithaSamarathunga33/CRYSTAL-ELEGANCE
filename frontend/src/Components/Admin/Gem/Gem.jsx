@@ -37,8 +37,7 @@ function Gem() {
       <Divider sx={{ marginBottom: 2 }} />
       <Paper sx={{ padding: 3 }}>
         <Typography variant="h6">ID: {gem.GID}</Typography>
-        <Typography variant="h6">Image:</Typography>
-        <img src={gem.image || 'default-image-path'} alt={gem.name} style={{ width: '150px', height: '150px' }} />
+        {/* Removed image section since it's not part of the model */}
         <Typography variant="h6">Name: {gem.name}</Typography>
         <Typography variant="h6">Color: {gem.color}</Typography>
         <Typography variant="h6">Price: ${gem.price}</Typography>

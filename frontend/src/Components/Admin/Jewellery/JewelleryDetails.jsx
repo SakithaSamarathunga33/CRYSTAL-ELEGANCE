@@ -68,8 +68,17 @@ function JewelleryDetails() {
     doc.text("Jewellery Details Report", 10, 10);
 
     doc.autoTable({
-      head: [['ID', 'Image', 'Name', 'Price', 'Quantity', 'Status']],
-      body: jewellery.map(item => [item.JID, item.image || 'No Image', item.name, item.price, item.quantity, item.status]),
+      head: [['ID',  'Name', 'Price', 'Quantity', 'Status', 'Weight', 'Gold Standard']],
+      body: jewellery.map(item => [
+        item.JID, 
+         
+        item.name, 
+        item.price, 
+        item.quantity, 
+        item.status, 
+        item.weight, 
+        item.goldStandard
+      ]),
       startY: 20,
       margin: { top: 20 },
       styles: {
@@ -156,17 +165,19 @@ function JewelleryDetails() {
                     <TableCell>ID</TableCell>
                     <TableCell>Image</TableCell>
                     <TableCell>Name</TableCell>
-                    <TableCell>Short Description</TableCell>
+                   
                     <TableCell>Price</TableCell>
                     <TableCell>Quantity</TableCell>
                     <TableCell>Status</TableCell>
+                    <TableCell>Weight</TableCell> {/* Add weight column */}
+                    <TableCell>Gold Standard</TableCell> {/* Add gold standard column */}
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {noResults ? (
                     <TableRow>
-                      <TableCell colSpan={8} align="center">No jewellery found.</TableCell>
+                      <TableCell colSpan={10} align="center">No jewellery found.</TableCell>
                     </TableRow>
                   ) : (
                     jewellery.map((item) => (
@@ -176,10 +187,12 @@ function JewelleryDetails() {
                           <img src={item.image || 'default-image-path'} alt={item.name} style={{ width: '50px', height: '50px' }} />
                         </TableCell>
                         <TableCell>{item.name}</TableCell>
-                        <TableCell>{shortenDescription(item.description || 'No Description')}</TableCell>
+                        
                         <TableCell>{item.price}</TableCell>
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>{item.status}</TableCell>
+                        <TableCell>{item.weight}</TableCell> {/* Add weight value */}
+                        <TableCell>{item.goldStandard}</TableCell> {/* Add gold standard value */}
                         <TableCell>
                           <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>
                             <Edit />

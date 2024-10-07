@@ -13,14 +13,17 @@ const customerRoutes = require('./Routes/CustomerRoutes');
 const feedbackRoutes = require('./Routes/FeedbackRoutes');
 const employeeRoutes = require('./Routes/EmployeeRoutes');
 const salaryRoutes = require('./Routes/SalaryRoutes');
-const supplierRoutes = require('./Routes/SupplierRoutes');
-const inventoryRoutes = require('./Routes/InventoryRoutes');
+const supplierOrderRoutes = require('./Routes/SupplierOrderRoutes');
+const inventoryRoutes = require('./Routes/InventoryRoutes'); // Include Inventory Routes
 const authRoutes = require('./Routes/AuthRoutes');
 const gemRoutes = require('./Routes/GemRoutes');
-
+const supplierlistRoutes = require('./Routes/SupplierListRoutes');
+const quantityDescriptionRoutes = require('./Routes/quantityDescriptionRoutes');
+const orderRoutes = require('./Routes/OrderRoutes');
+const appointmentRoutes = require('./Routes/AppointmentRoutes');
 
 // Middleware
-app.use(express.json());
+app.use(express.json()); // Ensure this is before your routes
 app.use(cors()); // You can configure CORS options if needed
 
 // Route middleware
@@ -30,34 +33,37 @@ app.use('/customers', customerRoutes);
 app.use('/feedback', feedbackRoutes);
 app.use('/employees', employeeRoutes);
 app.use('/salaries', salaryRoutes);
-app.use('/suppliers', supplierRoutes);
-app.use('/inventory', inventoryRoutes);
+app.use('/suppliers/orders', supplierOrderRoutes);
+app.use('/inventory', inventoryRoutes); // Inventory route for managing inventory
 app.use('/auth', authRoutes);
-app.use('/api', gemRoutes);
-
+app.use('/api/gems', gemRoutes);
+app.use('/api/suppliers', supplierlistRoutes);
+app.use('/api/quantity-description', quantityDescriptionRoutes);
+app.use('/orders', orderRoutes);
+app.use('/appointments', appointmentRoutes);
 
 // Serve static files (uploaded images)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong', error: err.message });
+    console.error(err.stack);
+    res.status(500).json({ message: 'Something went wrong', error: err.message });
 });
 
 const PORT = process.env.PORT || 4000;
-const DB_URL = process.env.MONGODB_URL;
+const DB_URL = process.env.MONGODB_URL; // MongoDB URL from environment variables
 
 // Connect to MongoDB
 mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log('DB connected');
-  })
-  .catch((err) => {
-    console.error('DB connection error:', err);
-  });
+    .then(() => {
+        console.log('DB connected');
+    })
+    .catch((err) => {
+        console.error('DB connection error:', err);
+    });
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`App is running on port ${PORT}!`);
+    console.log(`App is running on port ${PORT}!`);
 });

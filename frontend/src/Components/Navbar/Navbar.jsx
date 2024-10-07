@@ -3,6 +3,8 @@ import { Box, AppBar, Toolbar, Typography, Button, IconButton } from '@mui/mater
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Auth/AuthContext'; // Adjust the path as needed
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar() {
   const { authState, logout } = useContext(AuthContext);
@@ -25,6 +27,7 @@ function Navbar() {
             <Button color="inherit" component={Link} to="/jewellery">Jewellery</Button>
             <Button color="inherit" component={Link} to="/About">About Us</Button>
             <Button color="inherit" component={Link} to="/Contact">Contact Us</Button>
+            <Button color="inherit" component={Link} to="/appointment">Appointments</Button>
           </Typography>
 
           {/* Right Side Items */}
@@ -36,6 +39,18 @@ function Navbar() {
           >
             <ShoppingCartIcon />
           </IconButton>
+
+          {/* Profile Icon */}
+          {user && (
+            <IconButton
+              size="large"
+              aria-label="user profile"
+              color="black"
+              component={Link} to={`/userprofile/${user.userId}`} // Adjust to your profile route
+            >
+              <FontAwesomeIcon icon={faUserCircle} size="lg" />
+            </IconButton>
+          )}
 
           {user ? (
             <>

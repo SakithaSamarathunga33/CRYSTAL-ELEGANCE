@@ -9,7 +9,7 @@ import AddFeedback from '../Admin/Feedback/AddFeedback2'; // Ensure you have thi
 import { AuthContext } from '../Auth/AuthContext'; // Import AuthContext
 
 // Import the background image from the images folder
-import backgroundImage from '../Images/b5.jpg'; // Adjust path accordingly
+import backgroundImage from '../Images/3433814.jpg'; // Adjust path accordingly
 
 const JewelleryProfile = () => {
   const [jewellery, setJewellery] = useState(null);
@@ -22,7 +22,7 @@ const JewelleryProfile = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const URL = 'http://localhost:4000/feedback';
-  const { authState } = useContext(AuthContext); // Access authentication state
+  const { authState, isAuthenticated, loading } = useContext(AuthContext); // Access authentication state
   const navigate = useNavigate(); // Use navigate for redirection
 
   // Fetch jewellery details
@@ -53,13 +53,15 @@ const JewelleryProfile = () => {
     }
   }, [jewellery]);
 
-  const handleAddToBag = () => {
-    if (!authState.user) {
-      setSnackbarMessage('You need to be logged in to add items to the bag.');
-      setSnackbarOpen(true);
+  const handleBuyNow = () => {
+    if (!jewellery) return; // Ensure jewellery data is available
+
+    if (!isAuthenticated) { // Check if the user is logged in
+      setSnackbarMessage('You need to be logged in to proceed with the purchase.');
+      setSnackbarOpen(true); // Open the snackbar with the message
     } else {
-      // Logic for adding to bag
-      alert('Added to bag!');
+      // Navigate to the payment page, passing the jewellery ID
+      navigate(`/makepayment/${jewellery.JID}`, { state: { jewellery } });
     }
   };
 
@@ -68,7 +70,7 @@ const JewelleryProfile = () => {
   };
 
   const handleRedirectToLogin = () => {
-    navigate('/login');
+    navigate('/login'); // Redirect to login page
     setSnackbarOpen(false); // Close the Snackbar after redirecting
   };
 
@@ -76,7 +78,7 @@ const JewelleryProfile = () => {
     return field ? `${fieldName}: ${field}` : `${fieldName}: No details available`;
   };
 
-  if (!jewellery) return <div>Loading...</div>;
+  if (!jewellery || loading) return <div>Loading...</div>; // Show loading state if jewellery data or authentication is being fetched
 
   return (
     <div>
@@ -121,14 +123,14 @@ const JewelleryProfile = () => {
               </Card>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography variant="h3" color="white">{jewellery.name}</Typography>
-              <Typography variant="body1" color="white">{jewellery.description}</Typography>
-              <Typography variant="h4" color="white">Rs {jewellery.price}</Typography>
+              <Typography variant="h3" color="#000">{jewellery.name}</Typography>
+              <Typography variant="body1" color="#333">{jewellery.description}</Typography>
+              <Typography variant="h4" color="#000">Rs {jewellery.price}</Typography>
               <br /><br /><br /><br />
               <Button 
                 variant="contained" 
                 color="secondary" 
-                onClick={handleAddToBag} 
+                onClick={handleBuyNow} 
                 sx={{
                   padding: '10px 20px', 
                   borderRadius: '20px', 
@@ -139,7 +141,7 @@ const JewelleryProfile = () => {
                   }
                 }}
               >
-                Add to Bag
+                Buy Now
               </Button>
               <br /><br />
               <Button 
@@ -170,11 +172,11 @@ const JewelleryProfile = () => {
                     marginTop: 2,
                   }}
                 >
-                  <Typography variant="h6" color="white">{displayField(jewellery.quantity, 'Quantity')}</Typography>
-                  <Typography variant="h6" color="white">{displayField(jewellery.status, 'Status')}</Typography>
-                  <Typography variant="h6" color="white">{displayField(jewellery.weight, 'Weight')}</Typography>
-                  <Typography variant="h6" color="white">{displayField(jewellery.goldStandard, 'Gold Standard')}</Typography>
-                  <Typography variant="body2" color="white">{displayField(jewellery.description, 'Description')}</Typography>
+                  <Typography variant="h6" color="#333">{displayField(jewellery.quantity, 'Quantity')}</Typography>
+                  <Typography variant="h6" color="#333">{displayField(jewellery.status, 'Status')}</Typography>
+                  <Typography variant="h6" color="#333">{displayField(jewellery.weight, 'Weight')}</Typography>
+                  <Typography variant="h6" color="#333">{displayField(jewellery.goldStandard, 'Gold Standard')}</Typography>
+                  <Typography variant="body2" color="#333">{displayField(jewellery.description, 'Description')}</Typography>
                 </Box>
               )}
               <br /><br />
@@ -219,7 +221,7 @@ const JewelleryProfile = () => {
                       <CardContent>
                         <Typography variant="h6">Customer Name: {feedback.customerId}</Typography>
                         <Typography variant="body1">Rating: {feedback.rating}</Typography>
-                        <Typography variant="body2">{feedback.comment}</Typography>
+                        <Typography variant="body2">Comment: {feedback.comment}</Typography>
                       </CardContent>
                     </Card>
                   ))
@@ -229,21 +231,16 @@ const JewelleryProfile = () => {
           </Box>
         </Container>
       </Box>
-      
-      <Footer />
 
-      {/* Snackbar for alerts */}
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={null} // Disable auto-hide for custom action
-        onClose={handleSnackbarClose}
-      >
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity="info" sx={{ width: '100%' }}>
           {snackbarMessage}
         </Alert>
       </Snackbar>
+
+      <Footer />
     </div>
   );
-}
+};
 
 export default JewelleryProfile;

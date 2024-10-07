@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
         user: null,
         token: localStorage.getItem('token') || null,
     });
+    const [loading, setLoading] = useState(true); // Add loading state
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -27,12 +28,12 @@ export const AuthProvider = ({ children }) => {
                     }));
                 } catch (error) {
                     console.error('Error fetching user profile:', error);
-                    // Handle token expiration or invalid token
                     if (error.response?.status === 401) {
-                        logout();
+                        logout(); // Handle invalid or expired token
                     }
                 }
             }
+            setLoading(false); // Set loading to false when fetch completes
         };
 
         // Fetch user profile if token is available
@@ -49,8 +50,10 @@ export const AuthProvider = ({ children }) => {
         setAuthState({ user: null, token: null });
     };
 
+    const isAuthenticated = !!authState.token && !!authState.user; // Check if both user and token exist
+
     return (
-        <AuthContext.Provider value={{ authState, login, logout }}>
+        <AuthContext.Provider value={{ authState, isAuthenticated, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );
