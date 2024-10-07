@@ -41,7 +41,7 @@ function Login() {
 
                 if (loggedInUser.type === "admin") {
                     alert("Admin Login Successful");
-                    navigate("/admindashboard");
+                    navigate("/admindashboard/dashboard");
                 } else {
                     alert("User Login Successful");
                     navigate("/userprofile");

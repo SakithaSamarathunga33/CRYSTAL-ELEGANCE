@@ -127,7 +127,7 @@ function JewelleryPage() {
 
       <Container>
         <Typography variant="h4" align="left" gutterBottom sx={{ fontWeight: 'bold', marginBottom: '20px', opacity: 0, animation: 'fadeInText 1.5s forwards', animationDelay: '0.8s' }}>
-          Swipe into our everyday wear collection
+        SWIPE INTO OUR EVERYDAY WEAR COLLECTION
         </Typography>
         <Grid container justifyContent="flex-start" alignItems="flex-start" spacing={2} sx={{ marginBottom: '20px', opacity: 0, animation: 'fadeInText 1.5s forwards', animationDelay: '1s' }}>
           <Grid item>

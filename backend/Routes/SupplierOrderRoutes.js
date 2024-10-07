@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const SupplierOrderController = require('../Controllers/SupplierOrderController');
 
-// Routes for supplier operations
+
 
 // Create a new Supplier Order
 router.post('/', SupplierOrderController.createSupplierOrder);

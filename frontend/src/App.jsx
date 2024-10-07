@@ -17,6 +17,7 @@ import TermsOfUse from './Components/pages/TermsOfUse';
 
 // Admin Components
 import AdminDashboard from './Components/Admin/AdminDashboard';
+import Dashboard  from './Components/Admin/Dashboard';
 import UserDetails from './Components/Admin/Users/UserDetails';
 import AddUser from './Components/Admin/Users/AddUser';
 import UpdateUser from './Components/Admin/Users/UpdateUser';
@@ -100,6 +101,7 @@ function App() {
 
           {/* Admin Dashboard Routes */}
           <Route path="/admindashboard" element={<AdminDashboard />}>
+          <Route path="dashboard" element={<Dashboard />} />
             {/* User Management */}
             <Route path="user-management" element={<UserDetails />} />
             <Route path="adduser" element={<AddUser />} />

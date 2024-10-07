@@ -77,7 +77,7 @@ const Gems = () => {
         ))}
       </Swiper>
       <Typography variant="h4" align="center" gutterBottom>
-        For all tastes and all desires
+      FOR ALL TASTES AND ALL DESIRES
       </Typography>
 
       <Grid container spacing={3} justifyContent="center">
