@@ -16,7 +16,7 @@ export default class Dashboard extends Component {
       employeeCount: 0,
       inventoryCount: 0, // Initialize inventory count to 0
       supplierCount: 0, // Fake data for suppliers
-      orderCount: 1, // Fake data for orders
+      orderCount: 0, // Fake data for orders
       feedbackCount: 0, // Fake data for feedback
       userCount: 0, // User count state
     };
