@@ -58,6 +58,9 @@ import AppointmentDetails from './Components/Admin/Appointment/AppointmentDetail
 
 import { AuthProvider } from './Components/Auth/AuthContext';  // Import AuthProvider
 
+// Import new Summary Report and EmployeeDetails components
+import SummaryReport from './Components/Admin/Employees/SummaryReport'; // Adjust path as necessary
+
 function App() {
   return (
     <AuthProvider>  {/* Wrap the entire app with AuthProvider */}
@@ -75,16 +78,11 @@ function App() {
           <Route path='/signup' element={<Register />} />
           <Route path='/userprofile' element={<UserProfile />} />
 
-          {/* Login Page */}
-          <Route path="/login" element={<Login />} />
-          <Route path='/jewellery' element={<Jewellery />} />
-          <Route path='/Gems' element={<Gems />} />
-          <Route path='/About' element={<AboutUs />} />
-          <Route path='/Contact' element={<Contact />} />
-          <Route path='/signup' element={<Register />} />
           <Route path="/jewellery/:id" element={<JewelleryProfile />} />
 
+          {/* Admin Dashboard */}
           <Route path="/admindashboard" element={<AdminDashboard />}>
+            {/* Nested Admin Routes */}
             <Route path="user-management" element={<UserDetails />} />
             <Route path="adduser" element={<AddUser />} />
             <Route path="update-user/:id" element={<UpdateUser />} />
@@ -112,12 +110,8 @@ function App() {
             <Route path="update-employee/:id" element={<UpdateEmployee />} />
             <Route path="add-salary/:id" element={<AddSalary />} />
             <Route path="employee-details" element={<EmployeeDetails />} />
+            <Route path="summary-report" element={<SummaryReport />} />
 
-
-            <Route path="inventory-management" element={<InventoryDetails />} />
-            <Route path="inventory/:id" element={<Inventory />} />
-            <Route path="add-inventory" element={<AddInventory />} />
-            <Route path="update-inventory/:id" element={<UpdateInventory />} />
             <Route path="supplier-management" element={<SupplierDetails />} />
             <Route path="supplier/:id" element={<Supplier />} />
             <Route path="add-supplier" element={<AddSupplier />} />
@@ -129,12 +123,17 @@ function App() {
             <Route path="update-feedback/:id" element={<UpdateFeedback />} />
 
             <Route path="support-management" element={<SupportDetails />} />
-
             <Route path="order-management" element={<OrderDetails />} />
-
             <Route path="appointment-management" element={<AppointmentDetails />} />
           </Route>
 
+          {/* Summary Report Route */}
+          
+          
+          {/* EmployeeDetails Page */}
+          <Route path="/employee-details" element={<EmployeeDetails />} />
+
+          {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

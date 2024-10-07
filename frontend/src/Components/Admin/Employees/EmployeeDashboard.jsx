@@ -33,6 +33,7 @@ class EmployeeDashboard extends Component {
           position: 'relative',
           height: '100vh',
           overflow: 'hidden',
+         
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',

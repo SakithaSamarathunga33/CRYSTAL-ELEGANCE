@@ -7,7 +7,9 @@ const employeeSchema = new mongoose.Schema({
     position: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true },
-    salary: { type: Number, default: 0 },  // Basic salary field
+    salary: { type: Number, default: 0 },  
 });
 
 module.exports = mongoose.model('Employee', employeeSchema);
+
+
