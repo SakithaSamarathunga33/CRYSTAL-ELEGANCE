@@ -51,7 +51,6 @@ import EmployeeProfile from './Components/Admin/Employees/EmployeeProfile';
 import SupplierDetails from './Components/Admin/Suppliers/SupplierOrderDetails';
 import AddSupplierOrder from './Components/Admin/Suppliers/AddSupplierOrder';
 import UpdateSupplier from './Components/Admin/Suppliers/UpdateSupplierOrder';
-import Supplier from './Components/Admin/Suppliers/Supplier';
 import AddSupplierList from './Components/Admin/Suppliers/AddSupplierList';
 import SupplierDashboard from './Components/Admin/Suppliers/SupplierListDetails';
 import SupplierList from './Components/Admin/Suppliers/SupplierList';
@@ -164,7 +163,6 @@ function App() {
             {/* Supplier Management */}
 
             <Route path="supplier-management" element={<SupplierDetails />} />
-            <Route path="supplier/:id" element={<Supplier />} />
             <Route path="add-supplier/:supId" element={<AddSupplierOrder />} />
             <Route path="update-supplier/:id" element={<UpdateSupplier />} />
             <Route path="add-supplier-list" element={<AddSupplierList />} />

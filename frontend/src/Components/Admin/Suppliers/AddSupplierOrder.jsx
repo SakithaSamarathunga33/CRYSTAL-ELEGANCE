@@ -21,13 +21,13 @@ function AddSupplierOrder() {
     const { supId } = useParams(); // Get the supplier ID from the URL
     const [formData, setFormData] = useState({
         SupOrderID: '', // Now set by user
-        GID: '',
         InvID: '',
-        SupID: supId || '', // Pre-fill SupID with the supplier ID
+        SupID: supId || '', // Pre-fill SupID with the supplier ID from URL
         quantity: '',
         status: 'Pending',
         description: ''
     });
+    const [formErrors, setFormErrors] = useState({});
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -40,10 +40,51 @@ function AddSupplierOrder() {
             ...prevState,
             [name]: value
         }));
+        validateField(name, value);
+    };
+
+    const validateField = (name, value) => {
+        let errors = { ...formErrors };
+
+        switch (name) {
+            case 'SupOrderID':
+                errors.SupOrderID = !value.match(/^[a-zA-Z0-9]+$/)
+                    ? 'SupOrderID must be alphanumeric.'
+                    : '';
+                break;
+            case 'InvID':
+                errors.InvID = !value.match(/^[a-zA-Z0-9]+$/)
+                    ? 'InvID must be alphanumeric.'
+                    : '';
+                break;
+            case 'quantity':
+                errors.quantity = value <= 0 || isNaN(value)
+                    ? 'Quantity must be a positive number.'
+                    : '';
+                break;
+            case 'description':
+                errors.description = value.length > 200
+                    ? 'Description must be less than 200 characters.'
+                    : '';
+                break;
+            default:
+                break;
+        }
+
+        setFormErrors(errors);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // Check if any validation errors exist
+        if (Object.values(formErrors).some(error => error)) {
+            setSnackbarMessage('Please fix the validation errors before submitting.');
+            setSnackbarSeverity('error');
+            setOpenSnackbar(true);
+            return;
+        }
+
         setLoading(true); // Start loading state
         try {
             await axios.post(URL, formData);
@@ -52,7 +93,6 @@ function AddSupplierOrder() {
             setOpenSnackbar(true);
             setFormData({ // Clear form data after successful submission
                 SupOrderID: '',
-                GID: '',
                 InvID: '',
                 SupID: supId || '',
                 quantity: '',
@@ -86,20 +126,12 @@ function AddSupplierOrder() {
                         name="SupOrderID"
                         variant="outlined"
                         fullWidth
-                        value={formData.SupOrderID} // User can input this
-                        onChange={handleChange}
-                        margin="normal"
-                        required // Make it required for submission
-                    />
-                    <TextField
-                        label="GID (Gem ID)"
-                        name="GID"
-                        variant="outlined"
-                        fullWidth
-                        value={formData.GID}
+                        value={formData.SupOrderID}
                         onChange={handleChange}
                         margin="normal"
                         required
+                        error={!!formErrors.SupOrderID}
+                        helperText={formErrors.SupOrderID}
                     />
                     <TextField
                         label="InvID (Inventory ID)"
@@ -110,13 +142,15 @@ function AddSupplierOrder() {
                         onChange={handleChange}
                         margin="normal"
                         required
+                        error={!!formErrors.InvID}
+                        helperText={formErrors.InvID}
                     />
                     <TextField
                         label="SupID (Supplier ID)"
                         name="SupID"
                         variant="outlined"
                         fullWidth
-                        value={formData.SupID} // Already filled with supId
+                        value={formData.SupID}
                         onChange={handleChange}
                         margin="normal"
                         required
@@ -132,6 +166,8 @@ function AddSupplierOrder() {
                         onChange={handleChange}
                         margin="normal"
                         required
+                        error={!!formErrors.quantity}
+                        helperText={formErrors.quantity}
                     />
                     <FormControl fullWidth variant="outlined" margin="normal">
                         <InputLabel>Status</InputLabel>
@@ -154,6 +190,8 @@ function AddSupplierOrder() {
                         value={formData.description}
                         onChange={handleChange}
                         margin="normal"
+                        error={!!formErrors.description}
+                        helperText={formErrors.description}
                     />
                     <Button
                         type="submit"
@@ -166,7 +204,7 @@ function AddSupplierOrder() {
                     <Button
                         variant="outlined"
                         color="secondary"
-                        onClick={() => navigate('/admindashboard/supplier-list-details')} // Link back button to SupplierListDetails
+                        onClick={() => navigate('/admindashboard/supplier-list-details')}
                         sx={{ marginTop: 2, marginLeft: 2 }}
                     >
                         Back

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
-import { Container, Typography, Box, TextField, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
+import { Container, Typography, Box, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
 import contactUsImage from '../Images/coverc.png'; // Adjust path as needed
 import userImage from '../Images/t2.png'; // Add a user image here
 
@@ -76,65 +76,6 @@ function ContactUs() {
       >
         <Container maxWidth="md" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingY: 5 }}>
           
-          {/* Contact Form with slide-in animation */}
-          <Paper
-            elevation={6}
-            sx={{
-              padding: 4,
-              borderRadius: 2,
-              width: '100%',
-              maxWidth: '600px',
-              textAlign: 'center',
-              marginBottom: '30px',
-              animation: 'slideIn 0.5s ease-in-out', // Slide-in animation
-              backgroundColor: 'rgba(255, 255, 255, 0.8)', // Set transparent background
-              backdropFilter: 'blur(10px)', // Optional: add a blur effect for better readability
-            }}
-          >
-            <Typography variant="h5" component="h2" gutterBottom>
-              Send Us a Message
-            </Typography>
-            <Box component="form" sx={{ marginTop: '20px' }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField label="Name" variant="outlined" fullWidth required sx={styles.inputFocus} />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField label="Email" variant="outlined" fullWidth required sx={styles.inputFocus} />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    label="Message"
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={4}
-                    required
-                    sx={styles.inputFocus}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                      backgroundColor: '#F8B9B7',
-                      color: '#fff',
-                      paddingY: 1.5,
-                      borderRadius: 2,
-                      boxShadow: 'none',
-                      textTransform: 'none',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Paper>
-
           {/* FAQ Section with slide-in animation */}
           <Paper
             elevation={6}
@@ -182,65 +123,5 @@ function ContactUs() {
     </Box>
   );
 }
-
-const styles = {
-  socialLink: {
-    color: '#007bff',
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    transition: 'color 0.3s, transform 0.3s',
-    '&:hover': {
-      color: '#0056b3',
-      textDecoration: 'underline',
-      transform: 'scale(1.1)',
-    },
-  },
-  contactLink: {
-    color: '#007bff',
-    textDecoration: 'none',
-    fontSize: '1.1rem',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-  button: {
-    background: 'linear-gradient(to right, #6a11cb, #2575fc)',
-    color: '#fff',
-    fontWeight: 'bold',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-    transition: 'background 0.3s, transform 0.3s',
-    '&:hover': {
-      background: 'linear-gradient(to right, #2575fc, #6a11cb)',
-      transform: 'scale(1.05)',
-    },
-  },
-  inputFocus: {
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#007bff',
-      },
-      '&:hover fieldset': {
-        borderColor: '#0056b3',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#0056b3',
-        boxShadow: '0 0 0 4px rgba(0,123,255,0.2)',
-      },
-    },
-  },
-  faqItem: {
-    cursor: 'pointer',
-    color: '#007bff',
-    '&:hover': {
-      color: '#0056b3',
-      textDecoration: 'underline',
-    },
-  },
-  dialogContent: {
-    padding: '20px',
-    backgroundColor: '#f5f5f5',
-    borderRadius: '8px',
-  },
-};
 
 export default ContactUs;

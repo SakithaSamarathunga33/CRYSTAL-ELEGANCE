@@ -12,11 +12,12 @@ function SupplierList() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Fetch supplier lists from the API
   useEffect(() => {
     const fetchSupplierLists = async () => {
       try {
         const response = await axios.get(URL);
-        setSupplierLists(response.data);
+        setSupplierLists(response.data); // Assuming response.data returns an array of suppliers
         setLoading(false);
       } catch (error) {
         console.error('Error fetching supplier lists:', error);
@@ -27,11 +28,15 @@ function SupplierList() {
     fetchSupplierLists();
   }, []);
 
+  // Navigate to the edit form
   const handleEdit = (supId) => {
     navigate(`/admindashboard/update-supplier/${supId}`);
   };
 
+  // Show loading text while fetching data
   if (loading) return <Typography>Loading...</Typography>;
+
+  // Show message if no suppliers are found
   if (supplierLists.length === 0) return <Typography>No supplier lists found.</Typography>;
 
   return (
@@ -40,6 +45,7 @@ function SupplierList() {
         Supplier Lists
       </Typography>
       <Divider sx={{ marginBottom: 2 }} />
+
       {supplierLists.map((supplierList) => (
         <Paper key={supplierList.SupId} sx={{ padding: 3, marginBottom: 2 }}>
           <Typography variant="h6">Supplier ID: {supplierList.SupId}</Typography>
@@ -48,7 +54,7 @@ function SupplierList() {
             Items: {supplierList.items.length > 0 ? supplierList.items.join(', ') : 'No items listed'}
           </Typography>
           <Typography variant="h6">
-            Description: {supplierList.description || 'No Description'}
+            Description: {supplierList.description ? supplierList.description : 'No Description'}
           </Typography>
           <IconButton onClick={() => handleEdit(supplierList.SupId)} color="primary" sx={{ marginTop: 1 }}>
             <Edit />

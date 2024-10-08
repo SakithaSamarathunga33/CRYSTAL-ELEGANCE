@@ -73,6 +73,10 @@ const SupplierListDetails = () => {
         Supplier List
       </Typography>
       
+      <Typography variant="h6" gutterBottom style={{ textAlign: 'center' }}>
+        Total Suppliers: {suppliers.length}
+      </Typography>
+
       <Box sx={{ display: 'flex', gap: 2, marginBottom: 2, alignItems: 'center' }}>
         <TextField
           label="Search"
@@ -90,8 +94,8 @@ const SupplierListDetails = () => {
           Search
         </Button>
         <Button
-          variant="outlined"
-          color="secondary"
+          variant="contained"
+          color="primary"
           onClick={handleViewOrders}
           sx={{ borderRadius: 2 }}
         >
@@ -99,7 +103,7 @@ const SupplierListDetails = () => {
         </Button>
         <Button
           variant="contained"
-          color="success"
+          color="primary"
           onClick={() => navigate('/admindashboard/add-supplier-list')}
           sx={{ borderRadius: 2 }}
         >
@@ -115,13 +119,16 @@ const SupplierListDetails = () => {
                 <TableCell>Supplier ID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
+                <TableCell>NIC</TableCell>
+                <TableCell>Contact</TableCell>
+                <TableCell>Address</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {noResults ? (
                 <TableRow>
-                  <TableCell colSpan={4} align="center">No suppliers found.</TableCell>
+                  <TableCell colSpan={7} align="center">No suppliers found.</TableCell>
                 </TableRow>
               ) : (
                 suppliers.map((supplier) => (
@@ -129,6 +136,9 @@ const SupplierListDetails = () => {
                     <TableCell>{supplier.SupId}</TableCell>
                     <TableCell>{supplier.SupName}</TableCell>
                     <TableCell>{supplier.description}</TableCell>
+                    <TableCell>{supplier.NIC}</TableCell>
+                    <TableCell>{supplier.Contact}</TableCell>
+                    <TableCell>{supplier.Adress}</TableCell>
                     <TableCell>
                       <IconButton onClick={() => handleEdit(supplier.SupId)} sx={{ color: 'primary.main' }}>
                         <Edit />
@@ -137,7 +147,7 @@ const SupplierListDetails = () => {
                         <Delete />
                       </IconButton>
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         color="success"
                         onClick={() => navigate(`/admindashboard/add-supplier/${supplier.SupId}`)}
                         sx={{ marginLeft: 1 }}

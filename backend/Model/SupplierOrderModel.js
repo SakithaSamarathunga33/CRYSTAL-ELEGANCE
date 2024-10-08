@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 // Supplier Order Schema
 const supplierOrderSchema = new Schema({
     SupOrderID: { type: String, required: true, unique: true }, // Custom Supplier Order ID
-    GID: { type: String, required: true }, // Gem ID from Inventory
     InvID: { type: String, required: true }, // Inventory ID
     SupID: { type: String, required: true }, // Supplier ID
     quantity: { type: Number, required: true },

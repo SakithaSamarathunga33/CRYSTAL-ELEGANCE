@@ -1,3 +1,4 @@
+
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useContext } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Box, Toolbar, Typography, Button } from '@mui/material';
@@ -13,7 +14,7 @@ const sidebarBackground = 'https://wallpapers.com/images/hd/blank-white-vertical
 
 const menuItems = [
   { text: 'Dashboard', icon: <FontAwesomeIcon icon={faTachometerAlt} />, path: '/admindashboard/dashboard' },
-  { text: 'User Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/user-management' },
+  { text: 'Customer Management', icon: <FontAwesomeIcon icon={faUsers} />, path: '/admindashboard/user-management' },
   { text: 'Jewellery Management', icon: <FontAwesomeIcon icon={faRing} />, path: '/admindashboard/jewellery-management' },
   { text: 'Gem Management', icon: <FontAwesomeIcon icon={faGem} />, path: '/admindashboard/gem-management' },
   { text: 'Inventory Management', icon: <FontAwesomeIcon icon={faBoxOpen} />, path: '/admindashboard/inventory-management' },
@@ -22,7 +23,7 @@ const menuItems = [
   { text: 'Appointment Management', icon: <FontAwesomeIcon icon={faClipboardList} />, path: '/admindashboard/appointment-management' },
   { text: 'Order Management', icon: <FontAwesomeIcon icon={faShoppingCart} />, path: '/admindashboard/order-management' },
   { text: 'Feedback Management', icon: <FontAwesomeIcon icon={faComments} />, path: '/admindashboard/feedback-management' },
-  { text: 'Support Management', icon: <FontAwesomeIcon icon={faHeadset} />, path: '/admindashboard/support-management' },
+  
 ];
 
 function AdminDashboard() {
@@ -31,9 +32,6 @@ function AdminDashboard() {
   const { logout } = useContext(AuthContext);
 
   const [currentTab, setCurrentTab] = useState('');
-
-  const [showSampleButton, setShowSampleButton] = useState(false);
-  const [showEmployeeButton, setShowEmployeeButton] = useState(false); // State for Employee Management button
 
 
   const [showSupplierListButton, setShowSupplierListButton] = useState(false);
