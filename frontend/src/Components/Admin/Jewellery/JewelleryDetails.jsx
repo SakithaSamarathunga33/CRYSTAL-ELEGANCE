@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper, IconButton } from '@mui/material';
-import { Edit, Delete, Print, Add } from '@mui/icons-material';
+import { Box, Button, TextField, Grid, Card, CardMedia, CardContent, Typography, CardActions, IconButton } from '@mui/material';
+import { Edit, Delete, Print, Add, Download } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import AddJewellery from './AddJewellery';
@@ -18,11 +18,6 @@ const fetchJewellery = async () => {
     console.error("Error fetching data:", error);
     throw error;
   }
-};
-
-const shortenDescription = (description) => {
-  const words = description.split(' ');
-  return words.length > 3 ? words.slice(0, 3).join(' ') + '...' : description;
 };
 
 function JewelleryDetails() {
@@ -47,13 +42,8 @@ function JewelleryDetails() {
 
   const deleteJewellery = async (id) => {
     try {
-      console.log(`Attempting to delete jewellery with ID: ${id}`);
       const response = await axios.delete(`${URL}/${id}`);
-      
-      console.log('Delete response:', response);
-      
       if (response.status === 200) {
-        console.log(`Successfully deleted jewellery with ID: ${id}`);
         setJewellery(prev => prev.filter(item => item._id !== id));
       } else {
         console.error("Unexpected response status:", response.status);
@@ -68,15 +58,14 @@ function JewelleryDetails() {
     doc.text("Jewellery Details Report", 10, 10);
 
     doc.autoTable({
-      head: [['ID',  'Name', 'Price', 'Quantity', 'Status', 'Weight', 'Gold Standard']],
+      head: [['ID', 'Name', 'Price', 'Quantity', 'Status', 'Weight', 'Gold Standard']],
       body: jewellery.map(item => [
-        item.JID, 
-         
-        item.name, 
-        item.price, 
-        item.quantity, 
-        item.status, 
-        item.weight, 
+        item.JID,
+        item.name,
+        item.price,
+        item.quantity,
+        item.status,
+        item.weight,
         item.goldStandard
       ]),
       startY: 20,
@@ -148,6 +137,15 @@ function JewelleryDetails() {
             </Button>
             <Button
               variant="contained"
+              color="primary"
+              onClick={handlePDF}
+              sx={{ borderRadius: 2 }}
+              startIcon={<Download />}
+            >
+              Download PDF
+            </Button>
+            <Button
+              variant="contained"
               color="secondary"
               onClick={handleAddJewellery}
               sx={{ borderRadius: 2, marginLeft: 'auto' }}
@@ -158,64 +156,54 @@ function JewelleryDetails() {
           </Box>
 
           <Box sx={{ padding: 3, backgroundColor: 'white', borderRadius: 1 }}>
-            <TableContainer component={Paper} sx={{ border: '1px solid', borderColor: 'divider' }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Image</TableCell>
-                    <TableCell>Name</TableCell>
-                   
-                    <TableCell>Price</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Weight</TableCell> {/* Add weight column */}
-                    <TableCell>Gold Standard</TableCell> {/* Add gold standard column */}
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {noResults ? (
-                    <TableRow>
-                      <TableCell colSpan={10} align="center">No jewellery found.</TableCell>
-                    </TableRow>
-                  ) : (
-                    jewellery.map((item) => (
-                      <TableRow key={item._id}>
-                        <TableCell>{item.JID}</TableCell>
-                        <TableCell>
-                          <img src={item.image || 'default-image-path'} alt={item.name} style={{ width: '50px', height: '50px' }} />
-                        </TableCell>
-                        <TableCell>{item.name}</TableCell>
-                        
-                        <TableCell>{item.price}</TableCell>
-                        <TableCell>{item.quantity}</TableCell>
-                        <TableCell>{item.status}</TableCell>
-                        <TableCell>{item.weight}</TableCell> {/* Add weight value */}
-                        <TableCell>{item.goldStandard}</TableCell> {/* Add gold standard value */}
-                        <TableCell>
+            {noResults ? (
+              <Typography align="center" variant="h6">No jewellery found.</Typography>
+            ) : (
+              <>
+                <Grid container spacing={3}>
+                  {jewellery.map((item) => (
+                    <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
+                      <Card sx={{ maxWidth: 345 }}>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image={item.image || 'default-image-path'} // Replace with actual image path
+                          alt={item.name}
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="div">
+                            {item.name}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Price: {item.price}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Quantity: {item.quantity}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Status: {item.status}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Weight: {item.weight}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Gold Standard: {item.goldStandard}
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
                           <IconButton onClick={() => handleEdit(item._id)} sx={{ color: 'primary.main' }}>
                             <Edit />
                           </IconButton>
                           <IconButton onClick={() => deleteJewellery(item._id)} sx={{ color: 'error.main' }}>
                             <Delete />
                           </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handlePDF}
-              sx={{ marginTop: 2, borderRadius: 2 }}
-            >
-              <Print /> Download
-            </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </>
+            )}
           </Box>
         </>
       )}
