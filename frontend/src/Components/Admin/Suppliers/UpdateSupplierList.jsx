@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, TextField, Button, Typography, Snackbar, Alert, Paper, IconButton } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { Box, TextField, Button, Typography, Snackbar, Alert, Paper } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const URL = "http://localhost:4000/api/suppliers";
@@ -15,8 +12,12 @@ function UpdateSupplier() {
   const [formData, setFormData] = useState({
     SupName: '',
     items: '',
-    description: ''
+    description: '',
+    NIC: '',
+    Contact: '',
+    Adress: ''
   });
+  const [errors, setErrors] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -27,11 +28,14 @@ function UpdateSupplier() {
     const fetchSupplier = async () => {
       try {
         const response = await axios.get(`${URL}/${supId}`);
-        const { SupName, items, description } = response.data;
+        const { SupName, items, description, NIC, Contact, Adress } = response.data;
         setFormData({
           SupName,
           items: items.join(', '), // Convert items array to comma-separated string
-          description
+          description,
+          NIC,
+          Contact,
+          Adress
         });
         setLoading(false);
       } catch (error) {
@@ -43,6 +47,40 @@ function UpdateSupplier() {
     fetchSupplier();
   }, [supId]);
 
+  const validate = () => {
+    let tempErrors = {};
+    
+    // Supplier Name validation
+    tempErrors.SupName = formData.SupName.trim() === '' ? 'Supplier name is required.' : 
+                          formData.SupName.length < 3 ? 'Supplier name must be at least 3 characters.' : '';
+    
+    // Items validation
+    const itemsArray = formData.items.split(',').map(item => item.trim());
+    const uniqueItems = new Set(itemsArray);
+    tempErrors.items = itemsArray.length === 0 ? 'At least one item is required.' : 
+                       uniqueItems.size !== itemsArray.length ? 'Items must be unique.' : 
+                       itemsArray.some(item => item.length < 2) ? 'Each item must be at least 2 characters.' : '';
+    
+    // Description validation
+    tempErrors.description = formData.description.length > 200 ? 'Description should not exceed 200 characters.' : 
+                            formData.description.trim() === '' ? 'Description is required.' : '';
+    
+    // NIC validation
+    tempErrors.NIC = formData.NIC.trim() === '' ? 'NIC is required.' : 
+                     !/^\d{9}[vV]$/.test(formData.NIC) ? 'NIC must be in the format of 9 digits followed by "v" or "V".' : '';
+    
+    // Contact validation
+    tempErrors.Contact = formData.Contact.trim() === '' ? 'Contact is required.' : 
+                         !/^\d{10}$/.test(formData.Contact) ? 'Contact must be a valid 10-digit number.' : '';
+    
+    // Address validation
+    tempErrors.Adress = formData.Adress.trim() === '' ? 'Address is required.' : 
+                        formData.Adress.length < 5 ? 'Address must be at least 5 characters.' : '';
+    
+    setErrors(tempErrors);
+    return Object.values(tempErrors).every(x => x === ''); // Returns true if no errors
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -50,20 +88,22 @@ function UpdateSupplier() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const itemsArray = formData.items.split(',').map(item => item.trim()); // Convert items string to array
-      const response = await axios.put(`${URL}/${supId}`, {
-        ...formData,
-        items: itemsArray
-      });
-      setSnackbarMessage('Supplier updated successfully');
-      setSnackbarSeverity('success');
-      setOpenSnackbar(true);
-      setTimeout(() => navigate('/admindashboard/supplier-list-details'), 2000);
-    } catch (error) {
-      setSnackbarMessage('Error updating supplier: ' + (error.response ? error.response.data.message : error.message));
-      setSnackbarSeverity('error');
-      setOpenSnackbar(true);
+    if (validate()) {
+      try {
+        const itemsArray = formData.items.split(',').map(item => item.trim()); // Convert items string to array
+        const response = await axios.put(`${URL}/${supId}`, {
+          ...formData,
+          items: itemsArray
+        });
+        setSnackbarMessage('Supplier updated successfully');
+        setSnackbarSeverity('success');
+        setOpenSnackbar(true);
+        setTimeout(() => navigate('/admindashboard/supplier-list-details'), 2000);
+      } catch (error) {
+        setSnackbarMessage('Error updating supplier: ' + (error.response ? error.response.data.message : error.message));
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+      }
     }
   };
 
@@ -91,6 +131,8 @@ function UpdateSupplier() {
             onChange={handleChange}
             fullWidth
             required
+            error={Boolean(errors.SupName)}
+            helperText={errors.SupName}
             sx={{ marginBottom: 2 }}
           />
           <TextField
@@ -100,6 +142,8 @@ function UpdateSupplier() {
             onChange={handleChange}
             fullWidth
             required
+            error={Boolean(errors.items)}
+            helperText={errors.items}
             sx={{ marginBottom: 2 }}
           />
           <TextField
@@ -110,6 +154,41 @@ function UpdateSupplier() {
             fullWidth
             multiline
             rows={4}
+            error={Boolean(errors.description)}
+            helperText={errors.description}
+            sx={{ marginBottom: 2 }}
+          />
+          <TextField
+            label="NIC"
+            name="NIC"
+            value={formData.NIC}
+            onChange={handleChange}
+            fullWidth
+            required
+            error={Boolean(errors.NIC)}
+            helperText={errors.NIC}
+            sx={{ marginBottom: 2 }}
+          />
+          <TextField
+            label="Contact"
+            name="Contact"
+            value={formData.Contact}
+            onChange={handleChange}
+            fullWidth
+            required
+            error={Boolean(errors.Contact)}
+            helperText={errors.Contact}
+            sx={{ marginBottom: 2 }}
+          />
+          <TextField
+            label="Address"
+            name="Adress"
+            value={formData.Adress}
+            onChange={handleChange}
+            fullWidth
+            required
+            error={Boolean(errors.Adress)}
+            helperText={errors.Adress}
             sx={{ marginBottom: 2 }}
           />
           <Button variant="contained" color="primary" type="submit" sx={{ marginTop: 2 }}>

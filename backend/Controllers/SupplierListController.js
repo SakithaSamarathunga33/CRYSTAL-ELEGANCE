@@ -1,5 +1,6 @@
 const SupplierList = require('../Model/SupplierListModel'); // Adjust the path as necessary
 
+// Helper function to generate a custom supplier ID
 const generateSupId = async () => {
   try {
     const lastSupplier = await SupplierList.findOne().sort({ SupId: -1 });
@@ -49,20 +50,19 @@ exports.getSupplierBySupId = async (req, res) => {
 };
 
 // Update a Supplier by SupId
-// Update a Supplier by SupId
 exports.updateSupplier = async (req, res) => {
   try {
-    const { SupName, items, description } = req.body;
+    const { SupName, NIC, Contact, Adress, items, description } = req.body;
 
     // Ensure all required fields are present
-    if (!SupName || !description) {
-      return res.status(400).json({ message: 'All fields are required' });
+    if (!SupName || !NIC || !Contact || !Adress || !description) {
+      return res.status(400).json({ message: 'All required fields must be provided' });
     }
 
     // Update the supplier using findOneAndUpdate
     const updatedSupplier = await SupplierList.findOneAndUpdate(
       { SupId: req.params.supId }, // Match by SupId
-      { SupName, items, description }, // Update fields
+      { SupName, NIC, Contact, Adress, items, description }, // Update fields
       { new: true, runValidators: true } // Return the updated document and run validators
     );
 
@@ -79,7 +79,6 @@ exports.updateSupplier = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 // Delete a Supplier by SupId
 exports.deleteSupplier = async (req, res) => {

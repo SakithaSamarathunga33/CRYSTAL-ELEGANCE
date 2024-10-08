@@ -119,13 +119,16 @@ const SupplierListDetails = () => {
                 <TableCell>Supplier ID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
+                <TableCell>NIC</TableCell>
+                <TableCell>Contact</TableCell>
+                <TableCell>Address</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {noResults ? (
                 <TableRow>
-                  <TableCell colSpan={4} align="center">No suppliers found.</TableCell>
+                  <TableCell colSpan={7} align="center">No suppliers found.</TableCell>
                 </TableRow>
               ) : (
                 suppliers.map((supplier) => (
@@ -133,6 +136,9 @@ const SupplierListDetails = () => {
                     <TableCell>{supplier.SupId}</TableCell>
                     <TableCell>{supplier.SupName}</TableCell>
                     <TableCell>{supplier.description}</TableCell>
+                    <TableCell>{supplier.NIC}</TableCell>
+                    <TableCell>{supplier.Contact}</TableCell>
+                    <TableCell>{supplier.Adress}</TableCell>
                     <TableCell>
                       <IconButton onClick={() => handleEdit(supplier.SupId)} sx={{ color: 'primary.main' }}>
                         <Edit />
