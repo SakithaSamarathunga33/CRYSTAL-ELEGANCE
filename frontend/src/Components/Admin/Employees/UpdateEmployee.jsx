@@ -1,53 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-// Background image URL
-const backgroundImage = 'https://adornabride.com/cdn/shop/products/2019-08-2209.01.16_8c8cfb38-f411-4564-9dbf-2e7c43b42d91.jpg?v=1639536050&width=1426';
 const URL = "http://localhost:4000/employees";
 
-const styles = {
-  container: {
-    position: 'relative', // Position for the pseudo-element
-    padding: '25px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center', // Center items horizontally
-    justifyContent: 'flex-start', // Align items to the top
-    height: '100vh', // Full viewport height
-    overflow: 'hidden', // Hide overflow to keep the blur within bounds
-  },
-  backgroundImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundImage: `url(${backgroundImage})`, // Set the background image
-    backgroundSize: 'cover', // Cover the entire container
-    backgroundPosition: 'center', // Center the background image
-    filter: 'blur(3px)', // Apply blur effect
-    zIndex: 0, // Place it behind the content
-  },
-};
-
 function UpdateEmployee() {
+  const [employee, setEmployee] = useState(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [position, setPosition] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [nic, setNic] = useState('');
+  const [salary, setSalary] = useState(0);
   const { id } = useParams();
-  const [employee, setEmployee] = useState({
-    EMPID: '',
-    name: '',
-    email: '',
-    position: '',
-    phone: '',
-    address: '',
-    salary: ''
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [nameError, setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,189 +22,136 @@ function UpdateEmployee() {
       try {
         const response = await axios.get(`${URL}/${id}`);
         setEmployee(response.data);
-        setLoading(false);
+        setName(response.data.name);
+        setEmail(response.data.email);
+        setPosition(response.data.position);
+        setPhone(response.data.phone);
+        setAddress(response.data.address);
+        setNic(response.data.NIC);
+        setSalary(response.data.salary);
       } catch (error) {
-        console.error("Error fetching employee:", error);
-        setError(error.response ? error.response.data.message : 'An error occurred');
-        setLoading(false);
+        console.error("Error fetching employee data:", error);
       }
     };
 
     fetchEmployee();
   }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEmployee({ ...employee, [name]: value });
-
-    // Reset error messages when the user starts typing
-    if (name === 'name') setNameError('');
-    if (name === 'email') setEmailError('');
-    if (name === 'phone') setPhoneError('');
-  };
-
-  // Function to validate name (no numbers or special characters)
-  const validateName = (name) => {
-    const nameRegex = /^[A-Za-z\s]+$/;
-    return nameRegex.test(name);
-  };
-
-  // Function to validate email
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  // Function to validate phone (must be exactly 10 digits and only numbers)
-  const validatePhone = (phone) => {
-    const phoneRegex = /^[0-9]{10}$/;
-    return phoneRegex.test(phone);
-  };
-
   const handleUpdate = async () => {
-    setError(null);
-    setNameError('');
-    setEmailError('');
-    setPhoneError('');
-
-    // Check for name validation
-    if (!validateName(employee.name)) {
-      setNameError('Name cannot contain numbers or special characters');
-      return;
-    }
-
-    // Check for email validation
-    if (!validateEmail(employee.email)) {
-      setEmailError('Please enter a valid email address');
-      return;
-    }
-
-    // Check for phone validation
-    if (!validatePhone(employee.phone)) {
-      setPhoneError('Phone number must be exactly 10 digits and contain only numbers');
-      return;
-    }
-
     try {
-      await axios.put(`${URL}/${id}`, employee);
-      alert('Employee updated successfully');
-      navigate('/admindashboard/employee-details');
+      const updatedEmployee = {
+        name,
+        email,
+        position,
+        phone,
+        address,
+        NIC: nic,
+        salary,
+      };
+
+      const response = await axios.put(`${URL}/${id}`, updatedEmployee);
+      if (response.status === 200) {
+        alert('Employee updated successfully!');
+        navigate('/admindashboard/employee-details'); // Adjust the path if necessary
+      }
     } catch (error) {
-      setError(error.response ? error.response.data.message : 'An error occurred');
+      console.error("Error updating employee:", error);
+      alert('Error updating employee. Please try again.');
     }
   };
 
-  if (loading) {
-    return <Typography>Loading...</Typography>;
-  }
+  if (!employee) return <div>Loading...</div>;
 
   return (
-    <Box sx={styles.container}>
-      <Box sx={styles.backgroundImage} />
-      <Box sx={{
-        backgroundColor: 'rgba(255, 255, 255, 0.7)', // White background with transparency
-        borderRadius: 1,
+    <Box
+      sx={{
+        backgroundSize: 'cover',
+        backgroundImage: `url('https://rawayat.com.pk/cdn/shop/files/WhatsAppImage2023-11-17at3.55.06PM_700x.jpg?v=1700218682')`,
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         padding: 3,
-        width: '600px', // Set width for the form
-        zIndex: 1, // Bring the form above the blurred background
-        marginTop: 5 // Added margin for space at the top
-      }}>
-        <Typography 
-          variant="h5" 
-          gutterBottom 
-          sx={{ 
-            color: 'black', 
-            fontWeight: 'bold', // Make the text bold
-            textAlign: 'center' // Center the text
-          }}
-        >
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: '600px',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          borderRadius: 2,
+          padding: 3,
+        }}
+      >
+        <Typography variant="h5" component="h2" gutterBottom>
           Update Employee
-        </Typography><br />
+        </Typography>
         <TextField
           label="Name"
-          name="name"
-          value={employee.name}
-          onChange={handleChange}
+          variant="outlined"
           fullWidth
           margin="normal"
-          error={!!nameError}
-          helperText={nameError}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <TextField
           label="Email"
-          name="email"
-          value={employee.email}
-          onChange={handleChange}
+          variant="outlined"
           fullWidth
           margin="normal"
-          error={!!emailError}
-          helperText={emailError}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        
-        <FormControl fullWidth margin="normal">
-          <InputLabel id="position-label">Position</InputLabel>
-          <Select
-            labelId="position-label"
-            name="position"
-            value={employee.position}
-            onChange={handleChange}
-            fullWidth
-          >
-            <MenuItem value="Senior Manager">Senior Manager</MenuItem>
-            <MenuItem value="Junior Manager">Junior Manager</MenuItem>
-            <MenuItem value="Trainee">Trainee</MenuItem>
-            <MenuItem value="Software Engineer">Software Engineer</MenuItem>
-            <MenuItem value="Web Developer">Web Developer</MenuItem>
-            <MenuItem value="Jewelry Designer">Jewelry Designer</MenuItem>
-            <MenuItem value="Project Coordinator">Project Coordinator</MenuItem>
-            <MenuItem value="Marketing Executive">Marketing Executive</MenuItem>
-            <MenuItem value="Sales Representative">Sales Representative</MenuItem>
-            <MenuItem value="Photographer/Content Creator">Photographer/Content Creator</MenuItem>
-          </Select>
-        </FormControl>
-
+        <TextField
+          label="Position"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={position}
+          onChange={(e) => setPosition(e.target.value)}
+        />
         <TextField
           label="Phone"
-          name="phone"
-          value={employee.phone}
-          onChange={handleChange}
+          variant="outlined"
           fullWidth
           margin="normal"
-          error={!!phoneError}
-          helperText={phoneError}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
         />
         <TextField
           label="Address"
-          name="address"
-          value={employee.address}
-          onChange={handleChange}
+          variant="outlined"
           fullWidth
           margin="normal"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <TextField
+          label="NIC"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={nic}
+          onChange={(e) => setNic(e.target.value)}
         />
         <TextField
           label="Salary"
-          name="salary"
-          type="number"
-          value={employee.salary}
-          onChange={handleChange}
+          variant="outlined"
           fullWidth
           margin="normal"
-        /><br />
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
+          type="number"
+          value={salary}
+          onChange={(e) => setSalary(e.target.value)}
+        />
         <Button
           variant="contained"
           color="primary"
           onClick={handleUpdate}
+          sx={{ marginTop: 2 }}
         >
           Update Employee
         </Button>
-        </Box>
-
-        {error && (
-          <Typography color="error" sx={{ marginTop: 3 }}>
-            {error}
-          </Typography>
-        )}
       </Box>
     </Box>
   );

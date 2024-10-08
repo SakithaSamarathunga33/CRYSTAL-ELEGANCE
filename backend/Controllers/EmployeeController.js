@@ -11,10 +11,10 @@ const generateEmployeeId = async () => {
 // Create a new employee
 exports.createEmployee = async (req, res) => {
     try {
-        const { name, email, position, phone, address, salary } = req.body;
+        const { name, email, position, phone, address, salary, NIC } = req.body; // Added NIC
 
         const EMPID = await generateEmployeeId(); // Generate new employee ID
-        const newEmployee = new Employee({ EMPID, name, email, position, phone, address, salary });
+        const newEmployee = new Employee({ EMPID, name, email, position, phone, address, salary, NIC }); // Included NIC
         await newEmployee.save();
 
         res.status(201).json({ message: 'Employee created successfully', employee: newEmployee });
@@ -50,10 +50,10 @@ exports.getEmployeeById = async (req, res) => {
 // Update an employee by ID
 exports.updateEmployee = async (req, res) => {
     try {
-        const { name, email, position, phone, address, salary } = req.body;
+        const { name, email, position, phone, address, salary, NIC } = req.body; // Added NIC
         const updatedEmployee = await Employee.findByIdAndUpdate(
             req.params.id,
-            { name, email, position, phone, address, salary },
+            { name, email, position, phone, address, salary, NIC }, // Included NIC
             { new: true }
         );
 
@@ -94,22 +94,3 @@ exports.calculateSalary = async (req, res) => {
         res.status(500).json({ message: 'Error calculating salary', error: error.message });
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

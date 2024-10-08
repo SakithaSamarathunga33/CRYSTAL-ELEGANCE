@@ -156,93 +156,503 @@ export default class Dashboard extends Component {
       >
         <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold', color: '#333', textShadow: '1px 1px 3px rgba(255, 255, 255, 0.7)' }}>Admin Dashboard</Typography>
         <Grid container spacing={3}>
-          {/* User Count */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Card sx={{ backgroundColor: '#bbdefb', boxShadow: 3, borderRadius: 2 }}>
-              <CardContent>
-                <FontAwesomeIcon icon={faUsers} size="3x" color="#1976d2" />
-                <Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>Users</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#1976d2' }}>{userCount}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+       {/* User Count */}
+<Grid item xs={12} sm={6} md={4}>
+  <Card
+    sx={{
+      backgroundColor: 'rgba(187, 222, 251, 0.5)', // Transparent blue background
+      boxShadow: '0 8px 20px rgba(25, 118, 210, 0.5)', // Softer blue shadow
+      borderRadius: 3,
+      transition: 'transform 0.3s ease-in-out', // Hover effect
+      backdropFilter: 'blur(10px)', // Blur effect for the background
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+    }}
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesomeIcon icon={faUsers} size="3x" color="#1976d2" />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          fontWeight: 'bold',
+          color: '#0d47a1', // Darker blue for contrast
+          letterSpacing: '0.05em',
+        }}
+      >
+        Users
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 'bold',
+          color: '#1976d2',
+          fontSize: '3rem',
+          marginTop: '0.5rem',
+        }}
+      >
+        {userCount}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: '#0d47a1',
+          fontStyle: 'italic',
+          marginTop: '0.5rem',
+        }}
+      >
+        Total number of users
+      </Typography>
+    </CardContent>
+  </Card>
+</Grid>
 
-          {/* Jewellery Items */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Card sx={{ backgroundColor: '#f9c2ff', boxShadow: 3, borderRadius: 2 }}>
-              <CardContent>
-                <FontAwesomeIcon icon={faRing} size="3x" color="#6a1b9a" />
-                <Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>Jewellery Items</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#6a1b9a' }}>{jewelleryCount}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
 
-          {/* Gems */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Card sx={{ backgroundColor: '#bbdefb', boxShadow: 3, borderRadius: 2 }}>
-              <CardContent>
-                <FontAwesomeIcon icon={faGem} size="3x" color="#1976d2" />
-                <Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>Gems</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#1976d2' }}>{gemCount}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
 
-          {/* Employees */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Card sx={{ backgroundColor: '#c8e6c9', boxShadow: 3, borderRadius: 2 }}>
-              <CardContent>
-                <FontAwesomeIcon icon={faUsers} size="3x" color="#388e3c" />
-                <Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>Employees</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#388e3c' }}>{employeeCount}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+        {/* Jewellery Items */}
+<Grid item xs={12} sm={6} md={4}>
+  <Card
+    sx={{
+      backgroundColor: 'rgba(249, 194, 255, 0.5)', // Transparent purple-pink background
+      boxShadow: '0 8px 20px rgba(106, 27, 154, 0.5)', // Softer shadow with purple tone
+      borderRadius: 3,
+      transition: 'transform 0.3s ease-in-out', // Hover effect
+      backdropFilter: 'blur(10px)', // Blur effect for transparency
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+    }}
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesomeIcon icon={faRing} size="3x" color="#6a1b9a" />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          fontWeight: 'bold',
+          color: '#4a148c', // Darker purple for contrast
+          letterSpacing: '0.05em',
+        }}
+      >
+        Jewellery Items
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 'bold',
+          color: '#6a1b9a',
+          fontSize: '3rem',
+          marginTop: '0.5rem',
+        }}
+      >
+        {jewelleryCount}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: '#4a148c',
+          fontStyle: 'italic',
+          marginTop: '0.5rem',
+        }}
+      >
+        Total number of jewellery items
+      </Typography>
+    </CardContent>
+  </Card>
+</Grid>
 
-          {/* Inventory Items */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Card sx={{ backgroundColor: '#ffe0b2', boxShadow: 3, borderRadius: 2 }}>
-              <CardContent>
-                <FontAwesomeIcon icon={faBoxOpen} size="3x" color="#ff9800" />
-                <Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>Inventory Items</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#ff9800' }}>{inventoryCount}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
 
-          {/* Suppliers */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Card sx={{ backgroundColor: '#ffeaa7', boxShadow: 3, borderRadius: 2 }}>
-              <CardContent>
-                <FontAwesomeIcon icon={faTruck} size="3x" color="#fbc02d" />
-                <Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>Suppliers</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#fbc02d' }}>{supplierCount}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
 
-          {/* Orders */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Card sx={{ backgroundColor: '#ffccbc', boxShadow: 3, borderRadius: 2 }}>
-              <CardContent>
-                <FontAwesomeIcon icon={faShoppingCart} size="3x" color="#e64a19" />
-                <Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>Orders</Typography>
-                <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#e64a19' }}>{orderCount}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+        {/* Gems */}
+<Grid item xs={12} sm={6} md={4}>
+  <Card
+    sx={{
+      backgroundColor: 'rgba(187, 222, 251, 0.55)', // Transparent gradient-like background
+      boxShadow: '0 8px 20px rgba(25, 118, 210, 0.5)', // Softer shadow
+      borderRadius: 3,
+      transition: 'transform 0.3s ease-in-out', // Hover effect
+      backdropFilter: 'blur(10px)', // Blur effect for transparency
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+    }}
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesomeIcon icon={faGem} size="3x" color="#1976d2" />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          fontWeight: 'bold',
+          color: '#0d47a1', // Slightly darker blue for contrast
+          letterSpacing: '0.05em',
+        }}
+      >
+        Gems
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 'bold',
+          color: '#1976d2',
+          fontSize: '3rem',
+          marginTop: '0.5rem',
+        }}
+      >
+        {gemCount}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: '#0d47a1',
+          fontStyle: 'italic',
+          marginTop: '0.5rem',
+        }}
+      >
+        Total number of gems
+      </Typography>
+    </CardContent>
+  </Card>
+</Grid>
 
-          {/* Feedbacks */}
-            <Grid item xs={12} sm={6} md={4}>
-             <Card sx={{ backgroundColor: '#d1c4e9', boxShadow: 3, borderRadius: 2 }}> {/* Change background color */}
-              <CardContent>
-               <FontAwesomeIcon icon={faComments} size="3x" color="#6a1b9a" /> {/* Change icon color */}
-               <Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold', color: '#6a1b9a' }}>Feedbacks</Typography> {/* Change text color */}
-               <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#4a148c' }}>{feedbackCount}</Typography> {/* Change text color */}
-              </CardContent>
-             </Card>
-            </Grid>
+
+        {/* Employees */}
+<Grid item xs={12} sm={6} md={4}>
+  <Card
+    sx={{
+      backgroundColor: 'rgba(224, 247, 250, 0.5)', // Transparent gradient-like background
+      boxShadow: '0 8px 20px rgba(56, 142, 60, 0.5)', // Softer shadow
+      borderRadius: 3,
+      transition: 'transform 0.3s ease-in-out', // Hover effect
+      backdropFilter: 'blur(10px)', // Blur effect for transparency
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+    }}
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesomeIcon icon={faUsers} size="3x" color="#388e3c" />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          fontWeight: 'bold',
+          color: '#004d40', // Slightly darker green for contrast
+          letterSpacing: '0.05em',
+        }}
+      >
+        Employees
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 'bold',
+          color: '#388e3c',
+          fontSize: '3rem',
+          marginTop: '0.5rem',
+        }}
+      >
+        {employeeCount}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: '#004d40',
+          fontStyle: 'italic',
+          marginTop: '0.5rem',
+        }}
+      >
+        Total number of employees
+      </Typography>
+    </CardContent>
+  </Card>
+</Grid>
+
+
+      {/* Inventory Items */}
+<Grid item xs={12} sm={6} md={4}>
+  <Card
+    sx={{
+      backgroundColor: 'rgba(255, 245, 229, 0.5)', // Transparent gradient-like background
+      boxShadow: '0 8px 20px rgba(255, 152, 0, 0.5)', // Softer orange shadow
+      borderRadius: 3,
+      transition: 'transform 0.3s ease-in-out', // Hover effect
+      backdropFilter: 'blur(10px)', // Blur effect for transparency
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+    }}
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesomeIcon icon={faBoxOpen} size="3x" color="#ff9800" />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          fontWeight: 'bold',
+          color: '#e65100', // Darker orange for contrast
+          letterSpacing: '0.05em',
+        }}
+      >
+        Inventory Items
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 'bold',
+          color: '#ff9800',
+          fontSize: '3rem',
+          marginTop: '0.5rem',
+        }}
+      >
+        {inventoryCount}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: '#e65100',
+          fontStyle: 'italic',
+          marginTop: '0.5rem',
+        }}
+      >
+        Total number of inventory items
+      </Typography>
+    </CardContent>
+  </Card>
+</Grid>
+
+
+         {/* Suppliers */}
+<Grid item xs={12} sm={6} md={4}>
+  <Card
+    sx={{
+      backgroundColor: 'rgba(255, 249, 196, 0.5)', // Transparent gradient-like background
+      boxShadow: '0 8px 20px rgba(251, 192, 45, 0.5)', // Softer yellow shadow
+      borderRadius: 3,
+      transition: 'transform 0.3s ease-in-out', // Hover effect
+      backdropFilter: 'blur(10px)', // Blur effect for transparency
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+    }}
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesomeIcon icon={faTruck} size="3x" color="#fbc02d" />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          fontWeight: 'bold',
+          color: '#f57f17', // Darker yellow for contrast
+          letterSpacing: '0.05em',
+        }}
+      >
+        Suppliers
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 'bold',
+          color: '#fbc02d',
+          fontSize: '3rem',
+          marginTop: '0.5rem',
+        }}
+      >
+        {supplierCount}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: '#f57f17',
+          fontStyle: 'italic',
+          marginTop: '0.5rem',
+        }}
+      >
+        Total number of suppliers
+      </Typography>
+    </CardContent>
+  </Card>
+</Grid>
+
+
+{/* Orders */}
+<Grid item xs={12} sm={6} md={4}>
+  <Card
+    sx={{
+      backgroundColor: 'rgba(255, 224, 178, 0.5)', // Transparent gradient-like background
+      boxShadow: '0 8px 20px rgba(230, 74, 25, 0.5)', // Softer orange shadow
+      borderRadius: 3,
+      transition: 'transform 0.3s ease-in-out', // Hover effect
+      backdropFilter: 'blur(10px)', // Blur effect for transparency
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+    }}
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesomeIcon icon={faShoppingCart} size="3x" color="#e64a19" />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          fontWeight: 'bold',
+          color: '#bf360c', // Darker orange for contrast
+          letterSpacing: '0.05em',
+        }}
+      >
+        Orders
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 'bold',
+          color: '#e64a19',
+          fontSize: '3rem',
+          marginTop: '0.5rem',
+        }}
+      >
+        {orderCount}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: '#bf360c',
+          fontStyle: 'italic',
+          marginTop: '0.5rem',
+        }}
+      >
+        Total number of orders
+      </Typography>
+    </CardContent>
+  </Card>
+</Grid>
+
+
+{/* Feedbacks */}
+<Grid item xs={12} sm={6} md={4}>
+  <Card
+    sx={{
+      backgroundColor: 'rgba(237, 231, 246, 0.5)', // Transparent gradient-like background
+      boxShadow: '0 8px 20px rgba(106, 27, 154, 0.5)', // Softer purple shadow
+      borderRadius: 3,
+      transition: 'transform 0.3s ease-in-out', // Hover effect
+      backdropFilter: 'blur(10px)', // Blur effect for transparency
+      '&:hover': {
+        transform: 'scale(1.05)',
+      },
+    }}
+  >
+    <CardContent
+      sx={{
+        textAlign: 'center',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesomeIcon icon={faComments} size="3x" color="#6a1b9a" />
+      <Typography
+        variant="h6"
+        sx={{
+          marginTop: 2,
+          fontWeight: 'bold',
+          color: '#6a1b9a', // Dark purple for title
+          letterSpacing: '0.05em',
+        }}
+      >
+        Feedbacks
+      </Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          fontWeight: 'bold',
+          color: '#4a148c', // Darker purple for number
+          fontSize: '3rem',
+          marginTop: '0.5rem',
+        }}
+      >
+        {feedbackCount}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          color: '#6a1b9a',
+          fontStyle: 'italic',
+          marginTop: '0.5rem',
+        }}
+      >
+        Total feedbacks received
+      </Typography>
+    </CardContent>
+  </Card>
+</Grid>
+
         </Grid>
       </Box>
     );

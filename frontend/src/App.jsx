@@ -46,6 +46,7 @@ import UpdateEmployee from './Components/Admin/Employees/UpdateEmployee';
 import Employee from './Components/Admin/Employees/Employee';
 import AddSalary from './Components/Admin/Employees/AddSalary';
 import EmployeeDashboard from './Components/Admin/Employees/EmployeeDashboard';
+import EmployeeProfile from './Components/Admin/Employees/EmployeeProfile';
 
 import SupplierDetails from './Components/Admin/Suppliers/SupplierOrderDetails';
 import AddSupplierOrder from './Components/Admin/Suppliers/AddSupplierOrder';
@@ -156,6 +157,7 @@ function App() {
             <Route path="add-salary/:id" element={<AddSalary />} />
             <Route path="employee-details" element={<EmployeeDetails />} />
             <Route path="summary-report" element={<SummaryReport />} />
+            <Route path="employee-profile/:id" element={<EmployeeProfile />} />
 
 
 

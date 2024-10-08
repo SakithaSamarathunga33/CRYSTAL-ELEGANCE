@@ -15,30 +15,33 @@ function AddEmployee({ onBack }) {
     position: '',
     phone: '',
     address: '',
-    salary: ''
+    salary: '',
+    NIC: '' // Added NIC to the employee state
   });
-  
+
   const [error, setError] = useState(null);
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
-  
+  const [nicError, setNicError] = useState(''); // New state for NIC error
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEmployee({ ...employee, [name]: value });
 
+    // Clear error messages based on field
     if (name === 'name') setNameError('');
     if (name === 'email') setEmailError('');
     if (name === 'phone') setPhoneError('');
+    if (name === 'NIC') setNicError(''); // Clear NIC error
   };
 
   const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
-
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
   const validatePhone = (phone) => /^[0-9]{10}$/.test(phone);
+  const validateNIC = (nic) => /^[0-9]{12}$/.test(nic); // Updated NIC validation to check for exactly 12 digits
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +50,7 @@ function AddEmployee({ onBack }) {
     setNameError('');
     setEmailError('');
     setPhoneError('');
+    setNicError(''); // Reset NIC error
 
     if (!validateName(employee.name)) {
       setNameError('Name cannot contain numbers or special characters');
@@ -60,6 +64,11 @@ function AddEmployee({ onBack }) {
 
     if (!validatePhone(employee.phone)) {
       setPhoneError('Phone number must be exactly 10 digits and contain only numbers');
+      return;
+    }
+
+    if (!validateNIC(employee.NIC)) {
+      setNicError('NIC must be exactly 12 digits'); // Updated error message
       return;
     }
 
@@ -121,6 +130,16 @@ function AddEmployee({ onBack }) {
             margin="normal"
             error={!!emailError}
             helperText={emailError}
+          />
+          <TextField
+            label="NIC" // NIC field now positioned after email
+            name="NIC"
+            value={employee.NIC}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            error={!!nicError}
+            helperText={nicError}
           />
           <FormControl fullWidth margin="normal">
             <InputLabel id="position-label">Position</InputLabel>

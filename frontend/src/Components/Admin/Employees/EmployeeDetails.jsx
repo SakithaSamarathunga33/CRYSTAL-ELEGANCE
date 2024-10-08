@@ -39,14 +39,16 @@ function EmployeeDetails() {
   };
 
   const deleteEmployee = async (employee) => {
-    try {
-      const response = await axios.delete(`${URL}/${employee._id}`);
-      if (response.status === 200) {
-        setEmployees(prev => prev.filter(emp => emp._id !== employee._id));
-        alert(`Employee ${employee.EMPID} (${employee.name}) deleted successfully.`);
+    if (window.confirm(`Are you sure you want to delete employee ${employee.EMPID} (${employee.name})?`)) {
+      try {
+        const response = await axios.delete(`${URL}/${employee._id}`);
+        if (response.status === 200) {
+          setEmployees(prev => prev.filter(emp => emp._id !== employee._id));
+          alert(`Employee ${employee.EMPID} (${employee.name}) deleted successfully.`);
+        }
+      } catch (error) {
+        console.error("Error deleting employee:", error.response ? error.response.data : error.message);
       }
-    } catch (error) {
-      console.error("Error deleting employee:", error.response ? error.response.data : error.message);
     }
   };
 
@@ -55,8 +57,8 @@ function EmployeeDetails() {
     doc.text("Employee Details Report", 10, 10);
 
     doc.autoTable({
-      head: [['ID', 'Name', 'Email', 'Position', 'Phone', 'Address', 'Salary']],
-      body: employees.map(employee => [employee.EMPID, employee.name, employee.email, employee.position, employee.phone, employee.address, employee.salary]),
+      head: [['ID', 'Name', 'Email', 'Position', 'Phone', 'Address', 'NIC', 'Salary']],
+      body: employees.map(employee => [employee.EMPID, employee.name, employee.email, employee.position, employee.phone, employee.address, employee.nic, employee.salary]),
       startY: 20,
       margin: { top: 20 },
       styles: {
@@ -101,11 +103,11 @@ function EmployeeDetails() {
   };
 
   const handleAddSalary = (id) => {
-    navigate(`/admindashboard/add-salary/${id}`); // Redirect to Add Salary page
+    navigate(`/admindashboard/add-salary/${id}`);
   };
 
   const handleSummaryReport = () => {
-    navigate('/admindashboard/summary-report'); // Navigate to the Summary Report page
+    navigate('/admindashboard/summary-report');
   };
 
   return (
@@ -117,7 +119,7 @@ function EmployeeDetails() {
         minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'flex-start', // Start the content at the top
+        alignItems: 'flex-start',
         padding: 3,
       }}
     >
@@ -130,7 +132,7 @@ function EmployeeDetails() {
           sx={{
             width: '100%',
             maxWidth: '1600px',
-            backgroundColor: 'rgba(255, 255, 255, 0.7)', // Make the box slightly transparent
+            backgroundColor: 'rgba(255, 255, 255, 0.7)',
             borderRadius: 2,
             padding: 3,
           }}
@@ -143,7 +145,7 @@ function EmployeeDetails() {
               onChange={(e) => setSearchQuery(e.target.value)}
               sx={{
                 flexShrink: 1,
-                width: '300px', // Increased width for the search bar
+                width: '300px',
                 backgroundColor: 'rgba(255, 255, 255, 0.8)',
                 borderRadius: 1,
                 '& .MuiOutlinedInput-root': {
@@ -189,6 +191,7 @@ function EmployeeDetails() {
                     <TableCell>Position</TableCell>
                     <TableCell>Phone</TableCell>
                     <TableCell>Address</TableCell>
+                    <TableCell>NIC</TableCell>
                     <TableCell>Salary</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
@@ -196,7 +199,7 @@ function EmployeeDetails() {
                 <TableBody>
                   {noResults ? (
                     <TableRow>
-                      <TableCell colSpan={8} align="center">No employee found.</TableCell>
+                      <TableCell colSpan={9} align="center">No employee found.</TableCell>
                     </TableRow>
                   ) : (
                     employees.map((employee) => (
@@ -207,6 +210,7 @@ function EmployeeDetails() {
                         <TableCell>{employee.position}</TableCell>
                         <TableCell>{employee.phone}</TableCell>
                         <TableCell>{employee.address}</TableCell>
+                        <TableCell>{employee.NIC}</TableCell>
                         <TableCell>{employee.salary}</TableCell>
                         <TableCell>
                           <IconButton onClick={() => handleEdit(employee._id)} sx={{ color: 'primary.main' }}>
@@ -218,7 +222,7 @@ function EmployeeDetails() {
                           <Button
                             variant="contained"
                             color="info"
-                            onClick={() => handleAddSalary(employee._id)} // Redirect to Add Salary
+                            onClick={() => handleAddSalary(employee._id)}
                             sx={{ marginLeft: 1 }}
                           >
                             Add Salary
