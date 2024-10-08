@@ -24,13 +24,13 @@ function AddSupplierList() {
 
     const validate = () => {
         let tempErrors = {};
-        const nicRegex = /^[0-9]{9}[V]$|^[0-9]{12}$/; // NIC pattern (example)
+        const nicRegex = /^(?:\d{9}V|\d{10})$/; // NIC pattern: 9 digits followed by "V" or 10 digits
         const contactRegex = /^[0-9]{10}$/; // Contact must be 10 digits
 
         tempErrors.SupName = formData.SupName.trim() === '' ? 'Supplier name is required.' : '';
         tempErrors.items = formData.items.trim() === '' ? 'At least one item is required.' : '';
         tempErrors.description = formData.description.length > 200 ? 'Description should not exceed 200 characters.' : '';
-        tempErrors.NIC = !nicRegex.test(formData.NIC) ? 'NIC is invalid. Must be 9 digits followed by "V" or 12 digits.' : '';
+        tempErrors.NIC = !nicRegex.test(formData.NIC) ? 'NIC is invalid. Must be 9 digits followed by "V" or 10 digits without "V".' : '';
         tempErrors.Contact = !contactRegex.test(formData.Contact) ? 'Contact must be 10 digits.' : '';
         tempErrors.Adress = formData.Adress.trim() === '' ? 'Address is required.' : '';
 
