@@ -73,6 +73,10 @@ const SupplierListDetails = () => {
         Supplier List
       </Typography>
       
+      <Typography variant="h6" gutterBottom style={{ textAlign: 'center' }}>
+        Total Suppliers: {suppliers.length}
+      </Typography>
+
       <Box sx={{ display: 'flex', gap: 2, marginBottom: 2, alignItems: 'center' }}>
         <TextField
           label="Search"
@@ -90,8 +94,8 @@ const SupplierListDetails = () => {
           Search
         </Button>
         <Button
-          variant="outlined"
-          color="secondary"
+          variant="contained"
+          color="primary"
           onClick={handleViewOrders}
           sx={{ borderRadius: 2 }}
         >
@@ -99,7 +103,7 @@ const SupplierListDetails = () => {
         </Button>
         <Button
           variant="contained"
-          color="success"
+          color="primary"
           onClick={() => navigate('/admindashboard/add-supplier-list')}
           sx={{ borderRadius: 2 }}
         >
@@ -137,7 +141,7 @@ const SupplierListDetails = () => {
                         <Delete />
                       </IconButton>
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         color="success"
                         onClick={() => navigate(`/admindashboard/add-supplier/${supplier.SupId}`)}
                         sx={{ marginLeft: 1 }}

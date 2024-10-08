@@ -13,10 +13,21 @@ function AddSupplierList() {
         items: '',
         description: ''
     });
+    const [errors, setErrors] = useState({});
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const navigate = useNavigate();
+
+    const validate = () => {
+        let tempErrors = {};
+        tempErrors.SupName = formData.SupName.trim() === '' ? 'Supplier name is required.' : '';
+        tempErrors.items = formData.items.trim() === '' ? 'At least one item is required.' : '';
+        tempErrors.description = formData.description.length > 200 ? 'Description should not exceed 200 characters.' : '';
+
+        setErrors(tempErrors);
+        return Object.values(tempErrors).every(x => x === ''); // Returns true if no errors
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,20 +36,22 @@ function AddSupplierList() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const itemsArray = formData.items.split(',').map(item => item.trim());
-            const response = await axios.post(URL, {
-                ...formData,
-                items: itemsArray
-            });
-            setSnackbarMessage('Supplier list added successfully');
-            setSnackbarSeverity('success');
-            setOpenSnackbar(true);
-            setTimeout(() => navigate('/admindashboard/supplier-list-details'), 2000);
-        } catch (error) {
-            setSnackbarMessage('Error adding supplier list: ' + (error.response ? error.response.data.message : error.message));
-            setSnackbarSeverity('error');
-            setOpenSnackbar(true);
+        if (validate()) {
+            try {
+                const itemsArray = formData.items.split(',').map(item => item.trim());
+                const response = await axios.post(URL, {
+                    ...formData,
+                    items: itemsArray
+                });
+                setSnackbarMessage('Supplier list added successfully');
+                setSnackbarSeverity('success');
+                setOpenSnackbar(true);
+                setTimeout(() => navigate('/admindashboard/supplier-list-details'), 2000);
+            } catch (error) {
+                setSnackbarMessage('Error adding supplier list: ' + (error.response ? error.response.data.message : error.message));
+                setSnackbarSeverity('error');
+                setOpenSnackbar(true);
+            }
         }
     };
 
@@ -59,6 +72,8 @@ function AddSupplierList() {
                     onChange={handleChange}
                     margin="normal"
                     required
+                    error={Boolean(errors.SupName)}
+                    helperText={errors.SupName}
                 />
                 <TextField
                     label="Items (comma-separated)"
@@ -69,6 +84,8 @@ function AddSupplierList() {
                     onChange={handleChange}
                     margin="normal"
                     required
+                    error={Boolean(errors.items)}
+                    helperText={errors.items}
                 />
                 <TextField
                     label="Description"
@@ -78,6 +95,8 @@ function AddSupplierList() {
                     value={formData.description}
                     onChange={handleChange}
                     margin="normal"
+                    error={Boolean(errors.description)}
+                    helperText={errors.description}
                 />
                 <Button
                     type="submit"

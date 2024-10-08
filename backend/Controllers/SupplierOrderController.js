@@ -1,10 +1,11 @@
+//place order 
 const SupplierOrder = require('../Model/SupplierOrderModel'); // Adjust the path as necessary
 const Gem = require('../Model/GemModel'); // Adjust the path as necessary
 const SupplierList = require('../Model/SupplierListModel'); // Adjust the path as necessary
 
 // Create a new Supplier Order
 exports.createSupplierOrder = async (req, res) => {
-    const { SupOrderID, GID, quantity, InvID, SupID, status, description } = req.body;
+    const { SupOrderID, quantity, InvID, SupID, status, description } = req.body;
 
     try {
         // Check if the supplier exists
@@ -13,16 +14,9 @@ exports.createSupplierOrder = async (req, res) => {
             return res.status(404).json({ message: 'Supplier not found' });
         }
 
-        // Validate that the gem exists
-        const gem = await Gem.findOne({ GID }); // Find gem by GID
-        if (!gem) {
-            return res.status(404).json({ message: 'Gem not found' });
-        }
-
         // Create the supplier order
         const supplierOrder = new SupplierOrder({
             SupOrderID,
-            GID,            // Use GID for gem reference
             quantity,
             InvID,
             SupID,
@@ -40,7 +34,7 @@ exports.createSupplierOrder = async (req, res) => {
 // Get all Supplier Orders
 exports.getAllSupplierOrders = async (req, res) => {
     try {
-        const orders = await SupplierOrder.find().populate('GID SupID'); // Populate references
+        const orders = await SupplierOrder.find().populate('SupID'); // Populate references
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -50,7 +44,7 @@ exports.getAllSupplierOrders = async (req, res) => {
 // Get a Supplier Order by ID
 exports.getSupplierOrderById = async (req, res) => {
     try {
-        const order = await SupplierOrder.findById(req.params.id).populate('GID SupID');
+        const order = await SupplierOrder.findById(req.params.id).populate('SupID');
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }

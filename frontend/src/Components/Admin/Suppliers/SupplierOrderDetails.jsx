@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TextField, IconButton } from '@mui/material';
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TextField, IconButton, Paper } from '@mui/material';
 import { Edit, Delete, Print } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
@@ -106,8 +106,6 @@ function SupplierDetails() {
         setNoResults(filteredSuppliers.length === 0);
     };
 
-    
-
     const handleBack = () => {
         setShowAddSupplierForm(false);
     };
@@ -118,9 +116,14 @@ function SupplierDetails() {
                 <AddSupplier onBack={handleBack} />
             ) : (
                 <>
-                    <Typography variant="h4" gutterBottom style={{ textAlign: 'center', fontWeight: 'bold' }}>
+                    <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold' }}>
                         Supplier Order Details
                     </Typography>
+
+                    <Typography variant="h6" sx={{ textAlign: 'center', marginBottom: 2 }}>
+                        Total Number of Supply Orders: {suppliers.length}
+                    </Typography>
+
                     <Box sx={{ display: 'flex', gap: 2, marginBottom: 2, alignItems: 'center', justifyContent: 'center' }}>
                         <TextField
                             label="Search"
@@ -129,6 +132,8 @@ function SupplierDetails() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                             sx={{
                                 width: '250px',
+                                backgroundColor: 'white',
+                                borderRadius: 1,
                                 '& .MuiOutlinedInput-root': {
                                     '& fieldset': {
                                         borderColor: 'grey.300',
@@ -144,6 +149,7 @@ function SupplierDetails() {
                         />
                         <Button
                             variant="contained"
+                            color="primary"
                             onClick={handleSearch}
                             sx={{ borderRadius: 2 }}
                         >
@@ -153,13 +159,14 @@ function SupplierDetails() {
                             variant="contained"
                             color="primary"
                             onClick={handlePDF}
+                            startIcon={<Print />}
                             sx={{ borderRadius: 2 }}
                         >
-                            <Print /> Download
+                            Download
                         </Button>
                     </Box>
 
-                    <TableContainer>
+                    <TableContainer component={Paper} sx={{ border: '1px solid', borderColor: 'divider' }}>
                         <Table>
                             <TableHead>
                                 <TableRow>
