@@ -24,7 +24,7 @@ function AddSupplierList() {
 
     const validate = () => {
         let tempErrors = {};
-        const nicRegex = /^(?:\d{9}V|\d{10})$/; // NIC pattern: 9 digits followed by "V" or 10 digits
+        const nicRegex = /^(?:\d{9}V|\d{12})$/; // NIC pattern: 9 digits followed by "V" or 10 digits
         const contactRegex = /^[0-9]{10}$/; // Contact must be 10 digits
 
         tempErrors.SupName = formData.SupName.trim() === '' ? 'Supplier name is required.' : '';

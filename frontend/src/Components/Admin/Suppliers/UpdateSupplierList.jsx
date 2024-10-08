@@ -65,7 +65,7 @@ function UpdateSupplier() {
     
     // NIC validation (must be 10 digits)
     tempErrors.NIC = formData.NIC.trim() === '' ? 'NIC is required.' : 
-                     !/^\d{10}$/.test(formData.NIC) ? 'NIC must be a valid 10-digit number.' : '';
+                     !/^\d{12}$/.test(formData.NIC) ? 'NIC must be a valid 10-digit number.' : '';
     
     // Contact validation (basic phone number format)
     tempErrors.Contact = formData.Contact.trim() === '' ? 'Contact is required.' : 
