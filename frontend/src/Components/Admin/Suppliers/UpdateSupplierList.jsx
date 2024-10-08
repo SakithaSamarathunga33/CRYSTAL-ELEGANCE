@@ -58,18 +58,16 @@ function UpdateSupplier() {
     const itemsArray = formData.items.split(',').map(item => item.trim());
     const uniqueItems = new Set(itemsArray);
     tempErrors.items = itemsArray.length === 0 ? 'At least one item is required.' : 
-                       uniqueItems.size !== itemsArray.length ? 'Items must be unique.' : 
-                       itemsArray.some(item => item.length < 2) ? 'Each item must be at least 2 characters.' : '';
+                       uniqueItems.size !== itemsArray.length ? 'Items must be unique.' : '';
     
     // Description validation
-    tempErrors.description = formData.description.length > 200 ? 'Description should not exceed 200 characters.' : 
-                            formData.description.trim() === '' ? 'Description is required.' : '';
+    tempErrors.description = formData.description.length > 200 ? 'Description should not exceed 200 characters.' : '';
     
-    // NIC validation
+    // NIC validation (must be 10 digits)
     tempErrors.NIC = formData.NIC.trim() === '' ? 'NIC is required.' : 
-                     !/^\d{9}[vV]$/.test(formData.NIC) ? 'NIC must be in the format of 9 digits followed by "v" or "V".' : '';
+                     !/^\d{10}$/.test(formData.NIC) ? 'NIC must be a valid 10-digit number.' : '';
     
-    // Contact validation
+    // Contact validation (basic phone number format)
     tempErrors.Contact = formData.Contact.trim() === '' ? 'Contact is required.' : 
                          !/^\d{10}$/.test(formData.Contact) ? 'Contact must be a valid 10-digit number.' : '';
     
