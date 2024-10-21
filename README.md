@@ -6,7 +6,7 @@ This repository contains the source code for a Gem and Jewelary Management Syste
 
 <br>
 
-<img src="[https://imgur.com/a/tsyENyg](https://github.com/SakithaSamarathunga33/CRYSTAL-ELEGANCE/blob/main/frontend/src/Components/Images/Untitled.png)" alt="home_page" width=1000 >
+<img src="https://imgur.com/a/tsyENyg](https://github.com/SakithaSamarathunga33/CRYSTAL-ELEGANCE/blob/main/frontend/src/Components/Images/Untitled.png" alt="home_page" width=1000 >
 
 
 ## Project Structure
