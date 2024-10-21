@@ -1,4 +1,4 @@
-# Moonlight (Gem and Jewelry Store Management System)
+# CRYSTAL-ELEGANCE (Jewelry Management System)
 
 <p><img  src="https://skillicons.dev/icons?i=express,react,nodejs,mui,vscode,github"  width=350></a></p>
 
