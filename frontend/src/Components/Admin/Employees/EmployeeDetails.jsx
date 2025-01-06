@@ -250,4 +250,5 @@ function EmployeeDetails() {
   );
 }
 
+
 export default EmployeeDetails;
