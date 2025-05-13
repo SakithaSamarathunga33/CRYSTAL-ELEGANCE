@@ -128,4 +128,13 @@ This project is open source and available under the MIT License.
 
 ---
 
+## 👥 Contributors
+
+This project was created by:
+
+- [SakithaSamarathunge33](https://github.com/SakithaSamarathunge33)
+- [nadeemajayasinghe](https://github.com/nadeemajayasinghe)
+- [Vnuja (Vinuja Ransith)](https://github.com/Vnuja)
+- [HarithaLayomin](https://github.com/HarithaLayomin)
+
 <p align="center">Made with ❤️ by the Crystal Elegance Team</p>
