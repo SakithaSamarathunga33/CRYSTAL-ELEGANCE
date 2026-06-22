@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
 // Import the images
-import employeeImage from '../../images/employee.png';
-import employeeImage1 from '../../images/employee1.png';
+import employeeImage from '../../Images/employee.png';
+import employeeImage1 from '../../Images/employee1.png';
 
 // Higher-order component to inject navigation prop
 function withNavigation(Component) {
