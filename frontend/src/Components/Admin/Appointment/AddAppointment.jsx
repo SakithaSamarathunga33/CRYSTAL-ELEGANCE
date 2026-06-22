@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Box, Button, TextField } from '@mui/material';
 
-const URL = "http://localhost:4000/appointments";
+const URL = "/appointments";
 
 export default class AddAppointment extends Component {
   constructor(props) {

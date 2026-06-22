@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography, Snackbar, Alert, Paper } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/suppliers";
+const URL = "/api/suppliers";
 
 function UpdateSupplier() {
   const { supId } = useParams(); // Get the supplier ID from the URL

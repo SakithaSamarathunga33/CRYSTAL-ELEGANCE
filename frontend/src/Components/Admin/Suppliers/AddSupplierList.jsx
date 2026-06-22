@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography, Snackbar, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/suppliers";
+const URL = "/api/suppliers";
 
 function AddSupplierList() {
     const [formData, setFormData] = useState({

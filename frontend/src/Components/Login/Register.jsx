@@ -152,7 +152,7 @@ function Register() {
         };
 
         try {
-            const response = await axios.post('http://localhost:4000/users/register', userData);
+            const response = await axios.post('/users/register', userData);
             if (response.data.message === 'User created successfully') {
                 alert('Registration successful');
                 navigate('/login');

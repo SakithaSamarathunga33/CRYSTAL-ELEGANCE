@@ -24,7 +24,7 @@ const AddSalary = () => {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/employees/${id}`);
+        const response = await axios.get(`/employees/${id}`);
         setEmployee(response.data);
         setBasicSalary(response.data.salary);
       } catch (error) {
@@ -54,7 +54,7 @@ const AddSalary = () => {
         ...employee,
         salary: totalSalary,
       };
-      await axios.put(`http://localhost:4000/employees/${id}`, updatedEmployee);
+      await axios.put(`/employees/${id}`, updatedEmployee);
       navigate('/admindashboard/employee-details');
       
       // Clear local storage after saving

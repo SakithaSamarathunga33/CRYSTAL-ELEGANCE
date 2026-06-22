@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/jewellery";
+const URL = "/api/jewellery";
 
 // Sample categories and subcategories
 const categories = [

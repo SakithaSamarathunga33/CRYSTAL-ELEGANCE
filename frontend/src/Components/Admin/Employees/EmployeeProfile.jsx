@@ -13,7 +13,7 @@ const EmployeeProfile = () => {
     // Fetch employee data by ID
     const fetchEmployee = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/employees/${id}`);
+        const response = await axios.get(`/employees/${id}`);
         setEmployee(response.data);
         setLoading(false);
       } catch (err) {

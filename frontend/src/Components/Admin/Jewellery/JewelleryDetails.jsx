@@ -8,7 +8,7 @@ import 'jspdf-autotable';
 import AddJewellery from './AddJewellery';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/jewellery";
+const URL = "/api/jewellery";
 
 const fetchJewellery = async () => {
   try {

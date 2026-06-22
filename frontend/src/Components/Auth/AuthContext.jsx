@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
         const fetchUserProfile = async () => {
             if (authState.token) {
                 try {
-                    const response = await axios.get('http://localhost:4000/users/profile', {
+                    const response = await axios.get('/users/profile', {
                         headers: {
                             'Authorization': `Bearer ${authState.token}`,
                         },

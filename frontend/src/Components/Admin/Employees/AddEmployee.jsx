@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/employees/create";
+const URL = "/employees/create";
 
 function AddEmployee({ onBack }) {
   const [employee, setEmployee] = useState({

@@ -5,7 +5,7 @@ import StarRatings from 'react-star-ratings';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Auth/AuthContext'; // Import AuthContext
 
-const URL = "http://localhost:4000/feedback";
+const URL = "/feedback";
 
 function AddFeedback({ jewelleryId, onBack }) {
   const { authState } = useContext(AuthContext); // Use AuthContext to get user data

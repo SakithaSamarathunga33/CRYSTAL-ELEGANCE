@@ -12,7 +12,7 @@ const SupplierListDetails = () => {
   const [noResults, setNoResults] = useState(false);
 
   const navigate = useNavigate();
-  const URL = "http://localhost:4000/api/suppliers"; // Adjust the URL as necessary
+  const URL = "/api/suppliers"; // Adjust the URL as necessary
 
   useEffect(() => {
     const fetchSuppliers = async () => {

@@ -17,7 +17,7 @@ const UpdateGems = () => {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const URL = "http://localhost:4000/api/gems"; // Base URL for gem API
+  const URL = "/api/gems"; // Base URL for gem API
 
   useEffect(() => {
     const fetchGem = async () => {

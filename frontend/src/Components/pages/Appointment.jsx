@@ -25,7 +25,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import DescriptionIcon from '@mui/icons-material/Description';
 import Logo from '../Images/3.png'; // Use the same logo as in the Login component
 
-const URL = "http://localhost:4000/appointments";
+const URL = "/appointments";
 
 function Appointment() {
   const [appointment, setAppointment] = useState({

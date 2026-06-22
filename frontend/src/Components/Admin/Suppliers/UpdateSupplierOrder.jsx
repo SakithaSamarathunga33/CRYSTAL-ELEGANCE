@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/suppliers/orders"; // Adjust the URL as necessary
+const URL = "/suppliers/orders"; // Adjust the URL as necessary
 
 function UpdateSupplierOrder() {
     const { id } = useParams(); // Order ID from the URL

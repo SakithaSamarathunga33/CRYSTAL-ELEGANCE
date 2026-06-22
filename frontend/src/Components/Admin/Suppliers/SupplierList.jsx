@@ -5,7 +5,7 @@ import { Box, Typography, Paper, Divider, IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/suppliers";
+const URL = "/api/suppliers";
 
 function SupplierList() {
   const [supplierLists, setSupplierLists] = useState([]);

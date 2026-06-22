@@ -7,7 +7,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import AddSupplier from './AddSupplierOrder';
 
-const URL = "http://localhost:4000/suppliers/orders";
+const URL = "/suppliers/orders";
 
 const fetchSuppliers = async () => {
     try {

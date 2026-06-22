@@ -14,7 +14,7 @@ const OrdersList = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/orders/all'); // Adjust the endpoint
+        const response = await axios.get('/orders/all'); // Adjust the endpoint
         setOrders(response.data.orders); // Accessing the orders property directly
         setLoading(false);
       } catch (error) {
@@ -30,7 +30,7 @@ const OrdersList = () => {
   const handleDeleteOrder = async (orderId) => {
     if (window.confirm('Are you sure you want to delete this order?')) {
       try {
-        await axios.delete(`http://localhost:4000/orders/delete/${orderId}`); // Adjust the endpoint
+        await axios.delete(`/orders/delete/${orderId}`); // Adjust the endpoint
         setOrders(orders.filter(order => order._id !== orderId)); // Remove the deleted order from state
         alert('Order deleted successfully!');
       } catch (error) {
@@ -44,7 +44,7 @@ const OrdersList = () => {
     const newStatus = currentStatus === 'pending' ? 'completed' : 'pending'; // Toggle status
 
     try {
-      const response = await axios.put(`http://localhost:4000/orders/update-status/${orderId}`, { status: newStatus }); // Adjust the endpoint
+      const response = await axios.put(`/orders/update-status/${orderId}`, { status: newStatus }); // Adjust the endpoint
       setOrders(orders.map(order => (order._id === orderId ? { ...order, status: response.data.order.status } : order))); // Update order status in state
       alert(`Order status changed to ${newStatus}!`);
     } catch (error) {

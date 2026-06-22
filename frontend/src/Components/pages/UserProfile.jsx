@@ -9,7 +9,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const URL = 'http://localhost:4000/feedback';
+const URL = '/feedback';
 
 function UserProfile() {
     const { authState, logout } = useContext(AuthContext);
@@ -57,7 +57,7 @@ function UserProfile() {
         const fetchUser = async () => {
             if (user && user.userId && token) {
                 try {
-                    const response = await axios.get(`http://localhost:4000/users/${user.userId}`, {
+                    const response = await axios.get(`/users/${user.userId}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     setUpdatedUser(response.data);
@@ -141,7 +141,7 @@ function UserProfile() {
 
     const handleUpdate = async () => {
         try {
-            await axios.put(`http://localhost:4000/users/${user.userId}`, updatedUser, {
+            await axios.put(`/users/${user.userId}`, updatedUser, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             alert('Profile updated successfully');
@@ -155,7 +155,7 @@ function UserProfile() {
     const handleDelete = async () => {
         if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
             try {
-                await axios.delete(`http://localhost:4000/users/${user.userId}`, {
+                await axios.delete(`/users/${user.userId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 alert('Profile deleted successfully');

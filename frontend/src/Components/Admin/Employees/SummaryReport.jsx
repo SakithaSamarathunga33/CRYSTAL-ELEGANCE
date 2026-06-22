@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 
-const URL = "http://localhost:4000/employees"; // Adjust the URL as necessary
+const URL = "/employees"; // Adjust the URL as necessary
 
 const SummaryReport = () => {
   const [totalSalary, setTotalSalary] = useState(0);

@@ -70,7 +70,7 @@ const MakePayment = () => {
 
     setLoading(true); // Set loading state to true
     try {
-      const response = await axios.post('http://localhost:4000/orders/create', orderData); // Replace with your actual endpoint
+      const response = await axios.post('/orders/create', orderData); // Replace with your actual endpoint
       console.log(response.data); // For debugging purposes
       setPaymentConfirmed(true);
       setShowPaymentSlip(false); // Hide payment slip after confirming

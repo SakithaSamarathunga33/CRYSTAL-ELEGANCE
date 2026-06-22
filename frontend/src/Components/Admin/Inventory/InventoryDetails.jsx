@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import AddInventory from './AddInventory';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/inventory";
+const URL = "/inventory";
 
 const fetchInventory = async () => {
   try {

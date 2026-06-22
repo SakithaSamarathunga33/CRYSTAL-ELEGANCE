@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/inventory";
+const URL = "/inventory";
 
 function AddInventory({ onBack }) {
   const [InvID, setInvID] = useState('');

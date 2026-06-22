@@ -17,13 +17,13 @@ const GemProfile = () => {
   const [images, setImages] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const URL = 'http://localhost:4000/feedback';
+  const URL = '/feedback';
   const { authState } = useContext(AuthContext); // Access authentication state
   const navigate = useNavigate(); // Use navigate for redirection
 
   // Fetch gem details
   useEffect(() => {
-    axios.get(`http://localhost:4000/gems/${gemId}`)
+    axios.get(`/gems/${gemId}`)
       .then(response => {
         setGem(response.data);
         setImages(response.data.images || []); // Assuming images is an array of URLs

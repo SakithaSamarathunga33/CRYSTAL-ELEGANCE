@@ -4,7 +4,7 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/quantity-description";
+const URL = "/api/quantity-description";
 
 const QuantityDescriptionList = () => {
     const [entries, setEntries] = useState([]);

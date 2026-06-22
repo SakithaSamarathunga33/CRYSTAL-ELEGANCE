@@ -19,7 +19,7 @@ import {
 import { Link } from 'react-router-dom';
 import background3 from '../Images/background.png';
 
-const URL = "http://localhost:4000/jewellery";
+const URL = "/api/jewellery";
 
 const fetchJewellery = async () => {
   try {

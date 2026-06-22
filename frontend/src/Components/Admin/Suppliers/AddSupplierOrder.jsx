@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const URL = "http://localhost:4000/suppliers/orders";
+const URL = "/suppliers/orders";
 
 function AddSupplierOrder() {
     const { supId } = useParams(); // Get the supplier ID from the URL

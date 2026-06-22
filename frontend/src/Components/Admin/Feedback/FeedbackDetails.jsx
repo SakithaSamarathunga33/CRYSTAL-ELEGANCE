@@ -13,7 +13,7 @@ import { Chart, registerables } from 'chart.js'; // Import Chart and registerabl
 // Register the necessary components
 Chart.register(...registerables);
 
-const URL = "http://localhost:4000/feedback";
+const URL = "/feedback";
 
 const fetchFeedbacks = async () => {
   try {

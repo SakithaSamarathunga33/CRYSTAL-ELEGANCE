@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import AddEmployee from './AddEmployee'; // Adjust path as necessary
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/employees";
+const URL = "/employees";
 
 const fetchEmployees = async () => {
   try {

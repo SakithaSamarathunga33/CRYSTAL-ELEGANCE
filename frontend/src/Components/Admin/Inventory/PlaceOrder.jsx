@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/inventory";
+const URL = "/inventory";
 
 function UpdateInventory() {
   const { id } = useParams();

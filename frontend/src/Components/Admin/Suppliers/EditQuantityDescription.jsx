@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Box, Button, TextField, Typography, MenuItem, Select, FormControl, InputLabel, Snackbar } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/quantity-description";
+const URL = "/api/quantity-description";
 
 const EditQuantityDescription = () => {
     const { id } = useParams(); // Get the ID from the URL parameters

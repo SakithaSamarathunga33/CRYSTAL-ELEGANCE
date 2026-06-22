@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Box, Button, TextField } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/appointments";
+const URL = "/appointments";
 
 const UpdateAppointment = () => {
   const { id } = useParams(); // Get the appointment ID from the URL

@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import { useNavigate } from 'react-router-dom';
 import AddAppointment from './AddAppointment'; // Import the AddAppointment component
 
-const URL = "http://localhost:4000/appointments";
+const URL = "/appointments";
 
 const fetchAppointments = async () => {
   try {

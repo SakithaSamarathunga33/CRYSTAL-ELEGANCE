@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
 
-const URL = "http://localhost:4000/inventory"; // Ensure this is your correct URL
+const URL = "/inventory"; // Ensure this is your correct URL
 
 const UpdateInventory = () => {
   const { InvID } = useParams(); // Get the inventory ID from the URL params

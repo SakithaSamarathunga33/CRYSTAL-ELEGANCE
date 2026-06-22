@@ -31,7 +31,7 @@ import {
   CartesianGrid,
 } from 'recharts';
 
-const URL = 'http://localhost:4000/users';
+const URL = '/users';
 
 const fetchHandler = async () => {
   try {

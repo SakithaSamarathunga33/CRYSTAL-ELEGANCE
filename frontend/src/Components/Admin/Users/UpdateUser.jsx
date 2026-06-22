@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography, MenuItem, Select, InputLabel, FormControl, CircularProgress } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/users";
+const URL = "/users";
 
 function UpdateUser() {
   const { id } = useParams(); // Get the user ID from the URL

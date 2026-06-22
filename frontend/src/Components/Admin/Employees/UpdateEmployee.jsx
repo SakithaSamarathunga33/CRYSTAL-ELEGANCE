@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/employees";
+const URL = "/employees";
 
 function UpdateEmployee() {
   const [employee, setEmployee] = useState(null);

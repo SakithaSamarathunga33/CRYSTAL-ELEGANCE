@@ -5,7 +5,7 @@ import { ShoppingCart, AttachMoney, Inventory } from '@mui/icons-material';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import backgroundImage from '../../Images/j2.jpg'; // Import the background image
 
-const URL = "http://localhost:4000/jewellery";
+const URL = "/api/jewellery";
 
 const fetchJewellery = async () => {
   try {

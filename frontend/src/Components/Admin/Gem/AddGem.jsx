@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Box, TextField, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/gems"; // Update the URL to point to your gems endpoint
+const URL = "/api/gems"; // Update the URL to point to your gems endpoint
 
 function AddGem() {
   const [gem, setGem] = useState({

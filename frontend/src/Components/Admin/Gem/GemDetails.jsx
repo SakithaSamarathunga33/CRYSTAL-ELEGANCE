@@ -20,7 +20,7 @@ import 'jspdf-autotable';
 import AddGem from './AddGem'; // Make sure you have this component
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/gems";
+const URL = "/api/gems";
 
 const fetchGems = async () => {
   try {

@@ -34,7 +34,7 @@ app.use(cors()); // You can configure CORS options if needed
 
 // Route middleware
 app.use('/users', userRoutes);
-app.use('/jewellery', jewelleryRoutes);
+app.use('/api/jewellery', jewelleryRoutes);
 app.use('/customers', customerRoutes);
 app.use('/feedback', feedbackRoutes);
 app.use('/employees', employeeRoutes);

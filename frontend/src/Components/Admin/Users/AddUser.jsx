@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Box, Button, TextField, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const URL = "http://localhost:4000/users/register"; // Ensure this matches your API endpoint
+const URL = "/users/register"; // Ensure this matches your API endpoint
 
 function AddUser({ onBack }) {
   const [userName, setUserName] = useState('');

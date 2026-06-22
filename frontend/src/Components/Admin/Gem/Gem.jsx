@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Box, Typography, Paper, Divider } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
-const URL = "http://localhost:4000/api/gems"; // Updated URL for gems
+const URL = "/api/gems"; // Updated URL for gems
 
 function Gem() {
   const { id } = useParams(); // Get the gem ID from URL parameters
